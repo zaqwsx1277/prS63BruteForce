@@ -34,3 +34,6 @@ HEADERS += \
 
 FORMS += \
         prS63BruteForceClient.ui
+
+RESOURCES += \
+    ../../res/resources.qrc
