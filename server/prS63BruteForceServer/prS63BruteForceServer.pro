@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-09-12T17:03:08
+# Project created by QtCreator 2019-09-12T17:14:51
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = prS63BruteForceClient
+TARGET = prS63BruteForceServer
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -25,12 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        prS63BruteForceClient.cpp \
-    TClientModel.cpp
+        prS63BruteForceServer.cpp
 
 HEADERS += \
-        prS63BruteForceClient.hpp \
-    TClientModel.hpp
+        prS63BruteForceServer.hpp
 
 FORMS += \
-        prS63BruteForceClient.ui
+        prS63BruteForceServer.ui

@@ -1,14 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-09-12T17:03:08
+# Project created by QtCreator 2019-09-12T17:34:41
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = prS63BruteForceClient
+TARGET = prS63BruteForceUnitTest
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -25,12 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        prS63BruteForceClient.cpp \
-    TClientModel.cpp
+        prS63BruteForceUnitTest.cpp \
+    ../../common/TCommonUtilitess.cpp \
+    ../../common/TScanNetwork.cpp
 
 HEADERS += \
-        prS63BruteForceClient.hpp \
-    TClientModel.hpp
+        prS63BruteForceUnitTest.hpp \
+    ../../common/TCommonUtilitess.hpp \
+    ../../common/TCommonDefine.hpp \
+    ../../common/TScanNetwork.hpp
 
 FORMS += \
-        prS63BruteForceClient.ui
+        prS63BruteForceUnitTest.ui

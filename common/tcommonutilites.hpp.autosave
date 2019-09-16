@@ -1,0 +1,12 @@
+#ifndef TCOMMONUTILITES_HPP
+#define TCOMMONUTILITES_HPP
+
+#include <QNetworkInterface>
+
+#include <memory>
+
+namespace commonUtilites {
+     
+    std::shared_ptr <QHostAddress> searchServer
+}
+#endif // TCOMMONUTILITES_HPP
