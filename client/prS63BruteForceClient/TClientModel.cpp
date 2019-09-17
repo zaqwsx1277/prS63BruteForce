@@ -1,4 +1,5 @@
 #include "TClientModel.hpp"
+#include "TCommonDefaneClient.hpp"
 
 #include <thread>
 
@@ -6,12 +7,12 @@
 /*!
  * \brief TClientModel::TClientModel    Конструктор модели
  */
-client::TClientModel::TClientModel (QObject *parent): QAbstractTableModel (parent)
+client::TClientModel::TClientModel (QObject *parent, quint16 inThreadCount): QAbstractTableModel (parent)
 {
-
+    fThreadCount = (inThreadCount > maxThreads) ? maxThreads : inThreadCount ;
 }
 //----------------------------------------------------------------------------------
-void client::TClientModel::rowCount(const QModelIndex &parent) const
+int client::TClientModel::rowCount(const QModelIndex &parent) const
 {
     return this -> size() ;
 }
@@ -28,27 +29,11 @@ QVariant client::TClientModel::data(const QModelIndex &index, int role) const
 
         switch (role) {             // т.к. role могут быть сымые разные, то использую switch
           case Qt::DisplayRole : {
-            std::vector <client::TLogItemClient> logData = this -> at(index.row()) ;    // Получаем указатель на запись в контейнере
-            switch (index.column()) {                                                   // Получаем значение для нужной колонки
+            auto logData = this -> at(index.row()) ;    // Получаем запись из контейнере
+            switch (index.column()) {                   // Получаем значение для нужной колонки
 
               case cnTime :
-                retVal = logData.time.toString("hh:mm:ss") ;
-              break ;
-
-              case cnThreadId : {
-                std::stringstream threadId ;
-                threadId << logData.threadId ;
-                retVal = QString::fromStdString(threadId.str ()) ;
-              }
-              break ;
-
-              case cnNumeric :
-                if (logData.numeric == 0) retVal = "" ;
-                  else retVal = logData.numeric ;
-              break ;
-
-              case cnReasonExit :
-                retVal = logData.reasonExit ;
+                retVal = logData -> timeReceiveBlock.toString("hh:mm:ss") ;
               break ;
 
               default :
@@ -65,34 +50,31 @@ QVariant client::TClientModel::data(const QModelIndex &index, int role) const
     return retVal ;
 }
 //---------------------------------------------------
-QVariant TExample1LogModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant client::TClientModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant retVal = QVariant () ;
     if (role != Qt::DisplayRole) return QVariant();
 
     if (orientation == Qt::Horizontal)
         switch (section) {
-          case cnNumLine :
-            retVal = "" ;
-          break ;
-
           case cnTime :
-            retVal = exampleDefine::example1HeaderTime ;
+            retVal = commonDefineClient::HeaderTimeReceiveBlock ;
           break ;
 
-          case cnThreadId :
-            retVal = exampleDefine::example1HeaderThreadId ;
+          case cnkeyFirst :
+            retVal = commonDefineClient::HeaderKeyFirst ;
           break ;
 
-          case cnNumeric :
-            retVal = exampleDefine::example1HeaderNumeric ;
-          break ;
+//          case (fThreadCount - 1) + cnSendResult :
+//            retVal = commonDefineClient::HeaderTimeSendResult ;
+//          break ;
 
-          case cnReasonExit :
-            retVal = exampleDefine::example1HeaderReasonExit ;
-          break ;
+//          case (fThreadCount - 1) + cnResult:
+//            retVal = commonDefineClient::HeaderResult ;
+//          break ;
 
           default :
+            retVal = QString::number(section - 2) ;
           break ;
     }
 
@@ -100,35 +82,22 @@ QVariant TExample1LogModel::headerData(int section, Qt::Orientation orientation,
 }
 //---------------------------------------------------
 /*!
- * \brief TExample1LogModel::slotClearModel Слот очищающий модель
- */
-void TExample1LogModel::slotClearModel ()
-{
-    beginRemoveRows (QModelIndex(), 0, this ->size() - 1);
-    std::vector <exampleDefine::example1LogData>::clear() ;
-    endRemoveRows();
-}
-//---------------------------------------------------
-/*!
- * \brief TExample1LogModel::push_back  Добавляем в модель запись о сгенерированном числе.
- * \param inItem    Добавляемая запись
+ * \brief client::TClientModel::push_back  Добавляем в модель запись о сгенерированном числе.
+ * \param inItem    Унказатель на добавляемая запись
  *
  * Обновлять данные в этот момент нельзя, т.к. при очистке контейнера софт может обновлять отображение данных и т.о. будет падать.
  */
-void TExample1LogModel::push_back (exampleDefine::example1LogData inItem)
+void client::TClientModel::push_back (commonDefineClient::tdLogItemClient inItem)
 {
-    std::lock_guard <std::mutex> refreshWait (exampleDefine::refresh) ;           // блокируем допуск остальным потокм на обновление
+//    std::lock_guard <std::mutex> refreshWait (exampleDefine::refresh) ;           // блокируем допуск остальным потокм на обновление
 
-    inItem.numLine = exampleDefine::logNumLine.fetch_add (1) + 1 ;
-    if ((inItem.numLine  % exampleDefine::logLineMaxCount) == 0) slotClearModel () ;
-
-    std::vector <exampleDefine::example1LogData>::push_back(inItem);
+    std::vector <commonDefineClient::tdLogItemClient>::push_back(inItem);
 }
 //---------------------------------------------------
 /*!
- * \brief TExample1LogModel::refreshView Обновление отображения данных
+ * \brief client::TClientModel::refreshView Обновление отображения данных
  */
-void TExample1LogModel::refreshView ()
+void client::TClientModel::refreshView ()
 {
     beginResetModel();
     endResetModel();

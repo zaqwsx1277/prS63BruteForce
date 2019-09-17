@@ -20,7 +20,13 @@ public:
 
 protected:
                                 /// Возможные состояния
-    enum state {stUnknown, stWait, stStart, stStop, stError } ;
+    enum state {stUnknown,
+                stWait,         // Ожидание действий оператора
+                stStart,        // Рабочий режим
+                stStop,         // Работа полностью остановлена
+                stError,        // Произошла ошибка
+                stServerSearch, // Поиск клиентом сервера
+                stPause } ;     // Работа приостановлена
 
     TConnection::state fState {stUnknown} ; // Текущее состояние
 

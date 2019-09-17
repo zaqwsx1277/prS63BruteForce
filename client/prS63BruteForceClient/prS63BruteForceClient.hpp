@@ -17,6 +17,9 @@ public:
 
 private:
     Ui::prS63BruteForceClient *ui;
+
+    void initForm () ;           // инициализирую все элементы формы
+    void clearForm () ;          // Очищаем и устанавливаем начальные значения всех элементов формы
 };
 
 #endif // PRS63BRUTEFORCECLIENT_HPP

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,14 +26,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         prS63BruteForceClient.cpp \
-    TClientModel.cpp
+        TClientModel.cpp \
+        ../../common/TConnection.cpp \
+        TConnectionClient.cpp
 
 HEADERS += \
         prS63BruteForceClient.hpp \
-    TClientModel.hpp
+        TClientModel.hpp \
+        ../../common/TConnection.hpp \
+        TConnectionClient.hpp \
+    ../../common/TCommonDefine.hpp \
+    TCommonDefaneClient.hpp
 
 FORMS += \
         prS63BruteForceClient.ui
+
+INCLUDEPATH += \
+        ../../common
 
 RESOURCES += \
     ../../res/resources.qrc
