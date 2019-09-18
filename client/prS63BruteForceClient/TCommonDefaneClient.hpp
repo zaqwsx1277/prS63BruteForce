@@ -23,10 +23,20 @@ struct TLogItemClient       // Структура данных выводимы�
 typedef std::shared_ptr <QHostAddress> tdHostAddress ;      // typedef указателя на класс QHostAddress
 typedef std::shared_ptr <TLogItemClient> tdLogItemClient ;  // typedef указателя на структуру TLogItemClient
 
-const QString HeaderTimeReceiveBlock = "Время получения ключа" ;    // Заголовки таблицы ведения лога
-const QString HeaderKeyFirst = "Начальный ключ" ;
-const QString HeaderTimeSendResult = "Время отправки результата" ;
-const QString HeaderResult = "Результат" ;
+const QString HeaderTimeReceiveBlock {"Время получения ключа"} ;    // Заголовки таблицы ведения лога
+const QString HeaderKeyFirst {"Начальный ключ"} ;
+const QString HeaderTimeSendResult {"Время отправки результата"} ;
+const QString HeaderResult {"Результат"} ;
+
+const QString stateUnknown {"Неопределено"} ;               // Описание возможных состояний
+const QString stateError {"Ошибка"} ;
+const QString stateWait {"Ожидание действий оператора"} ;
+const QString stateStart {"Выполнение основного цикла подбора"} ;
+const QString stateStop {"Процесс подбора остановлен"} ;
+const QString stateServerSearch {"Выполняется автоматический поиск сервера"} ;
+const QString statePause {"Выполнение подбора приостановлено"} ;
+
+const quint32 timerRefresh {1000} ;                         // значение таймера для обновления формы
 
 }
 #endif // TCOMMONDEFANECLIENT_H

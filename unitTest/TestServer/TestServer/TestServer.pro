@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-09-12T17:34:41
+# Project created by QtCreator 2019-09-18T15:22:51
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = prS63BruteForceUnitTest
+TARGET = TestServer
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -25,15 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        prS63BruteForceUnitTest.cpp \
-    ../../common/TCommonUtilitess.cpp \
-    ../../common/TScanNetwork.cpp
+        mainwindow.cpp
 
 HEADERS += \
-        prS63BruteForceUnitTest.hpp \
-    ../../common/TCommonUtilitess.hpp \
-    ../../common/TCommonDefine.hpp \
-    ../../common/TScanNetwork.hpp
+        mainwindow.h
 
 FORMS += \
-        prS63BruteForceUnitTest.ui
+        mainwindow.ui

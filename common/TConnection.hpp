@@ -17,9 +17,7 @@ public:
                            stateRequest,        // Запрос сервером или клиентом состояния опонента
                            stateConfirm,        // Сервер или клиент возвращает свое состояние
                            count} ;             // Количество команд в протоколе
-
-protected:
-                                /// Возможные состояния
+    /// Возможные состояния
     enum state {stUnknown,
                 stWait,         // Ожидание действий оператора
                 stStart,        // Рабочий режим
@@ -27,6 +25,8 @@ protected:
                 stError,        // Произошла ошибка
                 stServerSearch, // Поиск клиентом сервера
                 stPause } ;     // Работа приостановлена
+
+protected:
 
     TConnection::state fState {stUnknown} ; // Текущее состояние
 

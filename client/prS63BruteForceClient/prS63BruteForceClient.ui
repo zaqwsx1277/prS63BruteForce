@@ -70,7 +70,11 @@
        </widget>
       </item>
       <item row="1" column="3">
-       <widget class="QLineEdit" name="lineEdit_4"/>
+       <widget class="QLineEdit" name="spThreadCount">
+        <property name="text">
+         <string>spThreadCount</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_7">
@@ -97,9 +101,9 @@
        </widget>
       </item>
       <item row="2" column="3">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="spState">
         <property name="text">
-         <string>Выбор сервера</string>
+         <string>spState</string>
         </property>
        </widget>
       </item>
@@ -111,6 +115,17 @@
         <property name="icon">
          <iconset resource="../../res/resources.qrc">
           <normaloff>:/icones/icones/run.png</normaloff>:/icones/icones/run.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QToolButton" name="btnSeachServer">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../res/resources.qrc">
+          <normaloff>:/icones/icones/question.png</normaloff>:/icones/icones/question.png</iconset>
         </property>
        </widget>
       </item>

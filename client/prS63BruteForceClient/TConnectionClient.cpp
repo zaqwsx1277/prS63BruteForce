@@ -10,11 +10,13 @@
 //-----------------------------------------------------------
 TConnectionClient::TConnectionClient()
 {
-
+    fState = TConnectionClient::stServerSearch ;    // При инициализации всегда сначала выполняется автоматический поиск сервера
+    seachServer (commonDefine::portNumber) ;
 }
 //-----------------------------------------------------------
-void TConnectionClient::seachServer ()
+void TConnectionClient::seachServer (quint16 inPort)
 {
+    fState = stServerSearch ;           // Установка состояния поиска сервера
     for (auto interface : QNetworkInterface::allInterfaces()) {
         auto ipList = interface.addressEntries() ;              // Получаем список локальных IP адресов
         for (auto ipEntry : ipList) {
@@ -26,18 +28,36 @@ void TConnectionClient::seachServer ()
             quint32 ipAddressCount = std::pow (2, 32 - net.second) - 1 ;
                                                                 // Сканируем сеть в поисках нужного сервера
             for (quint32 i = 1; i < ipAddressCount; ++i) {
-                QHostAddress ipAddressSeach = QHostAddress (ipAddressFirst + i) ;
+                QHostAddress tmpIpAddress = QHostAddress (ipAddressFirst + i) ;
                 std::unique_ptr <QTcpSocket> ptrSocket (new QTcpSocket ()) ;
-                ptrSocket -> connectToHost(ipAddressSeach, commonDefine::portNumber);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
+                ptrSocket -> connectToHost(tmpIpAddress, commonDefine::portNumber);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
                 connect(ptrSocket.get(), &QTcpSocket::connected, this, &TConnectionClient::slotHostConnected) ;
                 QApplication::processEvents() ;
+                if (fIsServerExist) {
+                    fIpAddressServer = tmpIpAddress ;           // завершаем поиск после нахождения сервера
+                    fState = stWait ;
+                    break ;
+                }
             }
         }
     }
+    if (!fIsServerExist) fState = stError ;
 }
 //-----------------------------------------------------------
+/*!
+ * \brief TConnectionClient::slotHostConnected  Слот обрабатывающий присоединение к серверу по указанному порту
+ */
 void TConnectionClient::slotHostConnected ()
 {
-
+    fIsServerExist = true ;
+}
+//-----------------------------------------------------------
+/*!
+ * \brief TConnectionClient::getIpAddressServer Получаем адрес найденного сервера
+ * \return  Данные найденного сервера
+ */
+QHostAddress TConnectionClient::getIpAddressServer ()
+{
+    return fIpAddressServer ;
 }
 //-----------------------------------------------------------

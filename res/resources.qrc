@@ -239,6 +239,7 @@
         <file>icones/policy_grp.png</file>
         <file>icones/policy.png</file>
         <file>icones/pause.png</file>
+        <file>icones/question.png</file>
     </qresource>
     <qresource prefix="/imagens">
         <file>imagens/model2sql.png</file>
