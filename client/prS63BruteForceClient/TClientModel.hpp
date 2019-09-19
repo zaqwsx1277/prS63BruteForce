@@ -19,7 +19,7 @@ namespace client {
 class TClientModel : public QAbstractTableModel, public std::vector <commonDefineClient::tdLogItemClient>
 {
 public:
-    TClientModel(QObject *parent = nullptr, quint16 inThreadCount = 0);
+    TClientModel(quint16 inThreadCount, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent  = QModelIndex()) const;

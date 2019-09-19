@@ -7,7 +7,7 @@
 /*!
  * \brief TClientModel::TClientModel    Конструктор модели
  */
-client::TClientModel::TClientModel (QObject *parent, quint16 inThreadCount): QAbstractTableModel (parent)
+client::TClientModel::TClientModel (quint16 inThreadCount, QObject *parent): QAbstractTableModel (parent)
 {
     fThreadCount = (inThreadCount > maxThreads) ? maxThreads : inThreadCount ;
 }
@@ -19,7 +19,7 @@ int client::TClientModel::rowCount(const QModelIndex &parent) const
 //----------------------------------------------------------------------------------
 int client::TClientModel::columnCount(const QModelIndex &parent) const
 {
-    return columnNumber::cnCount + std::thread::hardware_concurrency() ;
+    return columnNumber::cnCount + fThreadCount ;
 }
 //----------------------------------------------------------------------------------
 QVariant client::TClientModel::data(const QModelIndex &index, int role) const
@@ -56,27 +56,36 @@ QVariant client::TClientModel::headerData(int section, Qt::Orientation orientati
     if (role != Qt::DisplayRole) return QVariant();
 
     if (orientation == Qt::Horizontal)
-        switch (section) {
-          case cnTime :
-            retVal = commonDefineClient::HeaderTimeReceiveBlock ;
-          break ;
+        if (section < (fThreadCount + 2)) {     // Выводим первую секцию заголовков + номера потоков кол-во которых может быть переменным
+            switch (section) {
+              case cnTime :
+                retVal = commonDefineClient::HeaderTimeReceiveBlock ;
+              break ;
 
-          case cnkeyFirst :
-            retVal = commonDefineClient::HeaderKeyFirst ;
-          break ;
+              case cnkeyFirst :
+                retVal = commonDefineClient::HeaderKeyFirst ;
+              break ;
 
-//          case (fThreadCount - 1) + cnSendResult :
-//            retVal = commonDefineClient::HeaderTimeSendResult ;
-//          break ;
+              default :
+                retVal = QString::number(section - 2) ;
+              break ;
+            }
+        }
+        else {                                  // Выводим последнюю секцию заголовков
+            switch (section - fThreadCount) {
+              case cnSendResult :
+                retVal = commonDefineClient::HeaderTimeSendResult ;
+              break ;
 
-//          case (fThreadCount - 1) + cnResult:
-//            retVal = commonDefineClient::HeaderResult ;
-//          break ;
+              case cnResult :
+                retVal = commonDefineClient::HeaderResult ;
+              break ;
 
-          default :
-            retVal = QString::number(section - 2) ;
-          break ;
-    }
+              default :
+              break ;
+            }
+        }
+
 
     return retVal ;
 }
