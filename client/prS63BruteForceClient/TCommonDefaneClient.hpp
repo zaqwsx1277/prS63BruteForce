@@ -23,9 +23,9 @@ struct TLogItemClient       // Структура данных выводимы�
 typedef std::shared_ptr <QHostAddress> tdHostAddress ;      // typedef указателя на класс QHostAddress
 typedef std::shared_ptr <TLogItemClient> tdLogItemClient ;  // typedef указателя на структуру TLogItemClient
 
-const QString HeaderTimeReceiveBlock {"Время получения ключа"} ;    // Заголовки таблицы ведения лога
-const QString HeaderKeyFirst {"Начальный ключ"} ;
-const QString HeaderTimeSendResult {"Время отправки результата"} ;
+const QString HeaderTimeReceiveBlock {"Время\nполучения\nключа"} ;    // Заголовки таблицы ведения лога
+const QString HeaderKeyFirst {"Начальный\nключ"} ;
+const QString HeaderTimeSendResult {"Время\nотправки\nрезультата"} ;
 const QString HeaderResult {"Результат"} ;
 
 const QString stateUnknown {"Неопределено"} ;               // Описание возможных состояний

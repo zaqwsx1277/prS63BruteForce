@@ -268,7 +268,5 @@
         <file>styles/centralwgt_bg.png</file>
         <file>styles/btn_checked_bg.png</file>
     </qresource>
-    <qresource prefix="/description">
-        <file>descriptions/testExample1.txt</file>
-    </qresource>
+    <qresource prefix="/description"/>
 </RCC>

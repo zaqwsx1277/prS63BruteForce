@@ -107,17 +107,6 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="4">
-       <widget class="QToolButton" name="toolButton">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../res/resources.qrc">
-          <normaloff>:/icones/icones/run.png</normaloff>:/icones/icones/run.png</iconset>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="4">
        <widget class="QToolButton" name="btnSeachServer">
         <property name="text">
@@ -140,10 +129,21 @@
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QTableView" name="tableView"/>
+          <widget class="QTableView" name="spLog"/>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QPushButton" name="btnStart">
+             <property name="text">
+              <string>Старт</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../res/resources.qrc">
+               <normaloff>:/icones/icones/run.png</normaloff>:/icones/icones/run.png</iconset>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QPushButton" name="pushButton">
              <property name="text">
@@ -163,6 +163,17 @@
              <property name="icon">
               <iconset resource="../../res/resources.qrc">
                <normaloff>:/icones/icones/cancelar.png</normaloff>:/icones/icones/cancelar.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnClear">
+             <property name="text">
+              <string>Очистить</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../res/resources.qrc">
+               <normaloff>:/icones/icones/fechar1.png</normaloff>:/icones/icones/fechar1.png</iconset>
              </property>
             </widget>
            </item>

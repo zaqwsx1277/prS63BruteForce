@@ -6,6 +6,9 @@
 
 #include <thread>
 
+#include <QAbstractItemModel>
+
+
 //---------------------------------------------------------------------
 prS63BruteForceClient::prS63BruteForceClient(QWidget *parent) :
     QMainWindow(parent),
@@ -102,3 +105,17 @@ void prS63BruteForceClient::showState ()
     }
 }
 //----------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceClient::on_btnStart_clicked    Слот запускающий подбор пароля
+ */
+void prS63BruteForceClient::on_btnStart_clicked()
+{
+    if (fPrtClientModel.get() != nullptr) disconnect (ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
+    fPrtClientModel.reset( new client::TClientModel (ui -> spThreadCount -> text().toUShort()));
+    ui -> spLog -> setModel(fPrtClientModel.get()) ;                             // Инициализируем таблицу для ведения лога
+    for (quint8 i = 0; i < fPrtClientModel -> columnCount (); i++) {
+        ui-> spLog -> horizontalHeader() -> setSectionResizeMode(i, QHeaderView::Stretch) ;
+    }
+    connect(ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;    // Устанавливаем текущей последнюю строку
+}
+//--------------------------------------------------------------------------
