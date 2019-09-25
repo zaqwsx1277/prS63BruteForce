@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>prHackS63MainWindow</class>
- <widget class="QMainWindow" name="prHackS63MainWindow">
+ <class>prS63BruteForceServer</class>
+ <widget class="QMainWindow" name="prS63BruteForceServer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -50,8 +50,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>res/icones/run.png</normaloff>res/icones/run.png</iconset>
+         <iconset resource="../../res/resources.qrc">
+          <normaloff>:/icones/icones/run.png</normaloff>:/icones/icones/run.png</iconset>
         </property>
        </widget>
       </item>
@@ -262,6 +262,8 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../../res/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
