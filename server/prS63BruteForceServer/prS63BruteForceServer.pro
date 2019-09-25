@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui  network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,7 +28,15 @@ SOURCES += \
         prS63BruteForceServer.cpp
 
 HEADERS += \
-        prS63BruteForceServer.hpp
+        prS63BruteForceServer.hpp \
+        ../../common/TCommonDefine.hpp \
+    TCommonDefaneServer.hpp
 
 FORMS += \
         prS63BruteForceServer.ui
+
+INCLUDEPATH += \
+            ../../common
+
+RESOURCES += \
+    ../../res/resources.qrc
