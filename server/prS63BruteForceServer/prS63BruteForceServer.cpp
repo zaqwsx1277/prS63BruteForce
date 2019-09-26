@@ -44,6 +44,14 @@ void prS63BruteForceServer::initForm ()
 }
 //-----------------------------------------------------------------------------
 /*!
+ * \brief prS63BruteForceServer::setElementFormVisible Уcтановка видимости элементов в зависимсоти от состояния TConnection::fState
+ */
+void prS63BruteForceServer::setElementFormVisible ()
+{
+
+}
+//-----------------------------------------------------------------------------
+/*!
  * \brief prS63BruteForceServer::checkReadyToStart  Проверка заполненности всех полей
  * \return При заполненности всех полей возвращается true
  */
@@ -138,14 +146,74 @@ bool prS63BruteForceServer::bruteForceManagerPause ()
 }
 //-----------------------------------------------------------------------------
 /*!
- * \brief prS63BruteForceServer::on_spPathFrom_textChanged  Слот для проверки заполненности поля обрабатываемого файла
+ * \brief prS63BruteForceServer::on_spPathFrom_textChanged  Слот для проверки заполненности поля spPathFrom
  * \param inPathFrom  Проверяемое значение
  */
 void prS63BruteForceServer::on_spPathFrom_textChanged(const QString &inPathFrom)
 {
-    if (inPathFrom.isEmpty()) fReadyToStart.reset(0) ;
-      else fReadyToStart.set(0) ;
-    if (checkReadyToStart ()) fPtrConnectionServer -> setState(TConnection::stReadyToStart);
-      else fPtrConnectionServer -> setState(TConnection::stNotReadyToStart);
+    if (inPathFrom.isEmpty()) fReadyToStart.reset(bitPathFrom) ;
+      else fReadyToStart.set(bitPathFrom) ;
+    if (checkReadyToStart ()) fPtrConnectionServer -> setState(connection::TConnection::stReadyToStart);
+      else fPtrConnectionServer -> setState(connection::TConnection::stNotReadyToStart);
+    setElementFormVisible () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_spThreadCount_textChanged Слот для проверки заполненности поля spThreadCount
+ * \param inThreadCount Проверяемое значение
+ */
+void prS63BruteForceServer::on_spThreadCount_textChanged(const QString &inThreadCount)
+{
+    if (inThreadCount.isEmpty()) fReadyToStart.reset(bitThreadCount) ;
+      else fReadyToStart.set(bitThreadCount) ;
+    if (checkReadyToStart ()) fPtrConnectionServer -> setState(connection::TConnection::stReadyToStart);
+      else fPtrConnectionServer -> setState(connection::TConnection::stNotReadyToStart);
+    setElementFormVisible () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_spKeyStart_textChanged Слот для проверки заполненности поля spKeyStart
+ * \param inKeyStart Проверяемое значение
+ */
+void prS63BruteForceServer::on_spKeyStart_textChanged(const QString &inKeyStart)
+{
+    if (inKeyStart.isEmpty()) fReadyToStart.reset(bitKeyStart) ;
+      else fReadyToStart.set(bitKeyStart) ;
+    if (checkReadyToStart ()) fPtrConnectionServer -> setState(connection::TConnection::stReadyToStart);
+      else fPtrConnectionServer -> setState(connection::TConnection::stNotReadyToStart);
+    setElementFormVisible () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_spKeyStop_textChanged Слот для проверки заполненности поля
+ * \param inKeyStop Проверяемое значение
+ */
+void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
+{
+    if (inKeyStop.isEmpty()) fReadyToStart.reset(bitKeyStop) ;
+      else fReadyToStart.set(bitKeyStop) ;
+    if (checkReadyToStart ()) fPtrConnectionServer -> setState(connection::TConnection::stReadyToStart);
+      else fPtrConnectionServer -> setState(connection::TConnection::stNotReadyToStart);
+    setElementFormVisible () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::closeEvent Событие для проверки возможности закрытия приложения
+ * \param event Произошедшее событие
+ */
+void prS63BruteForceServer::closeEvent(QCloseEvent *event)
+{
+    switch (fPtrConnectionServer -> getState()) {
+      case connection::TConnection::stStop :
+      case connection::TConnection::stNotReadyToStart :
+      case connection::TConnection::stReadyToStart :
+      case connection::TConnection::stWait :
+        event -> accept();
+      break ;
+
+      default :
+        event -> ignore() ;
+      break ;
+    }
 }
 //-----------------------------------------------------------------------------

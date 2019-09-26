@@ -22,7 +22,7 @@ connection::TConnection::state connection::TConnection::getState ()
  * \brief TConnection::setState Установка состояния соединения
  * \param inState   Устанавливаемое соединение
  */
-void connection::TConnection::setState (connection::TConnection::state& inState)
+void connection::TConnection::setState (const connection::TConnection::state& inState)
 {
     fState = inState ;
 }

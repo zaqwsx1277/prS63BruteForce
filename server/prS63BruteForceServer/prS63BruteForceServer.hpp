@@ -2,6 +2,7 @@
 #define PRHACKS63MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 #include <memory>
 #include <chrono>
@@ -20,7 +21,7 @@ class prS63BruteForceServer : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit prS63BruteForceServer(QWidget *parent = 0);
+    explicit prS63BruteForceServer(QWidget *parent = nullptr);
     ~prS63BruteForceServer();
 
 private slots:
@@ -28,19 +29,27 @@ private slots:
 
     void on_spPathFrom_textChanged(const QString &arg1);
 
+    void on_spThreadCount_textChanged(const QString &arg1);
+
+    void on_spKeyStart_textChanged(const QString &arg1);
+
+    void on_spKeyStop_textChanged(const QString &arg1);
+
 private:
     Ui::prS63BruteForceServer *ui;
 
-    std::bitset <4> fReadyToStart ; // Битовое значение для контроля готовности всех данных для запуска подбора
-                                    // bit 0 - заполненность поля spPathFrom
-                                    // bit 1 - заполненность поля spThreadCount
-                                    // bit 2 - заполненность поля spKeyStart
-                                    // bit 3 = заполненность поля spKeyStop
+
+    enum bitPos {bitPathFrom = 0,    /// bit 0 - заполненность поля spPathFrom
+                 bitThreadCount = 1, /// bit 1 - заполненность поля spThreadCount
+                 bitKeyStart = 2,    /// bit 2 - заполненность поля spKeyStart
+                 bitKeyStop = 3} ;   /// bit 3 = заполненность поля spKeyStop
+    std::bitset <4> fReadyToStart ; // Битовое значение для контроля готовности всех данных для запуска подбора. Позиции битов определяются в bitPos
 
     std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
-    std::unique_ptr <TConnectionServer> fPtrConnectionServer { new TConnectionServer ()} ; // Указатель на класс обрабатывающий соединения в распеделенной системе
+    std::unique_ptr <connection::TConnectionServer> fPtrConnectionServer { new connection::TConnectionServer ()} ; // Указатель на класс обрабатывающий соединения в распеделенной системе
 
     void initForm () ;              // инициализация формы
+    void setElementFormVisible () ; // Увтановка видимости элементов в зависимсоти от состояния
     void makeConnect () ;           // Формирует все нужные конекты
     bool checkReadyToStart () ;     // Проверка заполненности всех полей
 
@@ -55,6 +64,8 @@ private:
     bool bruteForceManagerStart () ;// Запуск менеджера распределения ключей
     bool bruteForceManagerStop () ; // Останов менеджера
     bool bruteForceManagerPause () ; // Останов менеджера
+
+    void closeEvent(QCloseEvent *event) ; // Событие для проверки возможности закрытия приложения
 };
 
 #endif // PRHACKS63MAINWINDOW_H
