@@ -7,12 +7,13 @@
 #include "TCommonDefine.hpp"
 
 namespace commonDefineServer {
-            /// Структура данных для одной итерации подбора
+
+        /// Структура данных для одной итерации подбора
     struct brutForceItem {
-        commonDefine::tdHostAddress hostAddress {nullptr} ; // Указатель на ност которому передан блок
-//        state ; // Состояние блока
+        commonDefine::tdHostAddress hostAddress {nullptr} ; // Указатель на хост которому передан блок
+        commonDefine::stateBruteForceItem bfState {commonDefine::bfUnknown}; // Состояние блока
         QString keyFound {""} ;                             // Найденный ключ
-    }
+    } ;
 }
 
 #endif // TCOMMONSERVER_H

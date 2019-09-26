@@ -5,6 +5,12 @@
 
 #include <QHostAddress>
 
+namespace connection {
+
+//----------------------------------------------------------------
+/*!
+ * \brief Класс для работы с сервером раздающим блоки ключей для подбора
+ */
 class TConnectionClient: public TConnection
 {
 public:
@@ -25,4 +31,5 @@ private slots:
     void slotHostConnected () ; // Слот срабатывающий при нахождении сервера
 };
 
+}
 #endif // TCONNECTIONCLIENT_HPP

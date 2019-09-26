@@ -28,7 +28,7 @@ private slots:
 private:
     Ui::prS63BruteForceClient *ui;
 
-    std::shared_ptr <TConnectionClient> fPtrConnectionClient {nullptr}; // Указатель на класс обрабатывающий подключение к серверу
+    std::shared_ptr <connection::TConnectionClient> fPtrConnectionClient {nullptr}; // Указатель на класс обрабатывающий подключение к серверу
     std::unique_ptr <client::TClientModel> fPrtClientModel {nullptr} ;          // Указатель на модель вывода лога
 
     void initForm () ;          // инициализирую все элементы формы

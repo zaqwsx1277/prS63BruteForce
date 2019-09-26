@@ -1,13 +1,29 @@
 #include "TConnection.hpp"
 
 //-------------------------------------------------------------------
-TConnection::TConnection()
+/*!
+ * \brief TConnection::TConnection  Конструктор класса
+ */
+connection::TConnection::TConnection()
 {
 
 }
 //-------------------------------------------------------------------
-TConnection::state TConnection::getState ()
+/*!
+ * \brief TConnection::getState Получение состояния соединения
+ * \return Состояние соединения
+ */
+connection::TConnection::state connection::TConnection::getState ()
 {
     return fState ;
+}
+//-------------------------------------------------------------------
+/*!
+ * \brief TConnection::setState Установка состояния соединения
+ * \param inState   Устанавливаемое соединение
+ */
+void connection::TConnection::setState (connection::TConnection::state& inState)
+{
+    fState = inState ;
 }
 //-------------------------------------------------------------------

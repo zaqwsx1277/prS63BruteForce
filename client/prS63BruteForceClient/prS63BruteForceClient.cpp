@@ -16,7 +16,7 @@ prS63BruteForceClient::prS63BruteForceClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    fPtrConnectionClient.reset(new TConnectionClient ()) ;  // инициализируем работу с сервером
+    fPtrConnectionClient.reset(new connection::TConnectionClient ()) ;  // инициализируем работу с сервером
     initForm () ;
     clearForm () ;
     startTimer(commonDefineClient::timerRefresh) ;          // Запускаем таймер на обновление формы
@@ -74,32 +74,32 @@ void prS63BruteForceClient::timerEvent(QTimerEvent *event)
 void prS63BruteForceClient::showState ()
 {
     switch (fPtrConnectionClient -> getState()) {
-      case TConnectionClient::stUnknown:
+      case connection::TConnectionClient::stUnknown:
       default:
         ui -> spState -> setText(commonDefineClient::stateUnknown);
       break;
 
-      case TConnectionClient::stError :
+      case connection::TConnectionClient::stError :
         ui -> spState -> setText(commonDefineClient::stateError);
       break;
 
-      case TConnectionClient::stWait :
+      case connection::TConnectionClient::stWait :
         ui -> spState -> setText(commonDefineClient::stateWait);
       break;
 
-      case TConnectionClient::stStart :
+      case connection::TConnectionClient::stStart :
         ui -> spState -> setText(commonDefineClient::stateStart);
       break;
 
-      case TConnectionClient::stStop :
+      case connection::TConnectionClient::stStop :
         ui -> spState -> setText(commonDefineClient::stateStop);
       break;
 
-      case TConnectionClient::stServerSearch :
+      case connection::TConnectionClient::stServerSearch :
         ui -> spState -> setText(commonDefineClient::stateServerSearch);
       break;
 
-      case TConnectionClient::stPause :
+      case connection::TConnectionClient::stPause :
         ui -> spState -> setText(commonDefineClient::statePause);
       break;
     }
