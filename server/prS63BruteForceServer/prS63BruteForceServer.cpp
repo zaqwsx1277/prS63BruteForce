@@ -17,6 +17,7 @@ prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
     ui->setupUi(this);
 
     initForm () ;
+    fReadyToStart.reset() ;         // Очистка всех битов для контроля заполненности всех полей
 }
 //------------------------------------------------------------------------------
 prS63BruteForceServer::~prS63BruteForceServer()
@@ -40,6 +41,17 @@ void prS63BruteForceServer::initForm ()
     ui -> spTimeStart -> clear() ;
     ui -> spTimeStop -> clear() ;
     ui -> spTimeDuration -> clear() ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::checkReadyToStart  Проверка заполненности всех полей
+ * \return При заполненности всех полей возвращается true
+ */
+bool prS63BruteForceServer::checkReadyToStart ()
+{
+    bool retVal = false ;
+    if (fReadyToStart.all()) retVal = true ;
+    return retVal ;
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -123,5 +135,17 @@ bool prS63BruteForceServer::bruteForceManagerStop ()
 bool prS63BruteForceServer::bruteForceManagerPause ()
 {
 
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_spPathFrom_textChanged  Слот для проверки заполненности поля обрабатываемого файла
+ * \param inPathFrom  Проверяемое значение
+ */
+void prS63BruteForceServer::on_spPathFrom_textChanged(const QString &inPathFrom)
+{
+    if (inPathFrom.isEmpty()) fReadyToStart.reset(0) ;
+      else fReadyToStart.set(0) ;
+    if (checkReadyToStart ()) fPtrConnectionServer -> setState(TConnection::stReadyToStart);
+      else fPtrConnectionServer -> setState(TConnection::stNotReadyToStart);
 }
 //-----------------------------------------------------------------------------

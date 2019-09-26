@@ -8,13 +8,13 @@
 #include <cmath>
 #include <memory>
 //-----------------------------------------------------------
-TConnectionClient::TConnectionClient()
+connection::TConnectionClient::TConnectionClient()
 {
     fState = TConnectionClient::stServerSearch ;    // При инициализации всегда сначала выполняется автоматический поиск сервера
     seachServer (commonDefine::portNumber) ;
 }
 //-----------------------------------------------------------
-void TConnectionClient::seachServer (quint16 inPort)
+void connection::TConnectionClient::seachServer (quint16 inPort)
 {
     fState = stServerSearch ;           // Установка состояния поиска сервера
     for (auto interface : QNetworkInterface::allInterfaces()) {
@@ -47,7 +47,7 @@ void TConnectionClient::seachServer (quint16 inPort)
 /*!
  * \brief TConnectionClient::slotHostConnected  Слот обрабатывающий присоединение к серверу по указанному порту
  */
-void TConnectionClient::slotHostConnected ()
+void connection::TConnectionClient::slotHostConnected ()
 {
     fIsServerExist = true ;
 }
@@ -56,7 +56,7 @@ void TConnectionClient::slotHostConnected ()
  * \brief TConnectionClient::getIpAddressServer Получаем адрес найденного сервера
  * \return  Данные найденного сервера
  */
-QHostAddress TConnectionClient::getIpAddressServer ()
+QHostAddress connection::TConnectionClient::getIpAddressServer ()
 {
     return fIpAddressServer ;
 }

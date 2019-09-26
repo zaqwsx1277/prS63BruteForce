@@ -1,0 +1,146 @@
+\hypertarget{class_t_connection}{}\section{T\+Connection Class Reference}
+\label{class_t_connection}\index{T\+Connection@{T\+Connection}}
+
+
+The \hyperlink{class_t_connection}{T\+Connection} class Базовый класс для обслуживания работы распределенной системы  
+
+
+
+
+{\ttfamily \#include $<$T\+Connection.\+hpp$>$}
+
+
+
+Inheritance diagram for T\+Connection\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=298pt]{class_t_connection__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for T\+Connection\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{class_t_connection__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_t_connection_aa46ea2e762c48455dece26c126251aeb}\label{class_t_connection_aa46ea2e762c48455dece26c126251aeb}} 
+enum \hyperlink{class_t_connection_aa46ea2e762c48455dece26c126251aeb}{exchange\+Protocol} \{ \newline
+{\bfseries connection\+Request}, 
+{\bfseries connection\+Confirm}, 
+{\bfseries connection\+Close}, 
+{\bfseries transfer\+Data}, 
+\newline
+{\bfseries transfer\+Request}, 
+{\bfseries state\+Request}, 
+{\bfseries state\+Confirm}, 
+{\bfseries count}
+ \}\begin{DoxyCompactList}\small\item\em Протокол обмена между сервером и клиентами. \end{DoxyCompactList}
+\item 
+enum \hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3}{state} \{ \newline
+{\bfseries st\+Unknown}, 
+{\bfseries st\+Wait}, 
+\hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3ac673f7deea576e6e3f26d38b392c85ad}{st\+Ready\+To\+Start}, 
+\hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3ae98ac105f75a0d6b3aa76553841add2b}{st\+Not\+Ready\+To\+Start}, 
+\newline
+{\bfseries st\+Start}, 
+{\bfseries st\+Stop}, 
+{\bfseries st\+Error}, 
+{\bfseries st\+Server\+Search}, 
+\newline
+{\bfseries st\+Pause}
+ \}\begin{DoxyCompactList}\small\item\em Возможные состояния \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_t_connection_a3457e15061be61110b825fd1760e3834}\label{class_t_connection_a3457e15061be61110b825fd1760e3834}} 
+\hyperlink{class_t_connection_a3457e15061be61110b825fd1760e3834}{T\+Connection} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_t_connection_a3457e15061be61110b825fd1760e3834}{T\+Connection\+::\+T\+Connection} Конструктор класса \end{DoxyCompactList}\item 
+\hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3}{T\+Connection\+::state} \hyperlink{class_t_connection_a3d5a8ced525102cb5af69c5b3bf53beb}{get\+State} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_t_connection_a3d5a8ced525102cb5af69c5b3bf53beb}{T\+Connection\+::get\+State} Получение состояния соединения \end{DoxyCompactList}\item 
+void \hyperlink{class_t_connection_a93e5bd39a1a222d697d94cf5a686fe48}{set\+State} (\hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3}{T\+Connection\+::state} \&)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_t_connection_a93e5bd39a1a222d697d94cf5a686fe48}{T\+Connection\+::set\+State} Установка состояния соединения \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_t_connection_a814aa8aa0c8d84ddbd1a054b9bf5752a}\label{class_t_connection_a814aa8aa0c8d84ddbd1a054b9bf5752a}} 
+virtual bool {\bfseries send\+Data} (\hyperlink{class_t_connection_aa46ea2e762c48455dece26c126251aeb}{T\+Connection\+::exchange\+Protocol}, quint64)=0
+\item 
+\mbox{\Hypertarget{class_t_connection_a7ab37e437c1b9b7396055e3be9582f92}\label{class_t_connection_a7ab37e437c1b9b7396055e3be9582f92}} 
+virtual bool {\bfseries receive\+Data} (\hyperlink{class_t_connection_aa46ea2e762c48455dece26c126251aeb}{T\+Connection\+::exchange\+Protocol} $\ast$, quint64 $\ast$)=0
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_t_connection_a126c4916b944c5fed1f82fb25a645d9c}\label{class_t_connection_a126c4916b944c5fed1f82fb25a645d9c}} 
+\hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3}{T\+Connection\+::state} {\bfseries f\+State} \{st\+Unknown\}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_t_connection}{T\+Connection} class Базовый класс для обслуживания работы распределенной системы 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_t_connection_a93c51547a49faa91936324245c95b7b3}\label{class_t_connection_a93c51547a49faa91936324245c95b7b3}} 
+\index{T\+Connection@{T\+Connection}!state@{state}}
+\index{state@{state}!T\+Connection@{T\+Connection}}
+\subsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily enum \hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3}{T\+Connection\+::state}}
+
+
+
+Возможные состояния 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Ready\+To\+Start@{st\+Ready\+To\+Start}!T\+Connection@{T\+Connection}}\index{T\+Connection@{T\+Connection}!st\+Ready\+To\+Start@{st\+Ready\+To\+Start}}}\mbox{\Hypertarget{class_t_connection_a93c51547a49faa91936324245c95b7b3ac673f7deea576e6e3f26d38b392c85ad}\label{class_t_connection_a93c51547a49faa91936324245c95b7b3ac673f7deea576e6e3f26d38b392c85ad}} 
+st\+Ready\+To\+Start&Ожидание действий оператора \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Not\+Ready\+To\+Start@{st\+Not\+Ready\+To\+Start}!T\+Connection@{T\+Connection}}\index{T\+Connection@{T\+Connection}!st\+Not\+Ready\+To\+Start@{st\+Not\+Ready\+To\+Start}}}\mbox{\Hypertarget{class_t_connection_a93c51547a49faa91936324245c95b7b3ae98ac105f75a0d6b3aa76553841add2b}\label{class_t_connection_a93c51547a49faa91936324245c95b7b3ae98ac105f75a0d6b3aa76553841add2b}} 
+st\+Not\+Ready\+To\+Start&Готовность к запуску \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_t_connection_a3d5a8ced525102cb5af69c5b3bf53beb}\label{class_t_connection_a3d5a8ced525102cb5af69c5b3bf53beb}} 
+\index{T\+Connection@{T\+Connection}!get\+State@{get\+State}}
+\index{get\+State@{get\+State}!T\+Connection@{T\+Connection}}
+\subsubsection{\texorpdfstring{get\+State()}{getState()}}
+{\footnotesize\ttfamily \hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3}{T\+Connection\+::state} T\+Connection\+::get\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_t_connection_a3d5a8ced525102cb5af69c5b3bf53beb}{T\+Connection\+::get\+State} Получение состояния соединения 
+
+\begin{DoxyReturn}{Returns}
+Состояние соединения 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_t_connection_a93e5bd39a1a222d697d94cf5a686fe48}\label{class_t_connection_a93e5bd39a1a222d697d94cf5a686fe48}} 
+\index{T\+Connection@{T\+Connection}!set\+State@{set\+State}}
+\index{set\+State@{set\+State}!T\+Connection@{T\+Connection}}
+\subsubsection{\texorpdfstring{set\+State()}{setState()}}
+{\footnotesize\ttfamily void T\+Connection\+::set\+State (\begin{DoxyParamCaption}\item[{\hyperlink{class_t_connection_a93c51547a49faa91936324245c95b7b3}{T\+Connection\+::state} \&}]{in\+State }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_t_connection_a93e5bd39a1a222d697d94cf5a686fe48}{T\+Connection\+::set\+State} Установка состояния соединения 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in\+State} & Устанавливаемое соединение \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+common/T\+Connection.\+hpp\item 
+common/T\+Connection.\+cpp\end{DoxyCompactItemize}

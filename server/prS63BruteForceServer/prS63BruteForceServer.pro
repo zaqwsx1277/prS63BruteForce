@@ -25,12 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        prS63BruteForceServer.cpp
+        prS63BruteForceServer.cpp \
+    ../../common/TConnection.cpp \
+    TConnectionServer.cpp
 
 HEADERS += \
         prS63BruteForceServer.hpp \
         ../../common/TCommonDefine.hpp \
-    TCommonDefaneServer.hpp
+    TCommonDefaneServer.hpp \
+    ../../common/TConnection.hpp \
+    TConnectionServer.hpp
 
 FORMS += \
         prS63BruteForceServer.ui
