@@ -12,8 +12,6 @@
 #include "TCommonDefaneServer.hpp"
 #include "TConnectionServer.hpp"
 
-
-
 namespace Ui {
 class prS63BruteForceServer;
 }
@@ -29,13 +27,9 @@ public:
 
 private slots:
     void on_btnRun_clicked();       // Слот обрабатывающий запуск подбора
-
     void on_spPathFrom_textChanged(const QString &arg1);
-
     void on_spThreadCount_textChanged(const QString &arg1);
-
     void on_spKeyStart_textChanged(const QString &arg1);
-
     void on_spKeyStop_textChanged(const QString &arg1);
 
 private:

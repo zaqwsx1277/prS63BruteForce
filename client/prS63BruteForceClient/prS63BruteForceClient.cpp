@@ -8,7 +8,7 @@
 
 #include <QAbstractItemModel>
 
-
+using namespace client ;
 //---------------------------------------------------------------------
 prS63BruteForceClient::prS63BruteForceClient(QWidget *parent) :
     QMainWindow(parent),

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['setstate',['setState',['../classconnection_1_1_t_connection.html#af42c1674b7be3cf7be88806df013860e',1,'connection::TConnection']]],
+  ['setstate',['setState',['../classconnection_1_1_t_connection.html#aa61ae6037f6b70cd97c9fc9c04f43629',1,'connection::TConnection']]],
   ['state',['state',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612c',1,'connection::TConnection']]],
   ['stateconfirm',['stateConfirm',['../classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f',1,'connection::TConnection']]],
   ['staterequest',['stateRequest',['../classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a12a88690a89ec50e955ef3fd3db119bf',1,'connection::TConnection']]],

@@ -62,10 +62,10 @@ enum \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b961
 \mbox{\Hypertarget{classconnection_1_1_t_connection_a2853c8ac857d43657d48c18ceeaef120}\label{classconnection_1_1_t_connection_a2853c8ac857d43657d48c18ceeaef120}} 
 \hyperlink{classconnection_1_1_t_connection_a2853c8ac857d43657d48c18ceeaef120}{T\+Connection} ()
 \begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_a2853c8ac857d43657d48c18ceeaef120}{T\+Connection\+::\+T\+Connection} Конструктор класса \end{DoxyCompactList}\item 
-\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{T\+Connection\+::state} \hyperlink{classconnection_1_1_t_connection_a7944d50c5733279cf0fdfd8c87c3b237}{get\+State} ()
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \hyperlink{classconnection_1_1_t_connection_a7944d50c5733279cf0fdfd8c87c3b237}{get\+State} ()
 \begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_a7944d50c5733279cf0fdfd8c87c3b237}{T\+Connection\+::get\+State} Получение состояния соединения \end{DoxyCompactList}\item 
-void \hyperlink{classconnection_1_1_t_connection_af42c1674b7be3cf7be88806df013860e}{set\+State} (\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{T\+Connection\+::state} \&)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_af42c1674b7be3cf7be88806df013860e}{T\+Connection\+::set\+State} Установка состояния соединения \end{DoxyCompactList}\item 
+void \hyperlink{classconnection_1_1_t_connection_aa61ae6037f6b70cd97c9fc9c04f43629}{set\+State} (const \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \&)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_aa61ae6037f6b70cd97c9fc9c04f43629}{T\+Connection\+::set\+State} Установка состояния соединения \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classconnection_1_1_t_connection_ae0cbb8d3bb954f20796d53c704a8359c}\label{classconnection_1_1_t_connection_ae0cbb8d3bb954f20796d53c704a8359c}} 
 virtual bool {\bfseries send\+Data} (\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{T\+Connection\+::exchange\+Protocol}, quint64)=0
 \item 
@@ -75,8 +75,8 @@ virtual bool {\bfseries receive\+Data} (\hyperlink{classconnection_1_1_t_connect
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classconnection_1_1_t_connection_a4bc0e17704fa1b8afea4bfdcea876798}\label{classconnection_1_1_t_connection_a4bc0e17704fa1b8afea4bfdcea876798}} 
-\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{T\+Connection\+::state} \hyperlink{classconnection_1_1_t_connection_a4bc0e17704fa1b8afea4bfdcea876798}{f\+State} \{st\+Unknown\}
+\mbox{\Hypertarget{classconnection_1_1_t_connection_aa55714bb2a9a2b9330b2fd81f7a47f17}\label{classconnection_1_1_t_connection_aa55714bb2a9a2b9330b2fd81f7a47f17}} 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \hyperlink{classconnection_1_1_t_connection_aa55714bb2a9a2b9330b2fd81f7a47f17}{f\+State} \{st\+Unknown\}
 \begin{DoxyCompactList}\small\item\em Работа приостановлена \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -180,15 +180,15 @@ st\+Pause&Поиск клиентом сервера \\
 \begin{DoxyReturn}{Returns}
 Состояние соединения 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classconnection_1_1_t_connection_af42c1674b7be3cf7be88806df013860e}\label{classconnection_1_1_t_connection_af42c1674b7be3cf7be88806df013860e}} 
+\mbox{\Hypertarget{classconnection_1_1_t_connection_aa61ae6037f6b70cd97c9fc9c04f43629}\label{classconnection_1_1_t_connection_aa61ae6037f6b70cd97c9fc9c04f43629}} 
 \index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!set\+State@{set\+State}}
 \index{set\+State@{set\+State}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
 \subsubsection{\texorpdfstring{set\+State()}{setState()}}
-{\footnotesize\ttfamily void connection\+::\+T\+Connection\+::set\+State (\begin{DoxyParamCaption}\item[{\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{T\+Connection\+::state} \&}]{in\+State }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void connection\+::\+T\+Connection\+::set\+State (\begin{DoxyParamCaption}\item[{const \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \&}]{in\+State }\end{DoxyParamCaption})}
 
 
 
-\hyperlink{classconnection_1_1_t_connection_af42c1674b7be3cf7be88806df013860e}{T\+Connection\+::set\+State} Установка состояния соединения 
+\hyperlink{classconnection_1_1_t_connection_aa61ae6037f6b70cd97c9fc9c04f43629}{T\+Connection\+::set\+State} Установка состояния соединения 
 
 
 \begin{DoxyParams}{Parameters}

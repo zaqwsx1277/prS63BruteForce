@@ -5,6 +5,5 @@ var searchData=
   ['tconnectionclient',['TConnectionClient',['../classconnection_1_1_t_connection_client.html',1,'connection']]],
   ['tconnectionserver',['TConnectionServer',['../classconnection_1_1_t_connection_server.html',1,'connection']]],
   ['tlogitemclient',['TLogItemClient',['../structcommon_define_client_1_1_t_log_item_client.html',1,'commonDefineClient']]],
-  ['tlogmodel',['TLogModel',['../class_t_log_model.html',1,'']]],
   ['tscannetwork',['TScanNetwork',['../class_t_scan_network.html',1,'']]]
 ];

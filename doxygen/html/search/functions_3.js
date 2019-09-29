@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['setstate',['setState',['../classconnection_1_1_t_connection.html#af42c1674b7be3cf7be88806df013860e',1,'connection::TConnection']]]
+  ['setstate',['setState',['../classconnection_1_1_t_connection.html#aa61ae6037f6b70cd97c9fc9c04f43629',1,'connection::TConnection']]]
 ];

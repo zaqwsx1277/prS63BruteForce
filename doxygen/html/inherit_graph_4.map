@@ -1,6 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$class_main_window.html" title="MainWindow" alt="" coords="193,5,290,32"/>
-<area shape="rect" id="node3" href="$classpr_hack_s63_main_window.html" title="prHackS63MainWindow" alt="" coords="160,56,323,83"/>
-<area shape="rect" id="node4" href="$classpr_s63_brute_force_client.html" title="prS63BruteForceClient" alt="" coords="164,107,319,133"/>
-<area shape="rect" id="node5" href="$classpr_s63_brute_force_server.html" title="prS63BruteForceServer" alt="" coords="162,157,321,184"/>
+<area shape="rect" id="node2" href="$classconnection_1_1_t_connection.html" title="The TConnection class Базовый класс для обслуживания работы распределенной системы ..." alt="" coords="124,31,291,57"/>
+<area shape="rect" id="node3" href="$classconnection_1_1_t_connection_client.html" title="Класс для работы с сервером раздающим блоки ключей для подбора " alt="" coords="341,5,542,32"/>
+<area shape="rect" id="node4" href="$classconnection_1_1_t_connection_server.html" title="The TConnectionServer class Класс для работы с распределённой системой подбора ключей ..." alt="" coords="339,56,544,83"/>
 </map>

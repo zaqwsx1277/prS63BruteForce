@@ -12,6 +12,8 @@ namespace Ui {
 class prS63BruteForceClient;
 }
 
+namespace client {
+
 class prS63BruteForceClient : public QMainWindow
 {
     Q_OBJECT
@@ -28,6 +30,12 @@ private slots:
 private:
     Ui::prS63BruteForceClient *ui;
 
+    enum bitPos {bitPathFrom = 0,    /// bit 0 - заполненность поля spPathFrom
+                 bitThreadCount = 1, /// bit 1 - заполненность поля spThreadCount
+                 bitKeyStart = 2,    /// bit 2 - заполненность поля spKeyStart
+                 bitKeyStop = 3} ;   /// bit 3 = заполненность поля spKeyStop
+    std::bitset <4> fReadyToStart ; // Битовое значение для контроля готовности всех данных для запуска подбора. Позиции битов определяются в bitPos
+
     std::shared_ptr <connection::TConnectionClient> fPtrConnectionClient {nullptr}; // Указатель на класс обрабатывающий подключение к серверу
     std::unique_ptr <client::TClientModel> fPrtClientModel {nullptr} ;          // Указатель на модель вывода лога
 
@@ -38,4 +46,5 @@ private:
     void timerEvent(QTimerEvent *event) ;   // Обработчик таймера для обновления формы
 };
 
+}
 #endif // PRS63BRUTEFORCECLIENT_HPP
