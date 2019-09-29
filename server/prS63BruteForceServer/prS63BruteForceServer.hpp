@@ -12,10 +12,13 @@
 #include "TCommonDefaneServer.hpp"
 #include "TConnectionServer.hpp"
 
+
+
 namespace Ui {
 class prS63BruteForceServer;
 }
 
+namespace server {
 class prS63BruteForceServer : public QMainWindow
 {
     Q_OBJECT
@@ -68,4 +71,5 @@ private:
     void closeEvent(QCloseEvent *event) ; // Событие для проверки возможности закрытия приложения
 };
 
+}
 #endif // PRHACKS63MAINWINDOW_H

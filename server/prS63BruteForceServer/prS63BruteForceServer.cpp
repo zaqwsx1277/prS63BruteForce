@@ -9,12 +9,13 @@
 
 #include "TCommonDefine.hpp"
 
+using namespace server ;
 //------------------------------------------------------------------------------
 prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::prS63BruteForceServer)
 {
-    ui->setupUi(this);
+    ui-> setupUi(this);
 
     initForm () ;
     fReadyToStart.reset() ;         // Очистка всех битов для контроля заполненности всех полей
