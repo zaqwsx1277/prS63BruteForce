@@ -10,7 +10,8 @@
 #include <bitset>
 
 #include "TCommonDefaneServer.hpp"
-#include "TConnectionServer.hpp"
+//#include "TConnectionServer.hpp"
+#include "TBruteForceManager.hpp"
 
 namespace Ui {
 class prS63BruteForceServer;
@@ -39,11 +40,13 @@ private:
     enum bitPos {bitPathFrom = 0,    /// bit 0 - заполненность поля spPathFrom
                  bitThreadCount = 1, /// bit 1 - заполненность поля spThreadCount
                  bitKeyStart = 2,    /// bit 2 - заполненность поля spKeyStart
-                 bitKeyStop = 3} ;   /// bit 3 = заполненность поля spKeyStop
-    std::bitset <4> fReadyToStart ; // Битовое значение для контроля готовности всех данных для запуска подбора. Позиции битов определяются в bitPos
+                 bitKeyStop = 3,     /// bit 3 = заполненность поля spKeyStop
+                 bitCount} ;
+    std::bitset <bitPos::bitCount> fReadyToStart ; // Битовое значение для контроля готовности всех данных для запуска подбора. Позиции битов определяются в bitPos
 
-    std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
-    std::unique_ptr <connection::TConnectionServer> fPtrConnectionServer { new connection::TConnectionServer ()} ; // Указатель на класс обрабатывающий соединения в распеделенной системе
+    std::unique_ptr <TBruteForceManager> fPtrBruteForceManager { new TBruteForceManager ()} ; // Указатель на менеджер распределения блоков и обработки полученных данных
+//    std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
+//    std::unique_ptr <connection::TConnectionServer> fPtrConnectionServer { new connection::TConnectionServer ()} ; // Указатель на класс обрабатывающий соединения в распеделенной системе
 
     void initForm () ;              // инициализация формы
     void setElementFormVisible () ; // Увтановка видимости элементов в зависимсоти от состояния
@@ -53,14 +56,6 @@ private:
     void timerEvent(QTimerEvent*) ; // таймер обновляющий модель
 
     std::chrono::time_point<std::chrono::system_clock> fTimeStart ; // Время начала выполнения задания
-
-    bool serverStart () ;           // Запуск сервера для распределенной работы
-    bool serverStop () ;            // Останов сервера
-    bool serverPause () ;           // Приостановка работы сервера
-
-    bool bruteForceManagerStart () ;// Запуск менеджера распределения ключей
-    bool bruteForceManagerStop () ; // Останов менеджера
-    bool bruteForceManagerPause () ; // Останов менеджера
 
     void closeEvent(QCloseEvent *event) ; // Событие для проверки возможности закрытия приложения
 };

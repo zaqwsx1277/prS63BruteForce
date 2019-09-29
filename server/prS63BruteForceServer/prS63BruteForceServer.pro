@@ -27,14 +27,16 @@ SOURCES += \
         main.cpp \
         prS63BruteForceServer.cpp \
     ../../common/TConnection.cpp \
-    TConnectionServer.cpp
+    TConnectionServer.cpp \
+    TBruteForceManager.cpp
 
 HEADERS += \
         prS63BruteForceServer.hpp \
         ../../common/TCommonDefine.hpp \
     TCommonDefaneServer.hpp \
     ../../common/TConnection.hpp \
-    TConnectionServer.hpp
+    TConnectionServer.hpp \
+    TBruteForceManager.hpp
 
 FORMS += \
         prS63BruteForceServer.ui

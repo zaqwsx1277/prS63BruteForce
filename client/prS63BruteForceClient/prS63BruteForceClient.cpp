@@ -7,6 +7,7 @@
 #include <thread>
 
 #include <QAbstractItemModel>
+#include <QMessageBox>
 
 using namespace client ;
 //---------------------------------------------------------------------
@@ -49,6 +50,9 @@ void prS63BruteForceClient::clearForm ()
     ui -> spBlockSize -> clear() ;
     ui -> spThreadCount -> setText(QString::number(std::thread::hardware_concurrency()));
     ui -> spState -> clear();
+                                    // Установка всех битовых флагов заполненности полей
+    fReadyToStart.set () ;
+    if (ui -> spServerAddress -> text().isEmpty()) fReadyToStart.reset(bitServerAddress) ;
 }
 //----------------------------------------------------------------------
 /*!
@@ -117,5 +121,44 @@ void prS63BruteForceClient::on_btnStart_clicked()
         ui-> spLog -> horizontalHeader() -> setSectionResizeMode(i, QHeaderView::Stretch) ;
     }
     connect(ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;    // Устанавливаем текущей последнюю строку
+}
+//--------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceClient::setElementFormVisible  Установка видимости элементов в зависимсоти от состояния
+ */
+void prS63BruteForceClient::setElementFormVisible ()
+{
+    if (fReadyToStart.all()) {
+
+    }
+}
+//--------------------------------------------------------------------------
+void client::prS63BruteForceClient::on_spServerAddress_textChanged(const QString &inServerAddress)
+{
+    if (inServerAddress.isEmpty()) fReadyToStart.reset(bitServerAddress) ;
+      else fReadyToStart.set(bitServerAddress) ;
+    setElementFormVisible () ;
+}
+//--------------------------------------------------------------------------
+
+void client::prS63BruteForceClient::on_spServerPort_textChanged(const QString &inServerPort)
+{
+    if (inServerPort.isEmpty()) fReadyToStart.reset(bitServerPort) ;
+      else fReadyToStart.set(bitServerPort) ;
+    setElementFormVisible () ;
+}
+//--------------------------------------------------------------------------
+
+void client::prS63BruteForceClient::on_spThreadCount_textChanged(const QString &inThreadCount)
+{
+    if (inThreadCount.isEmpty()) fReadyToStart.reset(bitServerPort) ;
+      else {
+        fReadyToStart.set(bitServerPort) ;
+        if (inThreadCount.toInt() > std::thread::hardware_concurrency()) {
+          if (QMessageBox::warning(this, "Внимание","Количество введённых потоков превышает\nих реальное количество", QMessageBox::Ok | QMessageBox::Cancel) == QMessageBox::Cancel)
+            ui -> spThreadCount -> setText(QString::number(std::thread::hardware_concurrency()));
+        }
+      }
+    setElementFormVisible () ;
 }
 //--------------------------------------------------------------------------

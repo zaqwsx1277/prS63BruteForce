@@ -42,6 +42,7 @@ void prS63BruteForceServer::initForm ()
     ui -> spTimeStart -> clear() ;
     ui -> spTimeStop -> clear() ;
     ui -> spTimeDuration -> clear() ;
+    ui -> spState -> clear();
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -90,59 +91,7 @@ void prS63BruteForceServer::on_btnRun_clicked()
 {
     fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
     startTimer(commonDefine::mainWindowRefresh) ;       // Запускаем таймер обновления
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::serverStart    Запуск сервера для распределенной работы
- * \return В случае ошибки запуска возвращается false
- */
-bool prS63BruteForceServer::serverStart ()
-{
 
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::serverStop     Останов сервера для распределенной работы
- * \return В случае ошибки запуска возвращается false
- */
-bool prS63BruteForceServer::serverStop ()
-{
-
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::serverPause    Приостановка работы сервера для распределенной работы
- * \return В случае ошибки запуска возвращается false
- */
-bool prS63BruteForceServer::serverPause ()
-{
-
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::bruteForceManagerStart Запуск менеджера распределения ключей
- * \return В случае ошибки запуска возвращается false
- */
-bool prS63BruteForceServer::bruteForceManagerStart ()
-{
-
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::bruteForceManagerStop  Останов менеджера распределения ключей
- * \return В случае ошибки запуска возвращается false
- */
-bool prS63BruteForceServer::bruteForceManagerStop ()
-{
-
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::bruteForceManagerPause Приостановка работы менеджера распределения ключей
- * \return В случае ошибки запуска возвращается false
- */
-bool prS63BruteForceServer::bruteForceManagerPause ()
-{
 
 }
 //-----------------------------------------------------------------------------
@@ -154,8 +103,8 @@ void prS63BruteForceServer::on_spPathFrom_textChanged(const QString &inPathFrom)
 {
     if (inPathFrom.isEmpty()) fReadyToStart.reset(bitPathFrom) ;
       else fReadyToStart.set(bitPathFrom) ;
-    if (checkReadyToStart ()) fPtrConnectionServer -> setState(connection::TConnection::stReadyToStart);
-      else fPtrConnectionServer -> setState(connection::TConnection::stNotReadyToStart);
+    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
+      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -167,8 +116,8 @@ void prS63BruteForceServer::on_spThreadCount_textChanged(const QString &inThread
 {
     if (inThreadCount.isEmpty()) fReadyToStart.reset(bitThreadCount) ;
       else fReadyToStart.set(bitThreadCount) ;
-    if (checkReadyToStart ()) fPtrConnectionServer -> setState(connection::TConnection::stReadyToStart);
-      else fPtrConnectionServer -> setState(connection::TConnection::stNotReadyToStart);
+    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
+      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -180,8 +129,8 @@ void prS63BruteForceServer::on_spKeyStart_textChanged(const QString &inKeyStart)
 {
     if (inKeyStart.isEmpty()) fReadyToStart.reset(bitKeyStart) ;
       else fReadyToStart.set(bitKeyStart) ;
-    if (checkReadyToStart ()) fPtrConnectionServer -> setState(connection::TConnection::stReadyToStart);
-      else fPtrConnectionServer -> setState(connection::TConnection::stNotReadyToStart);
+    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
+      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -193,8 +142,8 @@ void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
 {
     if (inKeyStop.isEmpty()) fReadyToStart.reset(bitKeyStop) ;
       else fReadyToStart.set(bitKeyStop) ;
-    if (checkReadyToStart ()) fPtrConnectionServer -> setState(connection::TConnection::stReadyToStart);
-      else fPtrConnectionServer -> setState(connection::TConnection::stNotReadyToStart);
+    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
+      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -204,7 +153,7 @@ void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
  */
 void prS63BruteForceServer::closeEvent(QCloseEvent *event)
 {
-    switch (fPtrConnectionServer -> getState()) {
+    switch (fPtrBruteForceManager -> getState()) {
       case connection::TConnection::stStop :
       case connection::TConnection::stNotReadyToStart :
       case connection::TConnection::stReadyToStart :

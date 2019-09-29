@@ -1,11 +1,13 @@
 #include "TConnectionServer.hpp"
 
+using namespace connection ;
 //---------------------------------------------------
 /*!
  * \brief connection::TConnectionServer::TConnectionServer  Конструктор
  */
-connection::TConnectionServer::TConnectionServer()
+TConnectionServer::TConnectionServer() : TConnection ()
 {
 
 }
 //---------------------------------------------------
+
