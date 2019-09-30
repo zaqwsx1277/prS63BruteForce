@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-09-30T11:36:55
+# Project created by QtCreator 2019-09-30T17:44:21
 #
 #-------------------------------------------------
 
@@ -25,10 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        testDecryptMainWindow.cpp
+        prTestDecrypt.cpp \
+    TTestDecryptLogModel.cpp
 
 HEADERS += \
-        testDecryptMainWindow.hpp
+        prTestDecrypt.hpp \
+    TTestDecryptLogModel.hpp \
+    TTestDecryptCommon.hpp
 
 FORMS += \
-        testdecryptmainwindow.ui
+        prTestDecrypt.ui

@@ -1,0 +1,50 @@
+//-------------------------------------------------------------
+/*!
+ * \brief TS63::decodeFile  Расшифровка файла указанным паролем
+ * \param inFileName    Имя файла
+ * \param inPassword    Пароль
+ * \return  Указатель на массив данных в фомате S57. При ошибке возвращается nullptr
+ */
+S63define::dataS57 TS63::decodeFile (const std::string inFileName, const std::string inPassword)
+{
+    S63define::dataS57  retValue (nullptr, 0) ;
+    fs::path fileName = inFileName ;
+    try {
+        size_t fileLength = fs::file_size(fileName) ;
+        std::shared_ptr <Botan::uint8_t []> readBuf (new Botan::uint8_t [fileLength]) ;
+        Botan::DataSource_Stream in (inFileName, true) ;
+        size_t readLength = in.read(readBuf.get(), fileLength) ;
+        if (readLength != (fileLength)) throw prS63Errors::errS63cellPassword ;
+                                                    // дешифрируем буфер
+        std::unique_ptr<Botan::BlockCipher> cipher(Botan::BlockCipher::create("Blowfish")) ;
+        std::vector<uint8_t> key = Botan::hex_decode(inPassword) ;
+        cipher -> set_key (key) ;
+        auto blokSize = cipher -> block_size() ;
+        for (size_t i = 0; i <  (fileLength) / blokSize; i++)
+            cipher -> decrypt(readBuf.get() + (i * blokSize)) ;
+                                                    // Разархивируем буфер
+        retValue  = this -> unzipBuf(readBuf, fs::file_size(fileName)) ;        // разархивируем данные после дешиврации
+        if (retValue.first == nullptr) {
+            if (errListGetLastErr ().first != prS63Errors::errSSE_21)
+                throw prS63Errors::errS63decode ;
+              else
+                throw prS63Errors::errSSE_21 ;
+        }
+    }
+      catch (ExceptionExt::TExceptionExt &inException) {
+        errListAddErr ({inException, fileName.filename().string ()}) ;
+      }
+      catch (Botan::Exception &inException) {
+        errListAddErr ({prS63Errors::errBotan, inException.what()}) ;
+      }
+      catch (std::exception &inException) {
+        errListAddErr ({prS63Errors::errS63decode, inException.what()}) ;
+      }
+      catch (...) {
+        errListAddErr ({prS63Errors::errS63decode, "Общая ошибка при выполнении декодирования"}) ;;
+      }
+    return retValue ;
+}
+//-------------------------------------------------------------------------------------------------
+
+

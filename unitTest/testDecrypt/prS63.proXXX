@@ -1,0 +1,122 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2018-10-10T11:28:22
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = prS63
+TEMPLATE = app
+#CONFIG += c++17
+unix: QMAKE_CXXFLAGS += -std=c++17
+unix: LIBS += -lstdc++fs
+win32: QMAKE_CXXFLAGS += /std:c++17
+
+# The following define makes your compiler emit warnings if you use
+# any feature of Qt which has been marked as deprecated (the exact warning
+# depend on your compiler). Please consult the documentation of the
+# deprecated API in order to know how to port your code away from it.
+DEFINES += QT_DEPRECATED_WARNINGS
+
+# You can also make your code fail to compile if you use deprecated APIs.
+# In order to do so, uncomment the following line.
+# You can also select to disable deprecated APIs only up to a certain version of Qt.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+
+SOURCES += \
+    main.cpp \
+    mainWindows63.cpp \
+    frmTest64.cpp \
+    common/ClassExceptionExt/ClassExceptionExt.cpp \
+    common/ClassDataModule/ClassDataModule.cpp \
+    common/S63/TS63PermitFile.cpp \
+    common/S63/TS63.cpp \
+    common/S63/TS63PermitCell.cpp \
+    common/S63/TS63Utils.cpp \
+    common/S63/TS63Common.cpp \
+    common/CRC32/crc32.cpp \
+    common/S63/TS63Project.cpp \
+    common/S63/TS63ProductsFile.cpp \
+    common/S63/TS63productsListFiles.cpp \
+    common/S63/TS63CatalogObject.cpp \
+    common/S63/TS63CatalogFiles.cpp \
+    TCatalogListModel.cpp \
+    TErrorListModel.cpp \
+    S57/TS57CellName.cpp \
+    common/S57/TS57.cpp \
+    common/S63/TS63SignFile.cpp \
+    common/S63/TS63Media.cpp \
+    common/S63/TS63MediaFolder.cpp \
+    common/S63/TS63SerialENC.cpp \
+    frmHelp.cpp
+
+HEADERS += \
+    mainWindowS63.hpp \
+    common/ClassExceptionExt/ClassExceptionExt.h \
+    common/ClassDataModule/ClassDataModule.h \
+    errorsS63.hpp \
+    frmTest64.hpp \
+    common/S63/TS63.hpp \
+    common/S63/TS63PermitCell.hpp \
+    common/S63/TS63PermitFile.hpp \
+    common/S63/TS63Error.hpp \
+    common/S63/TS63Utils.hpp \
+    common/S63/TS63define.hpp \
+    common/S63/TS63Common.hpp \
+    common/CRC32/crc32.hpp \
+    common/S63/TS63Project.hpp \
+    common/S63/TS63ProductsFile.hpp \
+    common/S63/TS63ProductsListFiles.hpp \
+    common/S63/TS63CatalogObject.hpp \
+    common/S63/TS63CatalogFiles.hpp \
+    TCatalogListModel.hpp \
+    TErrorListModel.hpp \
+    S57/TS57CellName.hpp \
+    common/S57/TS57.hpp \
+    common/S57/TS57define.hpp \
+    common/S63/TS63SignFile.hpp \
+    common/S63/TS63Media.hpp \
+    common/S63/TS63MediaFolder.hpp \
+    common/S63/TS63SerialENC.hpp \
+    frmHelp.hpp
+
+FORMS += \
+    mainWindowS63.ui \
+    frmTest64.ui \
+    frmHelp.ui
+
+INCLUDEPATH +=	common/gis \
+                common/S63 \
+                common/classReturnValue \
+                common/ClassExceptionExt \
+                common/CRC32 \
+                common/ClassDataModule \
+                common/S57/
+
+RESOURCES += \
+    resource.qrc
+
+## Unix Правила линковки библиотек Botan
+unix:!macx: INCLUDEPATH += /usr/include/botan-2
+unix:!macx: LIBS += -L/usr/include -lbotan-2
+
+# подключаем zlib
+unix:!macx: LIBS += -lz
+#unix:!macx: LIBS += -lzip
+
+
+## Windows Правила линковки библиотек Botan
+win32: LIBS += -L$$PWD/winDll/botan/binDebug/ -lbotan
+
+win32: INCLUDEPATH += winDll/botan/include
+win32: DEPENDPATH += winDll/botan/include
+
+# подключаем zlib
+win32: LIBS += -L$$PWD/winDll/zlib/ -lzlib
+
+win32: INCLUDEPATH += winDll/zlib
+#win32: DEPENDPATH += winDll/zlib
