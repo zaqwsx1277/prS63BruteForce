@@ -49,8 +49,8 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="../../../../S63/s63/resource.qrc">
-            <normaloff>:/res/icones/res/icones/run.png</normaloff>:/res/icones/res/icones/run.png</iconset>
+           <iconset>
+            <normaloff>../../../res/icones/run.png</normaloff>../../../res/icones/run.png</iconset>
           </property>
          </widget>
         </item>

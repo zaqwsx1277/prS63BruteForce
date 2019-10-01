@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    prTestDecrypt w;
+    unitTest::prTestDecrypt w;
     w.show();
 
     return a.exec();

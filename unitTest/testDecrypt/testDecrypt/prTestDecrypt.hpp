@@ -3,12 +3,18 @@
 
 #include <QMainWindow>
 
+#include "TTestDecryptLogModel.hpp"
+
+
 namespace Ui {
 class prTestDecrypt;
 }
 
 namespace unitTest {
-
+//---------------------------------------------------------------------------
+/*!
+ * \brief Unit Test для отработки библиотечных функций декодирования и разархивации файла S63 в S57
+ */
 class prTestDecrypt : public QMainWindow
 {
     Q_OBJECT
@@ -25,6 +31,8 @@ private slots:
 
 private:
     Ui::prTestDecrypt *ui;
+
+    std::unique_ptr <TTestDecryptLogModel> fPrtLogModel {nullptr} ; // Указатель на модель для отображения лога работы юнит теста
 };
 
 }

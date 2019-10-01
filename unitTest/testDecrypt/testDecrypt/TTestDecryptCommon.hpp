@@ -10,6 +10,7 @@ namespace unitTest {
                 /// Стрктура данных для вывода лога работе unit test TestDecrypt
     struct testDecryptLogData
     {
+//        testDecryptLogData () {;}
         QString fileName {""} ; /// Наименование обрабатываемого файла
         quint64 key {0} ;       /// Ключ для расшифровки
         quint64 inData {0} ;    /// Первые 8 байт из файла

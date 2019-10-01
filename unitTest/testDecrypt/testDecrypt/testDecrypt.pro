@@ -35,3 +35,22 @@ HEADERS += \
 
 FORMS += \
         prTestDecrypt.ui
+
+## Unix Правила линковки библиотек Botan
+unix:!macx: INCLUDEPATH += /usr/include/botan-2
+unix:!macx: LIBS += -L/usr/include -lbotan-2
+
+# подключаем zlib
+unix:!macx: LIBS += -lz
+
+
+## Windows Правила линковки библиотек Botan
+win32: LIBS += -L$$PWD/winDll/botan/binDebug/ -lbotan
+
+win32: INCLUDEPATH += winDll/botan/include
+win32: DEPENDPATH += winDll/botan/include
+
+# подключаем zlib
+win32: LIBS += -L$$PWD/winDll/zlib/ -lzlib
+
+win32: INCLUDEPATH += winDll/zlib

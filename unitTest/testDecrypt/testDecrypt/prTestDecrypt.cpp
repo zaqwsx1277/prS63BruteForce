@@ -2,6 +2,16 @@
 #include "ui_prTestDecrypt.h"
 
 #include <QFileDialog>
+#include <QFileInfo>
+
+//#include <botan/asn1_time.h>
+//#include <botan/pk_keys.h>
+#include <botan/data_snk.h>
+//#include <botan/hex.h>
+#include <botan/blowfish.h>
+#include <botan/data_src.h>
+//#include <botan/pk_ops.h>
+//#include <botan/hash.h>
 
 using namespace unitTest ;
 //--------------------------------------------------------------------------------------------
@@ -14,6 +24,13 @@ prTestDecrypt::prTestDecrypt(QWidget *parent) :
     ui -> spPathFrom -> clear();
     ui -> spPathTo -> clear();
     ui -> spKey -> clear () ;
+
+    fPrtLogModel.reset( new TTestDecryptLogModel ());
+    ui -> spLogView -> setModel(fPrtLogModel.get()) ;                             // Инициализируем таблицу для ведения лога
+    for (int i = 0; i < fPrtLogModel -> columnCount(); i++) {
+      ui-> spLogView -> horizontalHeader() -> setSectionResizeMode(i, QHeaderView::Stretch) ;
+    }
+//    connect(ui -> spLogView -> model(), &QAbstractTableModel::rowsInserted, ui -> spLogView, &QTableView::scrollToBottom) ;    // Устанавливаем текущей последнюю строку
 }
 //--------------------------------------------------------------------------------------------
 prTestDecrypt::~prTestDecrypt()
@@ -43,8 +60,21 @@ void prTestDecrypt::on_btnPathTo_clicked()
     }
 }
 //---------------------------------------------------------------------------------------------
+/*!
+ * \brief unitTest::prTestDecrypt::on_btnConvert_clicked    Слот обрабатывающий нажатие на кнопку выполнения преобразования
+ */
 void unitTest::prTestDecrypt::on_btnConvert_clicked()
 {
+    tdPtrTestDecryptLogData logData (new testDecryptLogData) ;
+    QFileInfo fileInfo = QFileInfo (ui -> spPathFrom -> text()) ;
 
+    logData -> fileName = fileInfo.fileName() ;
+    size_t fileLength = fileInfo.size() ;
+    std::shared_ptr <Botan::uint8_t []> readBuf (new Botan::uint8_t [fileLength]) ;
+    Botan::DataSource_Stream in (ui -> spPathFrom -> text().toStdString(), true) ;
+    size_t fileRead = in.read(readBuf.get(), fileLength) ;
+
+
+    fPrtLogModel -> push_back(logData) ;
 }
 //---------------------------------------------------------------------------------------------

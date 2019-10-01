@@ -56,11 +56,12 @@ QVariant TTestDecryptLogModel::data(const QModelIndex& index, int role) const
           break ;
         }
     }
+    return retVal ;
 }
 //--------------------------------------------------------------
 QVariant TTestDecryptLogModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    QVariant retVal {QVariant ()} ;
+    QVariant retVal = QVariant () ;
 
     if (orientation == Qt::Horizontal) {
         switch (role) {
@@ -102,9 +103,11 @@ QVariant TTestDecryptLogModel::headerData(int section, Qt::Orientation orientati
 /*!
  * \brief TTestDecryptLogModel::push_back   Запись данных в контейнер
  */
-void TTestDecryptLogModel::push_back(tdPtrTestDecryptLogData)
+void TTestDecryptLogModel::push_back(tdPtrTestDecryptLogData inData)
 {
-    std::vector <tdPtrTestDecryptLogData>::push_back(tdPtrTestDecryptLogData) ;
-    dataChanged (size (), size ();
+    std::vector <tdPtrTestDecryptLogData>::push_back(inData) ;
+
+    beginInsertRows(QModelIndex(), size (), size()) ;
+    endInsertRows() ;
 }
 //--------------------------------------------------------------
