@@ -4,14 +4,11 @@
 #include <QFileDialog>
 #include <QFileInfo>
 
-//#include <botan/asn1_time.h>
-//#include <botan/pk_keys.h>
 #include <botan/data_snk.h>
-//#include <botan/hex.h>
+#include <botan/hex.h>
 #include <botan/blowfish.h>
 #include <botan/data_src.h>
-//#include <botan/pk_ops.h>
-//#include <botan/hash.h>
+#include <botan/zlib.h>
 
 using namespace unitTest ;
 //--------------------------------------------------------------------------------------------
@@ -56,7 +53,7 @@ void prTestDecrypt::on_btnPathTo_clicked()
 {
     QString pathS57 = QFileDialog::getExistingDirectory(this, tr("Открыть папку для результурующего файла S57"), ui -> spPathFrom -> text(), QFileDialog::ShowDirsOnly);
     if (!pathS57.isEmpty()) {
-        ui -> spPathFrom ->setText(pathS57) ;
+        ui -> spPathTo ->setText(pathS57) ;
     }
 }
 //---------------------------------------------------------------------------------------------
@@ -69,10 +66,36 @@ void unitTest::prTestDecrypt::on_btnConvert_clicked()
     QFileInfo fileInfo = QFileInfo (ui -> spPathFrom -> text()) ;
 
     logData -> fileName = fileInfo.fileName() ;
+    logData -> key = (ui -> spKey ->text().remove(" ")).toULongLong(nullptr, 16) ;
     size_t fileLength = fileInfo.size() ;
     std::shared_ptr <Botan::uint8_t []> readBuf (new Botan::uint8_t [fileLength]) ;
+    std::shared_ptr <Botan::uint8_t []> decryptBuf (new Botan::uint8_t [fileLength]) ;
     Botan::DataSource_Stream in (ui -> spPathFrom -> text().toStdString(), true) ;
     size_t fileRead = in.read(readBuf.get(), fileLength) ;
+    std::string xx = Botan::hex_encode(readBuf.get(), 8, true) ;
+    logData -> inData = (QString::fromStdString(xx)).toULongLong(nullptr, 16) ;
+
+    std::unique_ptr<Botan::BlockCipher> cipher(Botan::BlockCipher::create("Blowfish")) ;
+    std::vector<uint8_t> key = Botan::hex_decode(ui -> spKey ->text().toStdString()) ;
+    cipher -> set_key (key) ;
+    cipher -> decrypt_n (readBuf.get(), decryptBuf.get(), 1) ;
+
+    std::string zz = Botan::hex_encode(decryptBuf.get(), 8, true) ;
+    logData -> outData = (QString::fromStdString(zz)).toULongLong(nullptr, 16) ;
+    if (decryptBuf [0] == 0x50 && decryptBuf [1] == 0x4B && decryptBuf [2] == 3 && decryptBuf [3] == 4) {
+        auto blokSize = cipher -> block_size() ;
+        for (size_t i = 0; i <  (fileLength) / blokSize; i++)
+            cipher -> decrypt(readBuf.get() + (i * blokSize), decryptBuf.get() + (i * blokSize)) ;
+        zipLocalFileHeader *ptrZipHeader = reinterpret_cast <zipLocalFileHeader *> (decryptBuf.get()) ;
+        auto offset = sizeof (zipLocalFileHeader) + ptrZipHeader -> filenameLength + ptrZipHeader -> extraFieldLength ;
+        Botan::secure_vector <uint8_t> unzipBuf ;
+
+
+//        Botan::Zlib_Decompression::finish(decryptBuf.get(), offset) ;
+
+
+        logData -> result = true ;
+    }
 
 
     fPrtLogModel -> push_back(logData) ;

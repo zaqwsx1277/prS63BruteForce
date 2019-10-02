@@ -31,15 +31,15 @@ QVariant TTestDecryptLogModel::data(const QModelIndex& index, int role) const
               break ;
 
               case posKey:
-                retVal = logData -> key ;
+                retVal = QString::number(logData -> key, 16).toUpper() ;
               break ;
 
               case posInData :
-                retVal = logData -> inData ;
+                retVal = QString::number(logData -> inData, 16).toUpper() ;
               break ;
 
               case posOutData :
-                retVal = logData -> outData ;
+                retVal = QString::number(logData -> outData, 16).toUpper() ;
               break ;
 
               case posResult :
