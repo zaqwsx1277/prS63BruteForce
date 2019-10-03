@@ -8,7 +8,6 @@
 #include <botan/hex.h>
 #include <botan/blowfish.h>
 #include <botan/data_src.h>
-#include <botan/zlib.h>
 
 using namespace unitTest ;
 //--------------------------------------------------------------------------------------------
@@ -27,7 +26,7 @@ prTestDecrypt::prTestDecrypt(QWidget *parent) :
     for (int i = 0; i < fPrtLogModel -> columnCount(); i++) {
       ui-> spLogView -> horizontalHeader() -> setSectionResizeMode(i, QHeaderView::Stretch) ;
     }
-//    connect(ui -> spLogView -> model(), &QAbstractTableModel::rowsInserted, ui -> spLogView, &QTableView::scrollToBottom) ;    // Устанавливаем текущей последнюю строку
+    connect(ui -> spLogView -> model(), &QAbstractTableModel::rowsInserted, ui -> spLogView, &QTableView::scrollToBottom) ;    // Устанавливаем текущей последнюю строку
 }
 //--------------------------------------------------------------------------------------------
 prTestDecrypt::~prTestDecrypt()
@@ -89,9 +88,9 @@ void unitTest::prTestDecrypt::on_btnConvert_clicked()
         zipLocalFileHeader *ptrZipHeader = reinterpret_cast <zipLocalFileHeader *> (decryptBuf.get()) ;
         auto offset = sizeof (zipLocalFileHeader) + ptrZipHeader -> filenameLength + ptrZipHeader -> extraFieldLength ;
         Botan::secure_vector <uint8_t> unzipBuf ;
-
-
-//        Botan::Zlib_Decompression::finish(decryptBuf.get(), offset) ;
+        for (size_t i = offset; i < fileLength; i++) unzipBuf.push_back(decryptBuf [i]);
+        std::unique_ptr<Botan::Zlib_Decompression> unzip (new Botan::Zlib_Decompression ()) ;
+//        unzip -> finish (unzipBuf, 0) ;
 
 
         logData -> result = true ;
