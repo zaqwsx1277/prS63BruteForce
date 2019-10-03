@@ -24,11 +24,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    TBlowfish.cpp \
         main.cpp \
         prTestDecrypt.cpp \
     TTestDecryptLogModel.cpp
 
 HEADERS += \
+    TBlowfish.hpp.h \
         prTestDecrypt.hpp \
     TTestDecryptLogModel.hpp \
     TTestDecryptCommon.hpp
