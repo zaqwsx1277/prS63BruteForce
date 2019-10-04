@@ -30,10 +30,10 @@ SOURCES += \
     TTestDecryptLogModel.cpp
 
 HEADERS += \
-    TBlowfish.hpp.h \
         prTestDecrypt.hpp \
     TTestDecryptLogModel.hpp \
-    TTestDecryptCommon.hpp
+    TTestDecryptCommon.hpp \
+    TBlowfish.hpp
 
 FORMS += \
         prTestDecrypt.ui

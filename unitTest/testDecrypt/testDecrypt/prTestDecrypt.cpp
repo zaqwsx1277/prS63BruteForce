@@ -89,7 +89,7 @@ void unitTest::prTestDecrypt::on_btnConvert_clicked()
         auto offset = sizeof (zipLocalFileHeader) + ptrZipHeader -> filenameLength + ptrZipHeader -> extraFieldLength ;
         Botan::secure_vector <uint8_t> unzipBuf ;
         for (size_t i = offset; i < fileLength; i++) unzipBuf.push_back(decryptBuf [i]);
-        std::unique_ptr<Botan::Zlib_Decompression> unzip (new Botan::Zlib_Decompression ()) ;
+//        std::unique_ptr<Botan::Zlib_Decompression> unzip (new Botan::Zlib_Decompression ()) ;
 //        unzip -> finish (unzipBuf, 0) ;
 
 
