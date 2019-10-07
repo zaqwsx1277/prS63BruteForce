@@ -8,7 +8,7 @@
 #include <botan/blowfish.h>
 #include <botan/data_src.h>
 
-#include <exception>
+
 
 namespace unitTest {
 
@@ -30,9 +30,9 @@ public:
     TBlowfish();
 
     void setData (tdPtrBuf) ;       // Загрузка данных которые нужно дешифрировать
-    bool decryptPart () ;           // Дешифровка первых восьми байт
-    bool decryptPart (tdPtrBuf) ;   // Дешифровка первых восьми байт
-    bool decryptFull () ;           // Полная дешифровка данных
+    bool decryptPart (QString inKey) ; // Дешифровка первых восьми байт
+    bool decryptPart (tdPtrBuf, QString inKey) ; // Дешифровка первых восьми байт
+    bool decryptFull (QString inKey) ; // Полная дешифровка данных
     bool decryptFull (tdPtrBuf) ;   // Полная дешифровка данных
     bool unzip (tdPtrBuf) ;         // Выполнение разархивации
     bool unzip () ;                 // Выполнение разархивации
