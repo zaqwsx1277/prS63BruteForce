@@ -3,6 +3,7 @@
 
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QMessageBox>
 
 #include <botan/data_snk.h>
 #include <botan/hex.h>
@@ -100,3 +101,20 @@ void unitTest::prTestDecrypt::on_btnConvert_clicked()
     fPrtLogModel -> push_back(logData) ;
 }
 //---------------------------------------------------------------------------------------------
+
+void unitTest::prTestDecrypt::on_toolButton_clicked()
+{
+    try {
+        TBlowfish *xxx = new (TBlowfish) ;
+        xxx ->writeFile("vvvvv");
+    }
+      catch (std::exception &ex) {
+        QMessageBox::critical(this, "Ошибка приложения", QString::fromStdString(ex.what()), QMessageBox::Ok) ;
+      }
+
+      catch (...) {
+        QMessageBox::critical(this, "Ошибка приложения", "Общая ошибка приложения!", QMessageBox::Ok) ;
+      }
+
+
+}

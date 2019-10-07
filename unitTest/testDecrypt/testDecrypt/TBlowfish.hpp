@@ -8,6 +8,8 @@
 #include <botan/blowfish.h>
 #include <botan/data_src.h>
 
+#include <exception>
+
 namespace unitTest {
 
 
@@ -19,7 +21,7 @@ namespace unitTest {
 class TBlowfish
 {
 private:
-    enum state {stUnknown, stLoad, stPartSuccessful, stFullSuccessful, stUnSuccessful} ; // Состояния декодирования. Нужны для подбора ключей.
+    enum state {stUnknown, stLoad, stPartSuccessful, stFullSuccessful, stUnzipSuccessful} ; // Состояния декодирования. Нужны для подбора ключей.
 
     state fState {stUnknown} ;      // Состояние по подбору пароля
     tdPtrBuf fPtrBuf {nullptr} ;    // Указатель на буфер с обрабатываемыми данными
@@ -31,9 +33,10 @@ public:
     bool decryptPart () ;           // Дешифровка первых восьми байт
     bool decryptPart (tdPtrBuf) ;   // Дешифровка первых восьми байт
     bool decryptFull () ;           // Полная дешифровка данных
+    bool decryptFull (tdPtrBuf) ;   // Полная дешифровка данных
     bool unzip (tdPtrBuf) ;         // Выполнение разархивации
     bool unzip () ;                 // Выполнение разархивации
-    void write (QString) ;          // Запись полностью декодированного файла
+    void writeFile (QString) ;      // Запись полностью декодированного файла
 };
 
 }

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include "TTestDecryptLogModel.hpp"
-
+#include "TBlowfish.hpp"
 
 namespace Ui {
 class prTestDecrypt;
@@ -55,6 +55,8 @@ private slots:
     void on_btnPathTo_clicked();
 
     void on_btnConvert_clicked();
+
+    void on_toolButton_clicked();
 
 private:
     Ui::prTestDecrypt *ui;
