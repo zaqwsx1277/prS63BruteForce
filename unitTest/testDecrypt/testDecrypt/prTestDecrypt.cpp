@@ -62,14 +62,16 @@ void prTestDecrypt::on_btnPathTo_clicked()
  */
 void unitTest::prTestDecrypt::on_btnConvert_clicked()
 {
-    tdPtrTestDecryptLogData logData (new testDecryptLogData) ;
+    tdPtrTestDecryptLogData logData (new testDecryptLogData) ;  // формируем структуру для записи лога
     QFileInfo fileInfo = QFileInfo (ui -> spPathFrom -> text()) ;
 
-    logData -> fileName = fileInfo.fileName() ;
+    logData -> fileName = fileInfo.fileName() ;                 // Читаем файл к которому нужно подобрать ключ
     logData -> key = (ui -> spKey ->text().remove(" ")).toULongLong(nullptr, 16) ;
     size_t fileLength = fileInfo.size() ;
-    std::shared_ptr <Botan::uint8_t []> readBuf (new Botan::uint8_t [fileLength]) ;
-    std::shared_ptr <Botan::uint8_t []> decryptBuf (new Botan::uint8_t [fileLength]) ;
+    std::shared_ptr <Botan::uint8_t []> readBuf (new Botan::uint8_t [fileLength], [] (Botan::uint8_t* ptr) { delete [] ptr ; }) ;
+
+//     std::shared_ptr <Botan::uint8_t []> decryptBuf (new Botan::uint8_t [fileLength], [] (Botan::uint8_t* xz) { delete [] xz ; }) ;
+
     Botan::DataSource_Stream in (ui -> spPathFrom -> text().toStdString(), true) ;
     size_t fileRead = in.read(readBuf.get(), fileLength) ;
     std::string xx = Botan::hex_encode(readBuf.get(), 8, true) ;

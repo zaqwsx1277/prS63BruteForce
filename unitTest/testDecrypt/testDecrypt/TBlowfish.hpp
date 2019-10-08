@@ -25,18 +25,20 @@ private:
 
     state fState {stUnknown} ;      // Состояние по подбору пароля
     tdPtrBuf fPtrBuf {nullptr} ;    // Указатель на буфер с обрабатываемыми данными
+    tdPtrBuf fPtrBufDecrypt {nullptr} ; // Указатель на буфер с дешифрированными данными
+    qint32 fBufSize {0} ;           // Размер буферf с обрабатываемыми данными. Нужен для формирования буфера для дешифрирования
 public:
-    TBlowfish(tdPtrBuf);            // Конструктор инициализируемый буфером с данными
+    TBlowfish(tdPtrBuf, quint32);   // Конструктор инициализируемый буфером с данными
     TBlowfish();
 
-    void setData (tdPtrBuf) ;       // Загрузка данных которые нужно дешифрировать
-    bool decryptPart (QString inKey) ; // Дешифровка первых восьми байт
-    bool decryptPart (tdPtrBuf, QString inKey) ; // Дешифровка первых восьми байт
-    bool decryptFull (QString inKey) ; // Полная дешифровка данных
-    bool decryptFull (tdPtrBuf) ;   // Полная дешифровка данных
-    bool unzip (tdPtrBuf) ;         // Выполнение разархивации
+    void clear () ;                 // Очистка всех данных
+
+    void setData (tdPtrBuf, quint32) ; // Загрузка данных которые нужно дешифрировать
+    bool decryptPart (QString) ;    // Дешифровка первых восьми байт
+    bool decryptFull (QString) ;    // Полная дешифровка данных
     bool unzip () ;                 // Выполнение разархивации
     void writeFile (QString) ;      // Запись полностью декодированного файла
+    tdPtrBuf getDecryptBuf () ;     // Возвращает дешифрованный буфер. Размер буфера равен исходному.
 };
 
 }
