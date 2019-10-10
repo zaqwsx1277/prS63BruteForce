@@ -8,11 +8,38 @@
 #include <botan/blowfish.h>
 #include <botan/data_src.h>
 
-
+#include <memory>
 
 namespace unitTest {
 
+#ifdef Q_OS_WIN
+    #pragma pack(push, 1)
+#endif
+                        ///  Описание метаданных работы с ZIP
+    typedef struct LocalFileHeader
+        {
+            uint32_t signature;             // Обязательная сигнатура, равна 0x04034b50
+            uint16_t versionToExtract;      // Минимальная версия для распаковки
+            uint16_t generalPurposeBitFlag; // Битовый флаг
+            uint16_t compressionMethod;     // Метод сжатия (0 - без сжатия, 8 - deflate)
+            uint16_t modificationTime;      // Время модификации файла
+            uint16_t modificationDate;      // Дата модификации файла
+            uint32_t crc32;                 // Контрольная сумма
+            uint32_t compressedSize;        // Сжатый размер
+            uint32_t uncompressedSize;      // Несжатый размер
+            uint16_t filenameLength;        // Длина название файла
+            uint16_t extraFieldLength;      // Длина поля с дополнительными данными
+        }
+#ifdef Q_OS_UNIX
+    __attribute__((packed))
+#endif
+          zipLocalFileHeader ;
 
+#ifdef Q_OS_WIN
+    #pragma pack(pop)
+#endif
+
+    const uint32_t zipHeaderSignature { 0x04034B50 } ;  // Сигнатура начала LocalFileHeader (обычно с него начинается zip-файл)
     typedef std::shared_ptr <Botan::uint8_t []> tdPtrBuf ; //(new Botan::uint8_t [] (Botan::uint8_t *) {delete p}> tdPtrBuf ;  // Указатель на буфер с обрабатываемыми данными.
 
 /*!
@@ -21,24 +48,29 @@ namespace unitTest {
 class TBlowfish
 {
 private:
-    enum state {stUnknown, stLoad, stPartSuccessful, stFullSuccessful, stUnzipSuccessful} ; // Состояния декодирования. Нужны для подбора ключей.
+    enum state {stUnknown, stLoad, stPartSuccessful, stFullSuccessful, stUnzipSuccessful, stUnsuccessful} ; // Состояния декодирования. Нужны для подбора ключей.
 
     state fState {stUnknown} ;      // Состояние по подбору пароля
     tdPtrBuf fPtrBuf {nullptr} ;    // Указатель на буфер с обрабатываемыми данными
-    tdPtrBuf fPtrBufDecrypt {nullptr} ; // Указатель на буфер с дешифрированными данными
-    qint32 fBufSize {0} ;           // Размер буферf с обрабатываемыми данными. Нужен для формирования буфера для дешифрирования
+    tdPtrBuf fPtrBufDecrypt {nullptr} ; // Указатель на буфер с дешифрированными данным
+    tdPtrBuf fPtrBufUnZip {nullptr} ; // Указатель на буфер с дешифрированными данным
+    std::unique_ptr<Botan::BlockCipher> fCipher {nullptr} ; // Указатель на класс дешифрации blowfish
+
+    qint32 fBufSize {0} ;           // Размер буфера с обрабатываемыми данными. Нужен для формирования буфера для дешифрирования
+    qint32 fBufSizeUnzip {0} ;      // Размер буфера с разархивированными данными
 public:
     TBlowfish(tdPtrBuf, quint32);   // Конструктор инициализируемый буфером с данными
     TBlowfish();
 
     void clear () ;                 // Очистка всех данных
 
-    void setData (tdPtrBuf, quint32) ; // Загрузка данных которые нужно дешифрировать
-    bool decryptPart (QString) ;    // Дешифровка первых восьми байт
-    bool decryptFull (QString) ;    // Полная дешифровка данных
-    bool unzip () ;                 // Выполнение разархивации
-    void writeFile (QString) ;      // Запись полностью декодированного файла
-    tdPtrBuf getDecryptBuf () ;     // Возвращает дешифрованный буфер. Размер буфера равен исходному.
+    void setData (tdPtrBuf, quint32) ;  // Загрузка данных которые нужно дешифрировать
+    bool decryptPart (QString) ;        // Дешифровка первых восьми байт
+    bool decryptFull (QString) ;        // Полная дешифровка данных
+    bool unzip () ;                     // Выполнение разархивации
+    void writeFile (QString) ;          // Запись полностью декодированного файла
+    tdPtrBuf getDecryptBuf () ;         // Возвращает дешифрованный буфер. Размер буфера равен исходному.
+    bool checkDecrypt () ;              // Проверка сигнатуры zip-файла
 };
 
 }

@@ -63,44 +63,46 @@ void prTestDecrypt::on_btnPathTo_clicked()
 void unitTest::prTestDecrypt::on_btnConvert_clicked()
 {
     tdPtrTestDecryptLogData logData (new testDecryptLogData) ;  // формируем структуру для записи лога
-    QFileInfo fileInfo = QFileInfo (ui -> spPathFrom -> text()) ;
+    try {
+        QFileInfo fileInfo = QFileInfo (ui -> spPathFrom -> text()) ;
 
-    logData -> fileName = fileInfo.fileName() ;                 // Читаем файл к которому нужно подобрать ключ
-    logData -> key = (ui -> spKey ->text().remove(" ")).toULongLong(nullptr, 16) ;
-    size_t fileLength = fileInfo.size() ;
-    std::shared_ptr <Botan::uint8_t []> readBuf (new Botan::uint8_t [fileLength], [] (Botan::uint8_t* ptr) { delete [] ptr ; }) ;
+        logData -> fileName = fileInfo.fileName() ;                 // Читаем файл к которому нужно подобрать ключ
+        logData -> key = (ui -> spKey ->text().remove(" ")).toULongLong(nullptr, 16) ;
+        size_t fileLength = fileInfo.size() ;
+                                                                    // Буфер в который читается файл
+        std::shared_ptr <Botan::uint8_t []> readBuf (new Botan::uint8_t [fileLength], [] (Botan::uint8_t* ptr) { delete [] ptr ; }) ;
+                                                                    // Чтение файла
+        Botan::DataSource_Stream inBuf (ui -> spPathFrom -> text().toStdString(), true) ;
+        size_t fileRead = inBuf.read(readBuf.get(), fileLength) ;
+        if (fileRead != fileLength) throw std::runtime_error("Ошибка при чтении файла!") ;
+                                                                    // Запись в лог первых 8ми байт
+        std::string inBufFirst8 = Botan::hex_encode(readBuf.get(), 8, true) ;
+        logData -> inData = (QString::fromStdString(inBufFirst8)).toULongLong(nullptr, 16) ;
 
-//     std::shared_ptr <Botan::uint8_t []> decryptBuf (new Botan::uint8_t [fileLength], [] (Botan::uint8_t* xz) { delete [] xz ; }) ;
+        std::unique_ptr <TBlowfish> blowfish {new TBlowfish (readBuf, fileRead)} ;
+                                                                    // Раскодировка и в случае успеха запись файла
+        if (!blowfish -> decryptPart(ui -> spKey ->text())) throw std::runtime_error("Ошибка декодирования первых 8-ми байт!") ;
+        if (!blowfish -> decryptFull(ui -> spKey ->text())) throw std::runtime_error("Ошибка декодирования файла!") ;
+                                                                    // Запись в лог первых расшифрованных 8ми байт
+        std::string outBufFirst8 = Botan::hex_encode(blowfish -> getDecryptBuf().get(), 8, true) ;
+        logData -> outData = (QString::fromStdString(outBufFirst8)).toULongLong(nullptr, 16) ;
 
-    Botan::DataSource_Stream in (ui -> spPathFrom -> text().toStdString(), true) ;
-    size_t fileRead = in.read(readBuf.get(), fileLength) ;
-    std::string xx = Botan::hex_encode(readBuf.get(), 8, true) ;
-    logData -> inData = (QString::fromStdString(xx)).toULongLong(nullptr, 16) ;
+        if (!blowfish -> unzip()) throw std::runtime_error("Ошибка разархивации файла!") ;
+          else logData -> result = true ;
+        QString unzipFileName = ui -> spPathTo -> text() + "/" + fileInfo.fileName() ;
+        blowfish -> writeFile (unzipFileName);
 
-    std::unique_ptr<Botan::BlockCipher> cipher(Botan::BlockCipher::create("Blowfish")) ;
-    std::vector<uint8_t> key = Botan::hex_decode(ui -> spKey ->text().toStdString()) ;
-    cipher -> set_key (key) ;
-    cipher -> decrypt_n (readBuf.get(), decryptBuf.get(), 1) ;
-
-    std::string zz = Botan::hex_encode(decryptBuf.get(), 8, true) ;
-    logData -> outData = (QString::fromStdString(zz)).toULongLong(nullptr, 16) ;
-    if (decryptBuf [0] == 0x50 && decryptBuf [1] == 0x4B && decryptBuf [2] == 3 && decryptBuf [3] == 4) {
-        auto blokSize = cipher -> block_size() ;
-        for (size_t i = 0; i <  (fileLength) / blokSize; i++)
-            cipher -> decrypt(readBuf.get() + (i * blokSize), decryptBuf.get() + (i * blokSize)) ;
-        zipLocalFileHeader *ptrZipHeader = reinterpret_cast <zipLocalFileHeader *> (decryptBuf.get()) ;
-        auto offset = sizeof (zipLocalFileHeader) + ptrZipHeader -> filenameLength + ptrZipHeader -> extraFieldLength ;
-        Botan::secure_vector <uint8_t> unzipBuf ;
-        for (size_t i = offset; i < fileLength; i++) unzipBuf.push_back(decryptBuf [i]);
-//        std::unique_ptr<Botan::Zlib_Decompression> unzip (new Botan::Zlib_Decompression ()) ;
-//        unzip -> finish (unzipBuf, 0) ;
-
-
-        logData -> result = true ;
+        fPrtLogModel -> push_back(logData) ;
     }
+      catch (std::exception &ex) {
+        fPrtLogModel -> push_back(logData) ;
+        QMessageBox::critical(this, "Ошибка приложения", QString::fromStdString(ex.what()), QMessageBox::Ok) ;
+      }
 
-
-    fPrtLogModel -> push_back(logData) ;
+      catch (...) {
+        fPrtLogModel -> push_back(logData) ;
+        QMessageBox::critical(this, "Ошибка приложения", "Общая ошибка приложения!", QMessageBox::Ok) ;
+      }
 }
 //---------------------------------------------------------------------------------------------
 
