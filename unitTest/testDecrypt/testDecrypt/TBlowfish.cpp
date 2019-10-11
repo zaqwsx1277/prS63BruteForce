@@ -146,7 +146,7 @@ bool TBlowfish::unzip ()
             fBufSizeUnzip = localFileHeader -> uncompressedSize ;
             Bytef *ptrInBuf = reinterpret_cast <Bytef*> (localFileHeader) ;
             ptrInBuf = ptrInBuf + sizeof (zipLocalFileHeader) + localFileHeader -> filenameLength + localFileHeader -> extraFieldLength ;
-            fPtrBufUnZip.reset(new std::uint8_t [localFileHeader -> uncompressedSize], [] (Botan::uint8_t* ptr) { delete [] ptr ; });
+            fPtrBufUnZip.reset(new std::uint8_t [localFileHeader -> uncompressedSize]);
 
             z_stream ZipStream = {} ;
             if (inflateInit2(&ZipStream,-MAX_WBITS) == Z_OK) {
