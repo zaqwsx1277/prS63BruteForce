@@ -40,7 +40,7 @@ namespace unitTest {
 #endif
 
     const uint32_t zipHeaderSignature { 0x04034B50 } ;  // Сигнатура начала LocalFileHeader (обычно с него начинается zip-файл)
-    typedef std::shared_ptr <Botan::uint8_t []> tdPtrBuf ; //(new Botan::uint8_t [] (Botan::uint8_t *) {delete p}> tdPtrBuf ;  // Указатель на буфер с обрабатываемыми данными.
+    typedef std::shared_ptr <Botan::uint8_t []> tdPtrBuf ;   // Указатель на буфер с обрабатываемыми данными.
 
 /*!
  * \brief Класс выполняющий декодирование S63 и запись файла S57
@@ -53,8 +53,8 @@ private:
     state fState {stUnknown} ;      // Состояние по подбору пароля
     tdPtrBuf fPtrBuf {nullptr} ;    // Указатель на буфер с обрабатываемыми данными
     tdPtrBuf fPtrBufDecrypt {nullptr} ; // Указатель на буфер с дешифрированными данным
-    tdPtrBuf fPtrBufUnZip {nullptr} ; // Указатель на буфер с дешифрированными данным
-    std::unique_ptr<Botan::BlockCipher> fCipher {nullptr} ; // Указатель на класс дешифрации blowfish
+    std::unique_ptr <Botan::uint8_t []> fPtrBufUnZip {nullptr} ; // Указатель на буфер с дешифрированными данным
+    std::unique_ptr <Botan::BlockCipher> fCipher {nullptr} ; // Указатель на класс дешифрации blowfish
 
     qint32 fBufSize {0} ;           // Размер буфера с обрабатываемыми данными. Нужен для формирования буфера для дешифрирования
     qint32 fBufSizeUnzip {0} ;      // Размер буфера с разархивированными данными

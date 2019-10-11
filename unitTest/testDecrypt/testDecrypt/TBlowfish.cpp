@@ -147,8 +147,6 @@ bool TBlowfish::unzip ()
             Bytef *ptrInBuf = reinterpret_cast <Bytef*> (localFileHeader) ;
             ptrInBuf = ptrInBuf + sizeof (zipLocalFileHeader) + localFileHeader -> filenameLength + localFileHeader -> extraFieldLength ;
             fPtrBufUnZip.reset(new std::uint8_t [localFileHeader -> uncompressedSize], [] (Botan::uint8_t* ptr) { delete [] ptr ; });
-//            std::shared_ptr <char []> prtOutBuf (new char [localFileHeader -> uncompressedSize], [] (char* ptr) {delete [] ptr ; }) ;
-//            char *prtOutBuf = new char [localFileHeader -> uncompressedSize] ;
 
             z_stream ZipStream = {} ;
             if (inflateInit2(&ZipStream,-MAX_WBITS) == Z_OK) {
@@ -162,13 +160,8 @@ bool TBlowfish::unzip ()
                 if ((err == Z_OK) || (err == Z_STREAM_END)) {
                     retVal = true ;                 // Разархивация выполнена успешно
                     fState = stUnzipSuccessful ;
-//                                                        // Формируем выходной буфер
-//                    fPtrBufUnZip.reset(new std::uint8_t [localFileHeader -> uncompressedSize], [] (Botan::uint8_t* ptr) { delete [] ptr ; });
-//                    for (std::uint32_t i = 0; i < localFileHeader -> uncompressedSize; i++)
-//                      fPtrBufUnZip [i] = static_cast <std::uint8_t> (prtOutBuf [i]) ;
                 }
             }
-//            delete [] prtOutBuf ;
         }
       }
       break ;
