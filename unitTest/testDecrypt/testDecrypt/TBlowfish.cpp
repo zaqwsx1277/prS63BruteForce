@@ -62,8 +62,9 @@ bool TBlowfish::decryptPart (QString inKey)
 {
     bool retVal {false} ;
 
-    if (inKey.remove(" ").size() != 10) throw std::runtime_error("Ошибка тестового декодирования. Не правильный формат ключа!") ;
-    if (fPtrBuf.use_count() == 0) throw std::runtime_error("Ошибка тестового декодирования. Нет данных!") ;
+    if (inKey.remove(" ").size() != 10)
+        throw blowfishExeption::errTestDecryptFormatKey ;
+    if (fPtrBuf.use_count() == 0) throw blowfishExeption::errTestDecryptNoData ;
     switch (fState) {
       case stLoad : {            // дешифрируем первые 8 байт
         std::vector<uint8_t> key = Botan::hex_decode(inKey.toStdString()) ;
@@ -78,14 +79,14 @@ bool TBlowfish::decryptPart (QString inKey)
       break ;
 
       default :
-        throw std::runtime_error("Ошибка тестового дешифрирования. Непонятное состояние!") ;
+        throw blowfishExeption::errTestDecryptUnknowState  ;
       break ;
 
       case stUnsuccessful :
       case stPartSuccessful :
       case stFullSuccessful :
       case stUnzipSuccessful :
-        throw std::runtime_error("Ошибка тестового дешифрирования. Данные уже расшифрованы!") ;
+        throw blowfishExeption::errTestDecryptAlreadyDecrypt ;
       break ;
     }
 
@@ -103,9 +104,9 @@ bool TBlowfish::decryptPart (QString inKey)
 bool TBlowfish::decryptFull (QString inKey)
 {
     bool retVal {false} ;
-    if (inKey.remove(" ").size() != 10) throw std::runtime_error("Ошибка полного дешифрированиея. Не правильный формат ключа!") ;
+    if (inKey.remove(" ").size() != 10) throw blowfishExeption::errFullDecryptFormatKey  ;
 
-    if (fPtrBuf.use_count() == 0) throw std::runtime_error("Ошибка полного дешифрирования. Нет данных!") ;
+    if (fPtrBuf.use_count() == 0) throw blowfishExeption::errFullDecryptNoData  ;
     switch (fState) {
       case stLoad :
       case stPartSuccessful : {
@@ -121,7 +122,7 @@ bool TBlowfish::decryptFull (QString inKey)
       break ;
 
       default:
-        throw std::runtime_error("Ошибка полного дешифрирования. Нет данных!") ;
+        throw blowfishExeption::errFullDecryptNoData ;
     }
 
     return retVal ;
@@ -167,7 +168,7 @@ bool TBlowfish::unzip ()
       break ;
 
       default:
-        throw std::runtime_error("Ошибка разархивации. Нет дешифрированных данных!") ;
+        throw blowfishExeption::errUnzipNoData ;
     }
 
     return retVal ;
@@ -175,7 +176,7 @@ bool TBlowfish::unzip ()
 //-----------------------------------------------------------------
 void TBlowfish::writeFile (QString inFileName)
 {
-    if (fState != stUnzipSuccessful) throw std::runtime_error("Ошибка при записи файла " + inFileName.toStdString() + ". Нет раскодированных данных!") ;
+    if (fState != stUnzipSuccessful) throw blowfishExeption::errWriteFileNoData  ;
     Botan::DataSink_Stream writeStream (inFileName.toStdString(), true) ;
     writeStream.write(fPtrBufUnZip.get(), fBufSizeUnzip);
 }
@@ -196,7 +197,7 @@ bool TBlowfish::checkDecrypt ()
       break ;
 
       default :
-        throw std::runtime_error("Ошибка статуса при проверке сигнатуры zip-файла") ;
+        throw blowfishExeption::errCheckZip ;
       break ;
     }
 

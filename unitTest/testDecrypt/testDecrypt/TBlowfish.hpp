@@ -2,6 +2,7 @@
 #define TBLOWFISH_H
 
 #include <QtGlobal>
+#include <QString>
 
 #include <botan/data_snk.h>
 #include <botan/hex.h>
@@ -9,6 +10,8 @@
 #include <botan/data_src.h>
 
 #include <memory>
+#include <exception>
+#include <system_error>
 
 namespace unitTest {
 
@@ -40,9 +43,51 @@ namespace unitTest {
 #endif
 
     const uint32_t zipHeaderSignature { 0x04034B50 } ;  // Сигнатура начала LocalFileHeader (обычно с него начинается zip-файл)
+//--------------------------------------------------------------------------
+        /// Описание различных typedef
+
     typedef std::shared_ptr <Botan::uint8_t []> tdPtrBuf ;   // Указатель на буфер с обрабатываемыми данными.
 //--------------------------------------------------------------------------
+namespace blowfishExeption {
 
+/*!
+ * \brief Структура для формирования std::error_code для класса декодирования
+ *
+ */
+struct TBlowfishExeptionCategory : std::error_category
+{
+    const char* name () const noexcept { return "Blowfish error" ; }
+    std::string message(int inEx = 0) const {  return "Blowfish error" ; }
+} ;
+
+const TBlowfishExeptionCategory blowfishExeptionCategory {} ;
+
+/*!
+ * \brief Класс обработки ошибок при декодировании
+ */
+class TBlowfishExeption : public std::exception {
+
+    std::string fTextError {"Blowfish error."} ;
+    std::error_code fErrorCode {0, blowfishExeptionCategory } ;
+public:
+    TBlowfishExeption () = default ;
+    TBlowfishExeption (std::error_code inErrorCode, std::string inTextError) { fErrorCode = inErrorCode; fTextError = inTextError ; }
+    const char* what () const throw () { return fTextError.c_str() ; }
+    const std::error_code& code () const noexcept {return fErrorCode ; }
+} ;
+
+static const std::uint32_t blowfushError {1000} ;
+static const TBlowfishExeption errTestDecryptFormatKey ({blowfushError + 1, blowfishExeptionCategory}, "Ошибка тестового декодирования. Неправильный формат ключа!");
+static const TBlowfishExeption errTestDecryptNoData ({blowfushError + 2, blowfishExeptionCategory}, "Ошибка тестового декодирования. Нет данных!");
+static const TBlowfishExeption errTestDecryptUnknowState ({blowfushError + 3, blowfishExeptionCategory}, "Ошибка тестового дешифрирования. Непонятное состояние!");
+static const TBlowfishExeption errTestDecryptAlreadyDecrypt ({blowfushError + 4, blowfishExeptionCategory}, "Ошибка тестового дешифрирования. Данные уже расшифрованы!");
+static const TBlowfishExeption errFullDecryptFormatKey ({blowfushError + 5, blowfishExeptionCategory}, "Ошибка полного дешифрированиея. Не правильный формат ключа!");
+static const TBlowfishExeption errFullDecryptNoData ({blowfushError + 6, blowfishExeptionCategory}, "Ошибка полного дешифрирования. Нет данных!");
+static const TBlowfishExeption errUnzipNoData ({blowfushError + 7, blowfishExeptionCategory}, "Ошибка разархивации. Нет дешифрированных данных!");
+static const TBlowfishExeption errWriteFileNoData ({blowfushError + 8, blowfishExeptionCategory}, "Ошибка при записи файла. Нет раскодированных данных!");
+static const TBlowfishExeption errCheckZip ({blowfushError + 9, blowfishExeptionCategory}, "Ошибка статуса при проверке сигнатуры zip-файла");
+}
+//--------------------------------------------------------------------------
 /*!
  * \brief Класс выполняющий декодирование S63 и запись файла S57
  */

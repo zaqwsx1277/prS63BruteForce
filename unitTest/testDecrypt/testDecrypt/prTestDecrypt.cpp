@@ -10,6 +10,8 @@
 #include <botan/blowfish.h>
 #include <botan/data_src.h>
 
+#include <system_error>
+
 using namespace unitTest ;
 //--------------------------------------------------------------------------------------------
 prTestDecrypt::prTestDecrypt(QWidget *parent) :
@@ -94,10 +96,14 @@ void unitTest::prTestDecrypt::on_btnConvert_clicked()
 
         fPrtLogModel -> push_back(logData) ;
     }
-      catch (std::exception &ex) {
+      catch (blowfishExeption::TBlowfishExeption& ex) {
         fPrtLogModel -> push_back(logData) ;
         QMessageBox::critical(this, "Ошибка приложения", QString::fromStdString(ex.what()), QMessageBox::Ok) ;
       }
+//      catch (std::exception &ex) {
+//        fPrtLogModel -> push_back(logData) ;
+//        QMessageBox::critical(this, "Ошибка приложения", QString::fromStdString(ex.what()), QMessageBox::Ok) ;
+//      }
 
       catch (...) {
         fPrtLogModel -> push_back(logData) ;
