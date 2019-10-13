@@ -6,6 +6,8 @@
 
 #include "TCommonDefine.hpp"
 
+namespace server {
+
 namespace commonDefineServer {
 
         /// Структура данных для одной итерации подбора
@@ -15,5 +17,5 @@ namespace commonDefineServer {
         QString keyFound {""} ;                             // Найденный ключ
     } ;
 }
-
+}
 #endif // TCOMMONSERVER_H
