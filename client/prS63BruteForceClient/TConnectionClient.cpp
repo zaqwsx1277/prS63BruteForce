@@ -30,7 +30,7 @@ void connection::TConnectionClient::seachServer (quint16 inPort)
             for (quint32 i = 1; i < ipAddressCount; ++i) {
                 QHostAddress tmpIpAddress = QHostAddress (ipAddressFirst + i) ;
                 std::unique_ptr <QTcpSocket> ptrSocket (new QTcpSocket ()) ;
-                ptrSocket -> connectToHost(tmpIpAddress, commonDefine::portNumber);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
+                ptrSocket -> connectToHost(tmpIpAddress, inPort);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
                 connect(ptrSocket.get(), &QTcpSocket::connected, this, &TConnectionClient::slotHostConnected) ;
                 QApplication::processEvents() ;
                 if (fIsServerExist) {
