@@ -1,6 +1,9 @@
 #include "prServerEmulator.hpp"
 #include "ui_prServerEmulator.h"
 
+
+#include <QTcpSocket>
+#include <QHostAddress>
 //-----------------------------------------------------------------------------
 prServerEmulator::prServerEmulator(QWidget *parent) :
     QMainWindow(parent),
@@ -11,6 +14,7 @@ prServerEmulator::prServerEmulator(QWidget *parent) :
     fPtrServer -> listen(QHostAddress::Any, 9993) ;
 
     connect (fPtrServer.get(), &QTcpServer::newConnection, this, &prServerEmulator::slotHostConnected) ;
+    ui -> spClientAddress -> clear() ;
 }
 //------------------------------------------------------------------------------
 prServerEmulator::~prServerEmulator()
@@ -23,13 +27,8 @@ prServerEmulator::~prServerEmulator()
  */
 void prServerEmulator::slotHostConnected ()
 {
-    int i = 0 ;
+    QHostAddress xxx (fPtrServer -> nextPendingConnection() -> peerAddress ().toIPv4Address()) ;
+    ui -> spClientAddress ->setText(xxx.toString()) ;
 }
 //-----------------------------------------------------------------------------
 
-void prServerEmulator::on_pushButton_clicked()
-{
-    fPtrServer -> close();
-    this -> close() ;
-}
-//-----------------------------------------------------------------------------
