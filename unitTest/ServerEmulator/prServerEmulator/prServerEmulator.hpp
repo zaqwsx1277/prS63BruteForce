@@ -28,7 +28,7 @@ private:
 
 private slots:
     void slotHostConnected () ; // Слот срабатывающий при подключении клиента
-    void on_pushButton_clicked();
+
 };
 
 #endif // PRSERVEREMULATOR_HPP
