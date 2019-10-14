@@ -54,8 +54,10 @@ namespace blowfishExeption {
  * \brief Структура для формирования std::error_code для класса декодирования
  *
  */
-struct TBlowfishExeptionCategory : std::error_category
+class TBlowfishExeptionCategory : public std::error_category
 {
+public:
+    TBlowfishExeptionCategory () : std::error_category () { ; }
     const char* name () const noexcept { return "Blowfish error" ; }
     std::string message(int inEx = 0) const {  return "Blowfish error" ; }
 } ;
@@ -68,7 +70,7 @@ const TBlowfishExeptionCategory blowfishExeptionCategory {} ;
 class TBlowfishExeption : public std::exception {
 
     std::string fTextError {"Blowfish error."} ;
-    std::error_code fErrorCode {0, blowfishExeptionCategory } ;
+    std::error_code fErrorCode {0, TBlowfishExeptionCategory() } ;
 public:
     TBlowfishExeption () = default ;
     TBlowfishExeption (std::error_code inErrorCode, std::string inTextError) { fErrorCode = inErrorCode; fTextError = inTextError ; }
