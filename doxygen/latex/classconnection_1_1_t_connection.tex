@@ -37,10 +37,11 @@ enum \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e}{transfer\+Data}, 
 \newline
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac026e33f4d6a0eb18f0981f347c5dea2}{accept\+Data}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a97cdf8ddeb9cef89f49b0bd6ad2ddca2}{refuse\+Data}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c}{transfer\+Request}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12a88690a89ec50e955ef3fd3db119bf}{state\+Request}, 
-\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f}{state\+Confirm}, 
 \newline
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f}{state\+Confirm}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34af1852b9e247d744df018ce6ad616308e}{count}
  \}\begin{DoxyCompactList}\small\item\em Протокол обмена между сервером и клиентами. \end{DoxyCompactList}
 \item 
@@ -102,7 +103,7 @@ connection\+Request&Запрос клиента на подключение \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{connection\+Confirm@{connection\+Confirm}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!connection\+Confirm@{connection\+Confirm}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a8a9e55ccccb227642d39230f3f9c8128}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a8a9e55ccccb227642d39230f3f9c8128}} 
-connection\+Confirm&Подтверждение сервера о подключении. Запрос клиента о подключенности \\
+connection\+Confirm&Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности. \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{connection\+Close@{connection\+Close}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!connection\+Close@{connection\+Close}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac61a69a776ff4e55a2f34d560b499821}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac61a69a776ff4e55a2f34d560b499821}} 
@@ -110,11 +111,15 @@ connection\+Close&Завершение подключения \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{transfer\+Data@{transfer\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!transfer\+Data@{transfer\+Data}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e}} 
-transfer\+Data&Со стороны сервере передается начальный ключ. Со стороны клиента передается подобранный ключ \\
+transfer\+Data&Со стороны сервере передается начальный ключ блока. Со стороны клиента передается подобранный ключ \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{accept\+Data@{accept\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!accept\+Data@{accept\+Data}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac026e33f4d6a0eb18f0981f347c5dea2}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac026e33f4d6a0eb18f0981f347c5dea2}} 
 accept\+Data&Сервер и клиент подтверждают получение данных со стороны опонента \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{refuse\+Data@{refuse\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!refuse\+Data@{refuse\+Data}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a97cdf8ddeb9cef89f49b0bd6ad2ddca2}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a97cdf8ddeb9cef89f49b0bd6ad2ddca2}} 
+refuse\+Data&Сервер и клиент отказываются от получение данных со стороны опонента. \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{transfer\+Request@{transfer\+Request}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!transfer\+Request@{transfer\+Request}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c}} 
