@@ -10,7 +10,7 @@ prServerEmulator::prServerEmulator(QWidget *parent) :
 
     fPtrServer -> listen(QHostAddress::Any, 9993) ;
 
-    connect (fPtrServer.get(), &QTcpServer::newConnection, this, )
+    connect (fPtrServer.get(), &QTcpServer::newConnection, this, &prServerEmulator::slotHostConnected) ;
 }
 //------------------------------------------------------------------------------
 prServerEmulator::~prServerEmulator()
