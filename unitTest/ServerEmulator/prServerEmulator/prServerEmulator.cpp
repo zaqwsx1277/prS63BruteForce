@@ -26,3 +26,10 @@ void prServerEmulator::slotHostConnected ()
     int i = 0 ;
 }
 //-----------------------------------------------------------------------------
+
+void prServerEmulator::on_pushButton_clicked()
+{
+    fPtrServer -> close();
+    this -> close() ;
+}
+//-----------------------------------------------------------------------------
