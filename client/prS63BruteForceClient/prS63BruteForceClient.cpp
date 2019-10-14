@@ -60,7 +60,7 @@ void prS63BruteForceClient::clearForm ()
  */
 void prS63BruteForceClient::on_btnSeachServer_clicked()
 {
-    fPtrConnectionClient -> seachServer(ui ->spServerPort->text().toUShort());
+    fPtrConnectionClient -> seachServer(ui -> spServerPort -> text().toUShort());
 }
 //----------------------------------------------------------------------
 /*!

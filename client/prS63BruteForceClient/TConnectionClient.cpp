@@ -7,6 +7,11 @@
 
 #include <cmath>
 #include <memory>
+#include <chrono>
+#include <thread>
+
+
+#include <assert.h>
 //-----------------------------------------------------------
 connection::TConnectionClient::TConnectionClient()
 {
@@ -31,7 +36,8 @@ void connection::TConnectionClient::seachServer (quint16 inPort)
                 QHostAddress tmpIpAddress = QHostAddress (ipAddressFirst + i) ;
                 std::unique_ptr <QTcpSocket> ptrSocket (new QTcpSocket ()) ;
                 ptrSocket -> connectToHost(tmpIpAddress, inPort);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
-                connect(ptrSocket.get(), &QTcpSocket::connected, this, &TConnectionClient::slotHostConnected) ;
+                connect(ptrSocket.get(), &QTcpSocket::connected, this, &connection::TConnectionClient::slotHostConnected) ;
+                std::this_thread::sleep_for(std::chrono::microseconds (1)) ;    // тормозим выполнение для нормальной обработки сигнала
                 QApplication::processEvents() ;
                 if (fIsServerExist) {
                     fIpAddressServer = tmpIpAddress ;           // завершаем поиск после нахождения сервера
