@@ -2,6 +2,7 @@
 #define PRS63BRUTEFORCECLIENT_HPP
 
 #include <QMainWindow>
+#include <QTimer>
 
 #include <memory>
 #include <bitset>
@@ -12,6 +13,8 @@
 namespace Ui {
 class prS63BruteForceClient;
 }
+
+using namespace connection ;
 
 namespace client {
 /*!
@@ -33,6 +36,7 @@ private slots:
     void on_spServerAddress_textChanged(const QString &arg1);
     void on_spServerPort_textChanged(const QString &arg1);
     void on_spThreadCount_textChanged(const QString &arg1);
+    void slotStateRefresh () ;          // Слот обрабатывающий таймер на обновление статуса сервера
 
 private:
     Ui::prS63BruteForceClient *ui;
@@ -45,6 +49,9 @@ private:
 
     std::shared_ptr <connection::TConnectionClient> fPtrConnectionClient {nullptr}; // Указатель на класс обрабатывающий подключение к серверу
     std::unique_ptr <client::TClientModel> fPrtClientModel {nullptr} ;          // Указатель на модель вывода лога
+
+    std::unique_ptr <QTimer> fPtrStateRefresh {nullptr} ; // Указатель на таймер для запроса состояния сервера
+    TConnection::state fStateServer {TConnection::stUnknown}; // Текущее состояние сервера
 
     void initForm () ;          // инициализирую все элементы формы
     void clearForm () ;         // Очищаем и устанавливаем начальные значения всех элементов формы

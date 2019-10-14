@@ -21,6 +21,9 @@ prS63BruteForceClient::prS63BruteForceClient(QWidget *parent) :
     initForm () ;
     clearForm () ;
     startTimer(commonDefineClient::timerRefresh) ;          // Запускаем таймер на обновление формы
+
+    fPtrStateRefresh.reset(new QTimer ()) ;                 // Инициализация таймера на запрос состояния сервера
+    connect (fPtrStateRefresh.get (), &QTimer::timeout, this, &prS63BruteForceClient::slotStateRefresh) ;
 }
 //----------------------------------------------------------------------
 prS63BruteForceClient::~prS63BruteForceClient()
@@ -160,5 +163,13 @@ void client::prS63BruteForceClient::on_spThreadCount_textChanged(const QString &
         }
       }
     setElementFormVisible () ;
+}
+//--------------------------------------------------------------------------
+/*!
+ * \brief client::prS63BruteForceClient::slotStateRefresh Слот обрабатывающий таймер на обновление статуса сервера
+ */
+void client::prS63BruteForceClient::slotStateRefresh ()
+{
+
 }
 //--------------------------------------------------------------------------
