@@ -20,18 +20,6 @@ prTestDecrypt::prTestDecrypt(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    try {
-        throw blowfishExeption::errTestDecryptFormatKey ;
-    }
-    catch (blowfishExeption::TBlowfishExeption& ex) {
-        const std::error_code& xxx = ex.code() ;
-        auto x1 = xxx.message() ;
-        auto x2 = xxx.value() ;
-        auto x3 = xxx.category() ;
-
-        int i = 0 ;
-    }
-
     ui -> spPathFrom -> clear();
     ui -> spPathTo -> clear();
     ui -> spKey -> clear () ;

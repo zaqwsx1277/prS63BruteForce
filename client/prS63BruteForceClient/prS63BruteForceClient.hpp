@@ -14,7 +14,11 @@ class prS63BruteForceClient;
 }
 
 namespace client {
-
+/*!
+ * \brief Форма главного окна клиента для подбора пароля.
+ *
+ * Описание работы клиента находится в файле readme.md
+ */
 class prS63BruteForceClient : public QMainWindow
 {
     Q_OBJECT
@@ -25,21 +29,17 @@ public:
 
 private slots:
     void on_btnSeachServer_clicked();
-
     void on_btnStart_clicked();
-
     void on_spServerAddress_textChanged(const QString &arg1);
-
     void on_spServerPort_textChanged(const QString &arg1);
-
     void on_spThreadCount_textChanged(const QString &arg1);
 
 private:
     Ui::prS63BruteForceClient *ui;
 
-    enum bitPos {bitServerAddress = 0,  /// bit 0 - заполненность поля spServerAddress
-                 bitServerPort = 1,     /// bit 1 - заполненность поля spServerPort
-                 bitThreadCount = 2,    /// bit 3 = заполненность поля spThreadCount
+    enum bitPos {bitServerAddress = 0,  // bit 0 - заполненность поля spServerAddress
+                 bitServerPort = 1,     // bit 1 - заполненность поля spServerPort
+                 bitThreadCount = 2,    // bit 3 = заполненность поля spThreadCount
                  count} ;
     std::bitset <bitPos::count> fReadyToStart {std::string ("000")} ; // Битовое значение для контроля готовности всех данных для запуска подбора. Позиции битов определяются в bitPos
 

@@ -83,7 +83,7 @@ Inheritance diagram for connection::TConnection:</div>
 <map name="connection_1_1_t_connection_inherit__map" id="connection_1_1_t_connection_inherit__map">
 <area shape="rect" id="node3" href="classconnection_1_1_t_connection_client.html" title="Класс для работы с сервером раздающим блоки ключей для подбора " alt="" coords="5,155,207,181"/>
 <area shape="rect" id="node4" href="classconnection_1_1_t_connection_server.html" title="The TConnectionServer class Класс для работы с распределённой системой подбора ключей ..." alt="" coords="231,155,437,181"/>
-<area shape="rect" id="node5" href="classserver_1_1_t_brute_force_manager.html" title="Класс выполняющий распределение блоков между клиентами " alt="" coords="240,229,428,256"/>
+<area shape="rect" id="node5" href="classserver_1_1_t_brute_force_manager.html" title="Класс выполняющий управление и распределение блоков между клиентами (в том числе локальным) ..." alt="" coords="240,229,428,256"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -95,22 +95,24 @@ Collaboration diagram for connection::TConnection:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a3550181cb2fa72eccfa55d23f45cea34"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34">exchangeProtocol</a> { <br />
-&#160;&#160;<b>connectionRequest</b>, 
+&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a228499ab12ba8335b02b2afa79bb5a09">connectionRequest</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a8a9e55ccccb227642d39230f3f9c8128">connectionConfirm</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34ac61a69a776ff4e55a2f34d560b499821">connectionClose</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e">transferData</a>, 
 <br />
-&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c">transferRequest</a>, 
+&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34ac026e33f4d6a0eb18f0981f347c5dea2">acceptData</a>, 
+<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c">transferRequest</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a12a88690a89ec50e955ef3fd3db119bf">stateRequest</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f">stateConfirm</a>, 
-<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34af1852b9e247d744df018ce6ad616308e">count</a>
+<br />
+&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34af1852b9e247d744df018ce6ad616308e">count</a>
 <br />
  }<tr class="memdesc:a3550181cb2fa72eccfa55d23f45cea34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Протокол обмена между сервером и клиентами.  <a href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a3550181cb2fa72eccfa55d23f45cea34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee7dfb7510592bd2697ab6f906b9612c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612c">state</a> { <br />
-&#160;&#160;<b>stUnknown</b>, 
-<b>stWait</b>, 
+&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4">stUnknown</a>, 
+<a class="el" href="classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498">stWait</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16">stReadyToStart</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07">stNotReadyToStart</a>, 
 <br />
@@ -147,8 +149,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>receiveData</
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:aa55714bb2a9a2b9330b2fd81f7a47f17"><td class="memItemLeft" align="right" valign="top"><a id="aa55714bb2a9a2b9330b2fd81f7a47f17"></a>
-<a class="el" href="classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612c">state</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_1_1_t_connection.html#aa55714bb2a9a2b9330b2fd81f7a47f17">fState</a> {stUnknown}</td></tr>
-<tr class="memdesc:aa55714bb2a9a2b9330b2fd81f7a47f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Работа приостановлена <br /></td></tr>
+<a class="el" href="classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612c">state</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fState</b> {<a class="el" href="classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4">stUnknown</a>}</td></tr>
 <tr class="separator:aa55714bb2a9a2b9330b2fd81f7a47f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -168,19 +169,23 @@ Protected Attributes</h2></td></tr>
 
 <p>Протокол обмена между сервером и клиентами. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a8a9e55ccccb227642d39230f3f9c8128"></a>connectionConfirm&#160;</td><td class="fielddoc"><p>Запрос клиента на подключение </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a228499ab12ba8335b02b2afa79bb5a09"></a>connectionRequest&#160;</td><td class="fielddoc"><p>Запрос клиента на подключение </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ac61a69a776ff4e55a2f34d560b499821"></a>connectionClose&#160;</td><td class="fielddoc"><p>Подтверждение сервера о подключении. Запрос клиента о подключенности </p>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a8a9e55ccccb227642d39230f3f9c8128"></a>connectionConfirm&#160;</td><td class="fielddoc"><p>Подтверждение сервера о подключении. Запрос клиента о подключенности </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e"></a>transferData&#160;</td><td class="fielddoc"><p>Завершение подключения </p>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ac61a69a776ff4e55a2f34d560b499821"></a>connectionClose&#160;</td><td class="fielddoc"><p>Завершение подключения </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c"></a>transferRequest&#160;</td><td class="fielddoc"><p>Со стороны сервере передается начальный ключ. Со стороны клиента передается подобранный ключ </p>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e"></a>transferData&#160;</td><td class="fielddoc"><p>Со стороны сервере передается начальный ключ. Со стороны клиента передается подобранный ключ </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a12a88690a89ec50e955ef3fd3db119bf"></a>stateRequest&#160;</td><td class="fielddoc"><p>Запрос клиента нового блока </p>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ac026e33f4d6a0eb18f0981f347c5dea2"></a>acceptData&#160;</td><td class="fielddoc"><p>Сервер и клиент подтверждают получение данных со стороны опонента </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f"></a>stateConfirm&#160;</td><td class="fielddoc"><p>Запрос сервером или клиентом состояния опонента </p>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c"></a>transferRequest&#160;</td><td class="fielddoc"><p>Запрос клиента нового блока </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34af1852b9e247d744df018ce6ad616308e"></a>count&#160;</td><td class="fielddoc"><p>Сервер или клиент возвращает свое состояние </p>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a12a88690a89ec50e955ef3fd3db119bf"></a>stateRequest&#160;</td><td class="fielddoc"><p>Запрос сервером или клиентом состояния опонента </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f"></a>stateConfirm&#160;</td><td class="fielddoc"><p>Сервер или клиент возвращает свое состояние </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34af1852b9e247d744df018ce6ad616308e"></a>count&#160;</td><td class="fielddoc"><p>Количество команд в протоколе </p>
 </td></tr>
 </table>
 
@@ -199,21 +204,24 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Возможные состояния </p>
-<p>Количество команд в протоколе </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16"></a>stReadyToStart&#160;</td><td class="fielddoc"><p>Ожидание действий оператора </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4"></a>stUnknown&#160;</td><td class="fielddoc"><p>Состояние неопределено </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07"></a>stNotReadyToStart&#160;</td><td class="fielddoc"><p>Готовность к запуску </p>
+<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498"></a>stWait&#160;</td><td class="fielddoc"><p>Ожидание действий оператора </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca242131a52a37a2916e7292733c05bfda"></a>stStart&#160;</td><td class="fielddoc"><p>Отсутствует готовность к запуску </p>
+<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16"></a>stReadyToStart&#160;</td><td class="fielddoc"><p>Готовность к запуску </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612caaef0b02f1701010c8b408087afbb1172"></a>stStop&#160;</td><td class="fielddoc"><p>Рабочий режим </p>
+<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07"></a>stNotReadyToStart&#160;</td><td class="fielddoc"><p>Отсутствует готовность к запуску </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca67a6ae9e7f0931220dc51adc849cc41e"></a>stError&#160;</td><td class="fielddoc"><p>Работа полностью остановлена </p>
+<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca242131a52a37a2916e7292733c05bfda"></a>stStart&#160;</td><td class="fielddoc"><p>Рабочий режим </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca1429dfb087b4132ff51a6d083c452624"></a>stServerSearch&#160;</td><td class="fielddoc"><p>Произошла ошибка </p>
+<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612caaef0b02f1701010c8b408087afbb1172"></a>stStop&#160;</td><td class="fielddoc"><p>Работа полностью остановлена </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca194b89ec7cadeb35331341be96c05f76"></a>stPause&#160;</td><td class="fielddoc"><p>Поиск клиентом сервера </p>
+<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca67a6ae9e7f0931220dc51adc849cc41e"></a>stError&#160;</td><td class="fielddoc"><p>Произошла ошибка </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca1429dfb087b4132ff51a6d083c452624"></a>stServerSearch&#160;</td><td class="fielddoc"><p>Поиск клиентом сервера </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aee7dfb7510592bd2697ab6f906b9612ca194b89ec7cadeb35331341be96c05f76"></a>stPause&#160;</td><td class="fielddoc"><p>Работа приостановлена </p>
 </td></tr>
 </table>
 

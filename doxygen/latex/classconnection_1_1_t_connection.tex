@@ -31,20 +31,22 @@ Collaboration diagram for connection\+:\+:T\+Connection\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 enum \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{exchange\+Protocol} \{ \newline
-{\bfseries connection\+Request}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a228499ab12ba8335b02b2afa79bb5a09}{connection\+Request}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a8a9e55ccccb227642d39230f3f9c8128}{connection\+Confirm}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac61a69a776ff4e55a2f34d560b499821}{connection\+Close}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e}{transfer\+Data}, 
 \newline
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac026e33f4d6a0eb18f0981f347c5dea2}{accept\+Data}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c}{transfer\+Request}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12a88690a89ec50e955ef3fd3db119bf}{state\+Request}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f}{state\+Confirm}, 
+\newline
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34af1852b9e247d744df018ce6ad616308e}{count}
  \}\begin{DoxyCompactList}\small\item\em Протокол обмена между сервером и клиентами. \end{DoxyCompactList}
 \item 
 enum \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \{ \newline
-{\bfseries st\+Unknown}, 
-{\bfseries st\+Wait}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4}{st\+Unknown}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498}{st\+Wait}, 
 \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16}{st\+Ready\+To\+Start}, 
 \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07}{st\+Not\+Ready\+To\+Start}, 
 \newline
@@ -76,8 +78,8 @@ virtual bool {\bfseries receive\+Data} (\hyperlink{classconnection_1_1_t_connect
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classconnection_1_1_t_connection_aa55714bb2a9a2b9330b2fd81f7a47f17}\label{classconnection_1_1_t_connection_aa55714bb2a9a2b9330b2fd81f7a47f17}} 
-\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \hyperlink{classconnection_1_1_t_connection_aa55714bb2a9a2b9330b2fd81f7a47f17}{f\+State} \{st\+Unknown\}
-\begin{DoxyCompactList}\small\item\em Работа приостановлена \end{DoxyCompactList}\end{DoxyCompactItemize}
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} {\bfseries f\+State} \{\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4}{st\+Unknown}\}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -95,32 +97,40 @@ The \hyperlink{classconnection_1_1_t_connection}{T\+Connection} class Базов
 Протокол обмена между сервером и клиентами. 
 
 \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{connection\+Request@{connection\+Request}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!connection\+Request@{connection\+Request}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a228499ab12ba8335b02b2afa79bb5a09}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a228499ab12ba8335b02b2afa79bb5a09}} 
+connection\+Request&Запрос клиента на подключение \\
+\hline
+
 \raisebox{\heightof{T}}[0pt][0pt]{\index{connection\+Confirm@{connection\+Confirm}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!connection\+Confirm@{connection\+Confirm}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a8a9e55ccccb227642d39230f3f9c8128}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a8a9e55ccccb227642d39230f3f9c8128}} 
-connection\+Confirm&Запрос клиента на подключение \\
+connection\+Confirm&Подтверждение сервера о подключении. Запрос клиента о подключенности \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{connection\+Close@{connection\+Close}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!connection\+Close@{connection\+Close}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac61a69a776ff4e55a2f34d560b499821}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac61a69a776ff4e55a2f34d560b499821}} 
-connection\+Close&Подтверждение сервера о подключении. Запрос клиента о подключенности \\
+connection\+Close&Завершение подключения \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{transfer\+Data@{transfer\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!transfer\+Data@{transfer\+Data}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5d4e28ecf3b379abbffc60d4845f5e4e}} 
-transfer\+Data&Завершение подключения \\
+transfer\+Data&Со стороны сервере передается начальный ключ. Со стороны клиента передается подобранный ключ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{accept\+Data@{accept\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!accept\+Data@{accept\+Data}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac026e33f4d6a0eb18f0981f347c5dea2}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ac026e33f4d6a0eb18f0981f347c5dea2}} 
+accept\+Data&Сервер и клиент подтверждают получение данных со стороны опонента \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{transfer\+Request@{transfer\+Request}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!transfer\+Request@{transfer\+Request}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a729bf01ba7a6764a5f915abf14527c1c}} 
-transfer\+Request&Со стороны сервере передается начальный ключ. Со стороны клиента передается подобранный ключ \\
+transfer\+Request&Запрос клиента нового блока \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{state\+Request@{state\+Request}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!state\+Request@{state\+Request}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12a88690a89ec50e955ef3fd3db119bf}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12a88690a89ec50e955ef3fd3db119bf}} 
-state\+Request&Запрос клиента нового блока \\
+state\+Request&Запрос сервером или клиентом состояния опонента \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{state\+Confirm@{state\+Confirm}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!state\+Confirm@{state\+Confirm}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad88fb287d274da9a23bcb547780e1a9f}} 
-state\+Confirm&Запрос сервером или клиентом состояния опонента \\
+state\+Confirm&Сервер или клиент возвращает свое состояние \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{count@{count}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!count@{count}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34af1852b9e247d744df018ce6ad616308e}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34af1852b9e247d744df018ce6ad616308e}} 
-count&Сервер или клиент возвращает свое состояние \\
+count&Количество команд в протоколе \\
 \hline
 
 \end{DoxyEnumFields}
@@ -134,33 +144,41 @@ count&Сервер или клиент возвращает свое состо�
 
 Возможные состояния 
 
-Количество команд в протоколе \begin{DoxyEnumFields}{Enumerator}
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Unknown@{st\+Unknown}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Unknown@{st\+Unknown}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4}} 
+st\+Unknown&Состояние неопределено \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Wait@{st\+Wait}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Wait@{st\+Wait}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498}} 
+st\+Wait&Ожидание действий оператора \\
+\hline
+
 \raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Ready\+To\+Start@{st\+Ready\+To\+Start}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Ready\+To\+Start@{st\+Ready\+To\+Start}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16}} 
-st\+Ready\+To\+Start&Ожидание действий оператора \\
+st\+Ready\+To\+Start&Готовность к запуску \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Not\+Ready\+To\+Start@{st\+Not\+Ready\+To\+Start}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Not\+Ready\+To\+Start@{st\+Not\+Ready\+To\+Start}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07}} 
-st\+Not\+Ready\+To\+Start&Готовность к запуску \\
+st\+Not\+Ready\+To\+Start&Отсутствует готовность к запуску \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Start@{st\+Start}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Start@{st\+Start}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca242131a52a37a2916e7292733c05bfda}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca242131a52a37a2916e7292733c05bfda}} 
-st\+Start&Отсутствует готовность к запуску \\
+st\+Start&Рабочий режим \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Stop@{st\+Stop}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Stop@{st\+Stop}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caaef0b02f1701010c8b408087afbb1172}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caaef0b02f1701010c8b408087afbb1172}} 
-st\+Stop&Рабочий режим \\
+st\+Stop&Работа полностью остановлена \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Error@{st\+Error}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Error@{st\+Error}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca67a6ae9e7f0931220dc51adc849cc41e}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca67a6ae9e7f0931220dc51adc849cc41e}} 
-st\+Error&Работа полностью остановлена \\
+st\+Error&Произошла ошибка \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Server\+Search@{st\+Server\+Search}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Server\+Search@{st\+Server\+Search}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca1429dfb087b4132ff51a6d083c452624}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca1429dfb087b4132ff51a6d083c452624}} 
-st\+Server\+Search&Произошла ошибка \\
+st\+Server\+Search&Поиск клиентом сервера \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Pause@{st\+Pause}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Pause@{st\+Pause}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca194b89ec7cadeb35331341be96c05f76}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca194b89ec7cadeb35331341be96c05f76}} 
-st\+Pause&Поиск клиентом сервера \\
+st\+Pause&Работа приостановлена \\
 \hline
 
 \end{DoxyEnumFields}
