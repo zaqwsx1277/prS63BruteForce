@@ -1,9 +1,8 @@
 #include "prServerEmulator.hpp"
 #include "ui_prServerEmulator.h"
 
-
 #include <QTcpSocket>
-#include <QHostAddress>
+
 //-----------------------------------------------------------------------------
 prServerEmulator::prServerEmulator(QWidget *parent) :
     QMainWindow(parent),
@@ -11,10 +10,11 @@ prServerEmulator::prServerEmulator(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    fPtrServer -> listen(QHostAddress::Any, 9993) ;
-
-    connect (fPtrServer.get(), &QTcpServer::newConnection, this, &prServerEmulator::slotHostConnected) ;
     ui -> spClientAddress -> clear() ;
+
+    fPtrConnection.reset(new connection::TSEConnection) ;
+
+    setConnect () ;
 }
 //------------------------------------------------------------------------------
 prServerEmulator::~prServerEmulator()
@@ -23,12 +23,20 @@ prServerEmulator::~prServerEmulator()
 }
 //-----------------------------------------------------------------------------
 /*!
+ * \brief prServerEmulator::setConnect  Формирование всех конектов
+ */
+void prServerEmulator::setConnect ()
+{
+    connect (fPtrConnection.get(), &connection::TSEConnection::signalHostConnected, this, &prServerEmulator::slotHostConnected) ;
+}
+//-----------------------------------------------------------------------------
+/*!
  * \brief prServerEmulator::slotHostConnected  Слот срабатывающий при подключении клиента
  */
-void prServerEmulator::slotHostConnected ()
+void prServerEmulator::slotHostConnected (quint32 inHostAddress)
 {
-    QHostAddress xxx (fPtrServer -> nextPendingConnection() -> peerAddress ().toIPv4Address()) ;
-    ui -> spClientAddress ->setText(xxx.toString()) ;
+    fHostAddress = QHostAddress (inHostAddress) ;
+    ui -> spClientAddress ->setText(fHostAddress.toString());
 }
 //-----------------------------------------------------------------------------
 

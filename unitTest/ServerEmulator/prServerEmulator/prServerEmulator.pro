@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui  network
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,10 +25,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        prServerEmulator.cpp
+        prServerEmulator.cpp \
+        ../../../common/TConnection.cpp \
+        TSEConnection.cpp
 
 HEADERS += \
-        prServerEmulator.hpp
+        prServerEmulator.hpp \
+        ../../../common/TConnection.hpp \
+        TSEConnection.hpp
 
 FORMS += \
         prServerEmulator.ui
+
+INCLUDEPATH += \
+            ../../../common
