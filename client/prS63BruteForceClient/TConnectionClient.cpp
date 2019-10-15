@@ -37,10 +37,17 @@ void connection::TConnectionClient::seachServer (quint16 inPort)
                 std::unique_ptr <QTcpSocket> ptrSocket (new QTcpSocket ()) ;
                 ptrSocket -> connectToHost(tmpIpAddress, inPort);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
                 connect(ptrSocket.get(), &QTcpSocket::connected, this, &connection::TConnectionClient::slotHostConnected) ;
-                std::this_thread::sleep_for(std::chrono::microseconds (1)) ;    // тормозим выполнение для нормальной обработки сигнала
+                std::this_thread::sleep_for(std::chrono::microseconds (10)) ;    // тормозим выполнение для нормальной обработки сигнала
                 QApplication::processEvents() ;
                 if (fIsServerExist) {
                     fIpAddressServer = tmpIpAddress ;           // завершаем поиск после нахождения сервера
+                                                                // Полностью закрываем все соединения если они были установлены раньше
+                    if (fPtrServer) fPtrServer -> disconnect() ;
+                    fPtrServer.reset(new QTcpServer ());        // Сервер нужен для случая, если инициатором соединения выступает сервер. Например, для запроса состояния
+                    fPtrServer -> listen(tmpIpAddress, commonDefine::portNumber) ;
+                    if (fPtrSocket) fPtrSocket ->disconnect() ;
+                    fPtrSocket.reset(new QTcpSocket ());        // Сокет через который будем общаться с сервером
+
                     fState = stWait ;
                     break ;
                 }

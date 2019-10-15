@@ -2,6 +2,10 @@
 #define TCONNECTION_HPP
 
 #include <QObject>
+#include <QTcpServer>
+#include <QTcpSocket>
+
+#include <memory>
 
 namespace connection {
 
@@ -60,6 +64,8 @@ public:
 protected:
 
     state fState {stUnknown} ; // Текущее состояние
+    std::unique_ptr <QTcpServer> fPtrServer {nullptr} ; // Указатель на сервер, который при работе будет постоянно прослушивать требуемый порт
+    std::unique_ptr <QTcpSocket> fPtrSocket {nullptr} ; // Указатель на сокет, через который будет выполняться обмен данными с сервером
 
 public:
     state getState () ;            // Получение текущего состояния
