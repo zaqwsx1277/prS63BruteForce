@@ -6,6 +6,8 @@
 
 #include <memory>
 
+#include "TSEConnection.hpp"
+
 namespace Ui {
 class prServerEmulator;
 }
@@ -24,11 +26,13 @@ public:
 private:
     Ui::prServerEmulator *ui;
 
-    std::unique_ptr <QTcpServer> fPtrServer {new QTcpServer ()} ;
+    QHostAddress fHostAddress ;     // Адрес подключившегося клиента
+    std::unique_ptr <connection::TSEConnection> fPtrConnection  {nullptr} ; // Указатель на класс обрабатывающий всю работу по сети
+
+    void setConnect () ;            // Формирование всех конектов
 
 private slots:
-    void slotHostConnected () ; // Слот срабатывающий при подключении клиента
-
+    void slotHostConnected (quint32) ;  // Слот срабатывающий при подключении клиента
 };
 
 #endif // PRSERVEREMULATOR_HPP
