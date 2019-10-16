@@ -22,13 +22,18 @@ public:
 
 private:
     std::unique_ptr <QTcpServer> fPtrServer {new QTcpServer ()} ;   // Указатель на сервер обрабатывающий входящие подключения
-    QTcpSocket *fPtrSocket {nullptr} ;
+    QTcpSocket *fPtrSocket {nullptr} ;      // Указатель на сокет обрабатывающий обмен данными с клиентом
 
 private slots:
     void slotHostConnected () ;             // Слот срабатывающий при подключении клиента
+    void slotHostDisconnected () ;          // Слот срабатывающий при отключении клиента
+    void slotHostError(QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибке при работе с клиентом
+    void slotHostReadyRead () ;             // Слот срабатывающий на сигнал готовности чтения данных
 
 signals:
     void signalHostConnected (quint32) ;    // Сигнал передающий адрес подключенного клиента
+    void signalHostDisconnected (quint32) ; // Сигнал передающий адрес отключившегося клиента
+    void signalHostError(quint32, QAbstractSocket::SocketError); // Сигнал передающий код ошибки при работе с клиентом
 };
 
 }

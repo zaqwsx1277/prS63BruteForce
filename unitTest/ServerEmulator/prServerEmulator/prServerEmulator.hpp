@@ -35,6 +35,9 @@ private:
 
 private slots:
     void slotHostConnected (quint32) ;  // Слот срабатывающий при подключении клиента
+    void slotHostDisconnected (quint32) ; // Слот срабатывающий при отключении клиента
+    void slotHostError (quint32, QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибки от клиента
+
     void on_pushButton_clicked();
 };
 

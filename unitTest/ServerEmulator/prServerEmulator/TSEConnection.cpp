@@ -18,7 +18,45 @@ TSEConnection::TSEConnection() : TConnection ()
 void TSEConnection::slotHostConnected ()
 {
     fPtrSocket  = fPtrServer -> nextPendingConnection() ;
-    emit signalHostConnected (fPtrSocket  -> peerAddress ().toIPv4Address()) ;
+    if (fPtrSocket != nullptr) {
+        connect (fPtrSocket, &QTcpSocket::disconnected, this, &TSEConnection::slotHostDisconnected) ;
+        connect (fPtrSocket, SIGNAL (error (QAbstractSocket::SocketError)), this, SLOT (slotHostError (QAbstractSocket::SocketError))) ;
+        connect (fPtrSocket, &QTcpSocket::readyRead, this, &TSEConnection::slotHostReadyRead) ;
+
+        emit signalHostConnected (fPtrSocket  -> peerAddress ().toIPv4Address()) ;
+    }
+}
+//-----------------------------------------------------------------------------------
+/*!
+ * \brief slotHostDisconnected  Слот срабатывающий при отключении клиента
+ */
+void TSEConnection::slotHostDisconnected ()
+{
+    QTcpSocket* ptrSocket = qobject_cast <QTcpSocket*> (sender ()) ;
+    if (ptrSocket != 0) {
+        emit signalHostDisconnected(ptrSocket ->peerAddress().toIPv4Address());
+    }
+    // else - нужно кинуть exeption, что произошло отключение неизвестного хоста
+}
+//-----------------------------------------------------------------------------------
+/*!
+ * \brief slotHostDisconnected  Слот срабатывающий при ошибке при работе с клиентом
+ */
+void TSEConnection::slotHostError(QAbstractSocket::SocketError inError)
+{
+    QTcpSocket* ptrSocket = qobject_cast <QTcpSocket*> (sender ()) ;
+    if (ptrSocket != 0) {
+        emit signalHostError(ptrSocket ->peerAddress().toIPv4Address(), inError);
+    }
+    // else - нужно кинуть exeption, что произошла ошибка неизвестного хоста
+}
+//-----------------------------------------------------------------------------------
+/*!
+ * \brief TSEConnection::slotHostReadyRead  Слот срабатывающий на сигнал готовности чтения данных
+ */
+void TSEConnection::slotHostReadyRead ()
+{
+
 }
 //-----------------------------------------------------------------------------------
 /*!
