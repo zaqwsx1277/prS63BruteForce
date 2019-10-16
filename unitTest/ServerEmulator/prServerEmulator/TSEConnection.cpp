@@ -17,6 +17,15 @@ TSEConnection::TSEConnection() : TConnection ()
  */
 void TSEConnection::slotHostConnected ()
 {
-    emit signalHostConnected (fPtrServer -> nextPendingConnection() -> peerAddress ().toIPv4Address()) ;
+    fPtrSocket  = fPtrServer -> nextPendingConnection() ;
+    emit signalHostConnected (fPtrSocket  -> peerAddress ().toIPv4Address()) ;
+}
+//-----------------------------------------------------------------------------------
+/*!
+ * \brief TSEConnection::connectionClose
+ */
+void TSEConnection::connectionClose ()
+{
+    fPtrSocket  -> disconnectFromHost() ;
 }
 //-----------------------------------------------------------------------------------

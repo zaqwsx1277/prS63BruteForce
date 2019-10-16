@@ -23,6 +23,7 @@ public:
     explicit prServerEmulator(QWidget *parent = 0);
     ~prServerEmulator();
 
+
 private:
     Ui::prServerEmulator *ui;
 
@@ -30,9 +31,11 @@ private:
     std::unique_ptr <connection::TSEConnection> fPtrConnection  {nullptr} ; // Указатель на класс обрабатывающий всю работу по сети
 
     void setConnect () ;            // Формирование всех конектов
+    void clear () ;                 // Очистка всех полей
 
 private slots:
     void slotHostConnected (quint32) ;  // Слот срабатывающий при подключении клиента
+    void on_pushButton_clicked();
 };
 
 #endif // PRSERVEREMULATOR_HPP

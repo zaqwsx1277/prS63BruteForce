@@ -20,25 +20,25 @@ public:
                                 /// Протокол обмена между сервером и клиентами.
     enum exchangeProtocol {
                     /// Запрос клиента на подключение
-        connectionRequest,
+        cmdConnectionRequest,
                     /// Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности.
-        connectionConfirm,
+        cmdConnectionConfirm,
                     /// Завершение подключения
-        connectionClose,
+        cmdConnectionClose,
                     /// Со стороны сервере передается начальный ключ блока. Со стороны клиента передается подобранный ключ
-        transferData,
+        cmdTransferData,
                     /// Сервер и клиент подтверждают получение данных со стороны опонента
-        acceptData,
+        cmdAcceptData,
                     /// Сервер и клиент отказываются от получение данных со стороны опонента.
-        refuseData,
+        cmdRefuseData,
                     /// Запрос клиента нового блока
-        transferRequest,
+        cmdTransferRequest,
                     /// Запрос сервером или клиентом состояния опонента
-        stateRequest,
+        cmdStateRequest,
                     /// Сервер или клиент возвращает свое состояние
-        stateConfirm,
+        cmdStateConfirm,
                     /// Количество команд в протоколе
-        count} ;
+        cmdCount} ;
 
     /// Возможные состояния
     enum state {

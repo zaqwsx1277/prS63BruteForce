@@ -10,7 +10,7 @@ prServerEmulator::prServerEmulator(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui -> spClientAddress -> clear() ;
+    clear() ;
 
     fPtrConnection.reset(new connection::TSEConnection) ;
 
@@ -39,4 +39,20 @@ void prServerEmulator::slotHostConnected (quint32 inHostAddress)
     ui -> spClientAddress ->setText(fHostAddress.toString());
 }
 //-----------------------------------------------------------------------------
-
+/*!
+ * \brief clear Очистка всех полей
+ */
+void prServerEmulator::clear ()
+{
+    ui -> spClientAddress -> clear();
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prServerEmulator::on_pushButton_clicked   Слот реагирующий на нажатие кнопки закрытия соединения с клиентом
+ */
+void prServerEmulator::on_pushButton_clicked()
+{
+    fPtrConnection -> connectionClose();
+    clear () ;
+}
+//-----------------------------------------------------------------------------
