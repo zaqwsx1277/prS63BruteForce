@@ -28,6 +28,8 @@ prServerEmulator::~prServerEmulator()
 void prServerEmulator::setConnect ()
 {
     connect (fPtrConnection.get(), &connection::TSEConnection::signalHostConnected, this, &prServerEmulator::slotHostConnected) ;
+    connect (fPtrConnection.get(), &connection::TSEConnection::signalHostDisconnected, this, &prServerEmulator::slotHostDisconnected ) ;
+
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -40,11 +42,29 @@ void prServerEmulator::slotHostConnected (quint32 inHostAddress)
 }
 //-----------------------------------------------------------------------------
 /*!
+ * \brief prServerEmulator::slotHostDisconnected  Слот срабатывающий при отключении клиента
+ */
+void prServerEmulator::slotHostDisconnected (quint32 inHostAddress)
+{
+    fHostAddress = QHostAddress () ;
+    clear () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prServerEmulator::slotHostError Слот срабатывающий при ошибки от клиента
+ */
+void prServerEmulator::slotHostError (quint32 inHostAddress, QAbstractSocket::SocketError inError)
+{
+
+}
+//-----------------------------------------------------------------------------
+/*!
  * \brief clear Очистка всех полей
  */
 void prServerEmulator::clear ()
 {
-    ui -> spClientAddress -> clear();
+    ui -> spClientAddress -> clear() ;
+    ui -> spClientState -> clear() ;
 }
 //-----------------------------------------------------------------------------
 /*!
