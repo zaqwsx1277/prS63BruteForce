@@ -23,7 +23,7 @@ connection::TConnectionClient::TConnectionClient()
 void connection::TConnectionClient::seachServer (quint16 inPort)
 {
     fState = stServerSearch ;           // Установка состояния поиска сервера
-    fPtrSocket -> disconnectFromHost(); // Не задумываясь отключаюсь от сервера
+    fPtrSocket -> disconnectFromHost() ;// Не задумываясь отключаюсь от сервера
     fIsServerExist = false ;
                                         // Поиск сервера
     for (auto interface : QNetworkInterface::allInterfaces()) {
