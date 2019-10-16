@@ -26,3 +26,5 @@
 *.app
 
 *.user
+
+*.autosave

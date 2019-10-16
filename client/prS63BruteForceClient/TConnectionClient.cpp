@@ -16,12 +16,16 @@
 connection::TConnectionClient::TConnectionClient()
 {
     fState = TConnectionClient::stServerSearch ;    // При инициализации всегда сначала выполняется автоматический поиск сервера
+    fPtrSocket.reset(new QTcpSocket ());            // После подключения к серверу соединение останется открытое
     seachServer (commonDefine::portNumber) ;
 }
 //-----------------------------------------------------------
 void connection::TConnectionClient::seachServer (quint16 inPort)
 {
     fState = stServerSearch ;           // Установка состояния поиска сервера
+    fPtrSocket -> disconnectFromHost() ;// Не задумываясь отключаюсь от сервера
+    fIsServerExist = false ;
+                                        // Поиск сервера
     for (auto interface : QNetworkInterface::allInterfaces()) {
         auto ipList = interface.addressEntries() ;              // Получаем список локальных IP адресов
         for (auto ipEntry : ipList) {
@@ -34,20 +38,14 @@ void connection::TConnectionClient::seachServer (quint16 inPort)
                                                                 // Сканируем сеть в поисках нужного сервера
             for (quint32 i = 1; i < ipAddressCount; ++i) {
                 QHostAddress tmpIpAddress = QHostAddress (ipAddressFirst + i) ;
-                std::unique_ptr <QTcpSocket> ptrSocket (new QTcpSocket ()) ;
-                ptrSocket -> connectToHost(tmpIpAddress, inPort);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
-                connect(ptrSocket.get(), &QTcpSocket::connected, this, &connection::TConnectionClient::slotHostConnected) ;
-                std::this_thread::sleep_for(std::chrono::microseconds (10)) ;    // тормозим выполнение для нормальной обработки сигнала
+                fPtrSocket.reset(new QTcpSocket ()) ;
+                fPtrSocket -> connectToHost(tmpIpAddress, inPort);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
+                connect(fPtrSocket.get(), &QTcpSocket::connected, this, &connection::TConnectionClient::slotHostConnected) ;
+                std::this_thread::sleep_for(std::chrono::microseconds (100)) ;    // тормозим выполнение для нормальной обработки сигнала
                 QApplication::processEvents() ;
+                disconnect(fPtrSocket.get(), &QTcpSocket::connected, this, &connection::TConnectionClient::slotHostConnected) ;
                 if (fIsServerExist) {
-                    fIpAddressServer = tmpIpAddress ;           // завершаем поиск после нахождения сервера
-                                                                // Полностью закрываем все соединения если они были установлены раньше
-                    if (fPtrServer) fPtrServer -> disconnect() ;
-                    fPtrServer.reset(new QTcpServer ());        // Сервер нужен для случая, если инициатором соединения выступает сервер. Например, для запроса состояния
-                    fPtrServer -> listen(tmpIpAddress, commonDefine::portNumber) ;
-                    if (fPtrSocket) fPtrSocket ->disconnect() ;
-                    fPtrSocket.reset(new QTcpSocket ());        // Сокет через который будем общаться с сервером
-
+                    fIpAddressServer = tmpIpAddress ;           // завершаем поиск после нахождения первого попавшегося сервера
                     fState = stWait ;
                     break ;
                 }
