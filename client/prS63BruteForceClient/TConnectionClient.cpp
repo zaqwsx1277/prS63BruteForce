@@ -20,7 +20,6 @@ TConnectionClient::TConnectionClient()
 {
     fState = TConnectionClient::stServerSearch ;    // При инициализации всегда сначала выполняется автоматический поиск сервера
     fPtrSocket.reset(new QTcpSocket ());            // После подключения к серверу соединение останется открытое
-    seachServer (commonDefine::portNumber) ;
 }
 //-----------------------------------------------------------
 void TConnectionClient::seachServer (quint16 inPort)
@@ -64,6 +63,7 @@ void TConnectionClient::seachServer (quint16 inPort)
 void TConnectionClient::slotHostConnected ()
 {
     fIsServerExist = true ;
+    emit signalHostConnected (fPtrSocket -> peerAddress()) ;
 }
 //-----------------------------------------------------------
 /*!
@@ -82,14 +82,32 @@ QHostAddress TConnectionClient::getIpAddressServer ()
 void TConnectionClient::makeSlotConnection (QTcpSocket* inPtrSocket)
 {
     connect (inPtrSocket, &QTcpSocket::disconnected, this, &TConnectionClient::slotHostDisconnected) ;
+    connect (inPtrSocket, SLOT (error(QAbstractSocket::SocketError)), this, SIGNAL (slotHostError(QAbstractSocket::SocketError))) ;
+    connect (inPtrSocket, &QTcpSocket::readyRead, this, &TConnectionClient::slotHostRearyRead) ;
 }
 //-----------------------------------------------------------
 /*!
- * \brief TConnectionClient::slotServerDisconnected
+ * \brief TConnectionClient::slotServerDisconnected Слот срабатывающий при отключении сервера
  */
 void TConnectionClient::slotHostDisconnected ()
+{
+    emit signalHostDisconnected() ;
+}
+//-----------------------------------------------------------
+/*!
+ * \brief TConnectionClient::slotHostError  Слот срабатывающий при ошибке обмена
+ * \param inError   Код ошибки
+ */
+void TConnectionClient::slotHostError (QAbstractSocket::SocketError inError)
 {
 
 }
 //-----------------------------------------------------------
+/*!
+ * \brief TConnectionClient::slotHostRearyRead Слот обрабатывающий получение данных от сервера
+ */
+void TConnectionClient::slotHostRearyRead ()
+{
 
+}
+//-----------------------------------------------------------

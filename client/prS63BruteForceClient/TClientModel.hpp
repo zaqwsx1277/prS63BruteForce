@@ -30,7 +30,7 @@ public:
     void refreshView () ;               // Обновление отображения данных
 
 private:
-    enum columnNumber {cnTime = 0, cnkeyFirst, cnSendResult, cnResult, cnCount} ;  // Перечень колонок в таблице
+    enum columnNumber {cnTime = 0, cnkeyFirst, cnComment, cnSendResult, cnResult, cnCount} ;  // Перечень колонок в таблице
 
     quint16 fThreadCount {0} ;      // Количество выделенных очередей.
 

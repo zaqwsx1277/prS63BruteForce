@@ -2,6 +2,9 @@
 #include "TCommonDefaneClient.hpp"
 
 #include <thread>
+#include <mutex>
+
+#include "TCommonDefine.hpp"
 
 //----------------------------------------------------------------------------------
 /*!
@@ -30,24 +33,38 @@ QVariant client::TClientModel::data(const QModelIndex &index, int role) const
         switch (role) {             // т.к. role могут быть сымые разные, то использую switch
           case Qt::DisplayRole : {
             auto logData = this -> at(index.row()) ;    // Получаем запись из контейнере
-            switch (index.column()) {                   // Получаем значение для нужной колонки
+            if (index.column() < (fThreadCount + 3)) {  // Выводим первую секцию данных + номера данные потоков кол-во которых может быть переменным
+                switch (index.column()) {               // Получаем значение для нужной колонки
 
-              case cnTime :
-                retVal = logData -> timeReceiveBlock.toString("hh:mm:ss") ;
-              break ;
+                  case cnTime :
+                    retVal = logData -> timeReceiveBlock.toString("hh:mm:ss") ;
+                  break ;
 
-              default :
-              break ;
+                  case cnComment :
+                    retVal = logData -> comment ;
+                  break ;
+
+                  default :
+                  break ;
+                }
             }
+            else {
+                switch (index.column()) {
+
+
+                  default :
+                  break ;
+                }
+            }
+            break ;
           }
-          break ;
 
           default :
           break ;
         }
     }
-
     return retVal ;
+
 }
 //---------------------------------------------------
 QVariant client::TClientModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -56,7 +73,7 @@ QVariant client::TClientModel::headerData(int section, Qt::Orientation orientati
     if (role != Qt::DisplayRole) return QVariant();
 
     if (orientation == Qt::Horizontal)
-        if (section < (fThreadCount + 2)) {     // Выводим первую секцию заголовков + номера потоков кол-во которых может быть переменным
+        if (section < (fThreadCount + 3)) {     // Выводим первую секцию заголовков + номера потоков кол-во которых может быть переменным
             switch (section) {
               case cnTime :
                 retVal = commonDefineClient::HeaderTimeReceiveBlock ;
@@ -66,8 +83,12 @@ QVariant client::TClientModel::headerData(int section, Qt::Orientation orientati
                 retVal = commonDefineClient::HeaderKeyFirst ;
               break ;
 
+              case cnComment :
+                retVal = commonDefineClient::HeaderComment ;
+              break ;
+
               default :
-                retVal = QString::number(section - 2) ;
+                retVal = QString::number(section - 3) ;
               break ;
             }
         }
@@ -80,6 +101,7 @@ QVariant client::TClientModel::headerData(int section, Qt::Orientation orientati
               case cnResult :
                 retVal = commonDefineClient::HeaderResult ;
               break ;
+
 
               default :
               break ;
@@ -98,8 +120,7 @@ QVariant client::TClientModel::headerData(int section, Qt::Orientation orientati
  */
 void client::TClientModel::push_back (commonDefineClient::tdLogItemClient inItem)
 {
-//    std::lock_guard <std::mutex> refreshWait (exampleDefine::refresh) ;           // блокируем допуск остальным потокм на обновление
-
+    std::lock_guard <std::mutex> refreshWait (commonDefine::mutexRefresh) ;    // блокируем допуск остальным потокам и на обновление
     std::vector <commonDefineClient::tdLogItemClient>::push_back(inItem);
 }
 //---------------------------------------------------

@@ -37,6 +37,8 @@ private slots:
     void on_spServerPort_textChanged(const QString &arg1);
     void on_spThreadCount_textChanged(const QString &arg1);
     void slotStateRefresh () ;          // Слот обрабатывающий таймер на обновление статуса сервера
+    void slotHostConnected (QHostAddress) ; // Слот обрабатывающий подключение клиента к серверу
+    void slotHostDisconnected () ;       // Слот обрабатывающий отключение от сервера
 
 private:
     Ui::prS63BruteForceClient *ui;
@@ -48,15 +50,17 @@ private:
     std::bitset <bitPos::count> fReadyToStart {std::string ("000")} ; // Битовое значение для контроля готовности всех данных для запуска подбора. Позиции битов определяются в bitPos
 
     std::shared_ptr <TConnectionClient> fPtrConnectionClient {nullptr}; // Указатель на класс обрабатывающий подключение к серверу
-    std::unique_ptr <client::TClientModel> fPrtClientModel {nullptr} ;          // Указатель на модель вывода лога
+    std::unique_ptr <client::TClientModel> fPrtClientModel {nullptr} ;  // Указатель на модель вывода лога
 
     std::unique_ptr <QTimer> fPtrStateRefresh {nullptr} ; // Указатель на таймер для запроса состояния сервера
     TConnection::state fStateServer {TConnection::stUnknown}; // Текущее состояние сервера
 
     void initForm () ;          // инициализирую все элементы формы
+    void makeSlotConnection () ;// Подключение всех необходимых слотов для работы с сервером
     void clearForm () ;         // Очищаем и устанавливаем начальные значения всех элементов формы
     void setElementFormVisible () ; // Установка видимости элементов в зависимсоти от состояния
     void showState () ;         // Вывод состояния
+    void refreshLog () ;        // Обновление формы
 
     void timerEvent(QTimerEvent *event) ;   // Обработчик таймера для обновления формы
 };
