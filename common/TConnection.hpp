@@ -71,7 +71,7 @@ public:
     state getState () ;            // Получение текущего состояния
     void setState (const state&) ; // Установка состояния
 
-    bool virtual sendData (TConnection::exchangeProtocol, quint64) = 0 ;      // Виртуальный метод передачи данных
+    void sendData (TConnection::exchangeProtocol, quint64, std::unique_ptr <QTcpSocket> = nullptr) ;      // Метод передачи данных
     bool virtual receiveData (TConnection::exchangeProtocol*, quint64*) = 0 ; // Виртуальный метод получения данных
 };
 
