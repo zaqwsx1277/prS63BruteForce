@@ -5,9 +5,11 @@
 #include "TCommonDefaneClient.hpp"
 
 #include <thread>
+#include <memory>
 
 #include <QAbstractItemModel>
 #include <QMessageBox>
+#include <QHostAddress>
 
 using namespace client ;
 //---------------------------------------------------------------------
@@ -17,13 +19,13 @@ prS63BruteForceClient::prS63BruteForceClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    fPtrConnectionClient.reset(new connection::TConnectionClient ()) ;  // инициализируем работу с сервером
     initForm () ;
     clearForm () ;
+    fPtrConnectionClient.reset(new TConnectionClient ()) ;  // инициализируем работу с сервером
     startTimer(commonDefineClient::timerRefresh) ;          // Запускаем таймер на обновление формы
 
-    fPtrStateRefresh.reset(new QTimer ()) ;                 // Инициализация таймера на запрос состояния сервера
-    connect (fPtrStateRefresh.get (), &QTimer::timeout, this, &prS63BruteForceClient::slotStateRefresh) ;
+    makeSlotConnection () ;
+    fPtrConnectionClient -> seachServer(commonDefine::portNumber);
 }
 //----------------------------------------------------------------------
 prS63BruteForceClient::~prS63BruteForceClient()
@@ -36,6 +38,15 @@ prS63BruteForceClient::~prS63BruteForceClient()
  */
 void prS63BruteForceClient::initForm ()
 {
+                                    // Инициализируем таблицу для ведения лога
+    if (fPrtClientModel.get() != nullptr) disconnect (ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
+    fPrtClientModel.reset( new client::TClientModel (ui -> spThreadCount -> text().toUShort()));
+    ui -> spLog -> setModel(fPrtClientModel.get()) ;
+    for (quint8 i = 0; i < fPrtClientModel -> columnCount (); i++) {
+        ui-> spLog -> horizontalHeader() -> setSectionResizeMode(i, QHeaderView::Stretch) ;
+    }
+    connect(ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;    // Устанавливаем текущей последнюю строку
+
                                     // задаём все необходимые регулярные выражения
     QString ipRange = "(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
     ui -> spServerAddress -> setValidator( new QRegExpValidator( QRegExp( "^" + ipRange + "\\." + ipRange + "\\." + ipRange + "\\." + ipRange + "$")));
@@ -44,11 +55,27 @@ void prS63BruteForceClient::initForm ()
 }
 //----------------------------------------------------------------------
 /*!
+ * \brief prS63BruteForceClient::makeSlotConnection Подключение всех необходимых слотов для работы с сервером
+ */
+void prS63BruteForceClient::makeSlotConnection ()
+{
+    fPtrStateRefresh.reset(new QTimer ()) ;                 // Инициализация таймера на запрос состояния сервера
+    connect (fPtrStateRefresh.get (), &QTimer::timeout, this, &prS63BruteForceClient::slotStateRefresh) ;
+
+    if (fPtrConnectionClient) {
+        connect(fPtrConnectionClient.get(), &TConnectionClient::signalHostConnected, this, &prS63BruteForceClient::slotHostConnected) ;
+        connect(fPtrConnectionClient.get(), &TConnectionClient::signalHostDisconnected, this, &prS63BruteForceClient::slotHostDisconnected) ;
+    }
+// Приделать exception на аварийное завершение работы
+
+}
+//----------------------------------------------------------------------
+/*!
  * \brief prS63BruteForceClient::clearForm  Очищаем и устанавливаем начальные значения всех элементов формы
  */
 void prS63BruteForceClient::clearForm ()
 {
-    ui -> spServerAddress -> setText (fPtrConnectionClient -> getIpAddressServer().toString())  ;
+    ui -> spServerAddress -> setText (fPtrConnectionClient ? fPtrConnectionClient -> getIpAddressServer().toString(): "")  ;
     ui -> spServerPort -> setText (QString::number(commonDefine::portNumber)) ;
     ui -> spBlockSize -> clear() ;
     ui -> spThreadCount -> setText(QString::number(std::thread::hardware_concurrency()));
@@ -73,6 +100,7 @@ void prS63BruteForceClient::on_btnSeachServer_clicked()
 void prS63BruteForceClient::timerEvent(QTimerEvent *event)
 {
     showState () ;
+    refreshLog () ;
 }
 //----------------------------------------------------------------------
 /*!
@@ -80,35 +108,37 @@ void prS63BruteForceClient::timerEvent(QTimerEvent *event)
  */
 void prS63BruteForceClient::showState ()
 {
-    switch (fPtrConnectionClient -> getState()) {
-      case connection::TConnectionClient::stUnknown:
-      default:
-        ui -> spState -> setText(commonDefineClient::stateUnknown);
-      break;
+    if (fPtrConnectionClient) {
+        switch (fPtrConnectionClient -> getState()) {
+          case connection::TConnection::stUnknown:
+          default:
+            ui -> spState -> setText(commonDefineClient::stateUnknown);
+          break;
 
-      case connection::TConnectionClient::stError :
-        ui -> spState -> setText(commonDefineClient::stateError);
-      break;
+          case connection::TConnection::stError :
+            ui -> spState -> setText(commonDefineClient::stateError);
+          break;
 
-      case connection::TConnectionClient::stWait :
-        ui -> spState -> setText(commonDefineClient::stateWait);
-      break;
+          case connection::TConnection::stWait :
+            ui -> spState -> setText(commonDefineClient::stateWait);
+          break;
 
-      case connection::TConnectionClient::stStart :
-        ui -> spState -> setText(commonDefineClient::stateStart);
-      break;
+          case connection::TConnection::stStart :
+            ui -> spState -> setText(commonDefineClient::stateStart);
+          break;
 
-      case connection::TConnectionClient::stStop :
-        ui -> spState -> setText(commonDefineClient::stateStop);
-      break;
+          case connection::TConnection::stStop :
+            ui -> spState -> setText(commonDefineClient::stateStop);
+          break;
 
-      case connection::TConnectionClient::stServerSearch :
-        ui -> spState -> setText(commonDefineClient::stateServerSearch);
-      break;
+          case connection::TConnection::stServerSearch :
+            ui -> spState -> setText(commonDefineClient::stateServerSearch);
+          break;
 
-      case connection::TConnectionClient::stPause :
-        ui -> spState -> setText(commonDefineClient::statePause);
-      break;
+          case connection::TConnection::stPause :
+            ui -> spState -> setText(commonDefineClient::statePause);
+          break;
+        }
     }
 }
 //----------------------------------------------------------------------
@@ -117,13 +147,7 @@ void prS63BruteForceClient::showState ()
  */
 void prS63BruteForceClient::on_btnStart_clicked()
 {
-    if (fPrtClientModel.get() != nullptr) disconnect (ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
-    fPrtClientModel.reset( new client::TClientModel (ui -> spThreadCount -> text().toUShort()));
-    ui -> spLog -> setModel(fPrtClientModel.get()) ;                             // Инициализируем таблицу для ведения лога
-    for (quint8 i = 0; i < fPrtClientModel -> columnCount (); i++) {
-        ui-> spLog -> horizontalHeader() -> setSectionResizeMode(i, QHeaderView::Stretch) ;
-    }
-    connect(ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;    // Устанавливаем текущей последнюю строку
+
 }
 //--------------------------------------------------------------------------
 /*!
@@ -173,3 +197,40 @@ void client::prS63BruteForceClient::slotStateRefresh ()
 
 }
 //--------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceClient::slotHostConnected  Слот обрабатывающий подключение клиента к серверу
+ */
+void prS63BruteForceClient::slotHostConnected (QHostAddress inHostConnected)
+{
+    if (fPrtClientModel) {
+        commonDefineClient::tdLogItemClient item = std::make_shared <commonDefineClient::TLogItemClient> () ;
+        item -> comment = commonDefineClient::logServerConnected + inHostConnected.toString() ;
+        ui -> spServerAddress -> setText(inHostConnected.toString()) ;
+        fPrtClientModel -> push_back(item);
+    }
+}
+//--------------------------------------------------------------------------
+/*!
+ * \brief prExampleMainWindow::refreshLog   Обновление отображения данных
+ * Т.К. подбор ведется в несколько потоков, то на момент обновления отображения блокируется доступ к контейнеру с данными лога
+ */
+void prS63BruteForceClient::refreshLog ()
+{
+    if (fPrtClientModel) {
+        std::lock_guard <std::mutex> refreshWait (commonDefine::mutexRefresh) ; // блокируем допуск остальным потокaм на работу с контейнером
+        fPrtClientModel -> refreshView() ;                                                     // Обновляем отображение данных
+        QApplication::processEvents() ;
+    }
+}
+//---------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceClient::slotHostDisconnected Слот обрабатывающий отключение от сервера
+ */
+void prS63BruteForceClient::slotHostDisconnected ()
+{
+    commonDefineClient::tdLogItemClient item = std::make_shared <commonDefineClient::TLogItemClient> () ;
+    item -> comment = commonDefineClient::logServerDisconnected + fPtrConnectionClient -> getIpAddressServer().toString() ;
+    ui -> spServerAddress -> clear() ;
+    fPrtClientModel -> push_back(item);
+}
+//---------------------------------------------------------------------------

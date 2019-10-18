@@ -13,11 +13,12 @@ namespace commonDefineClient {
 
 struct TLogItemClient       // Структура данных выводимых в лог
 {
-    QTime timeReceiveBlock ;    // Время получения начального значения ключа
+    QTime timeReceiveBlock = QTime::currentTime() ; // Время получения начального значения ключа
     quint64 keyFirst {0} ;      // Первый ключ в блоке
     std::array <quint64, maxThreads> keys {0} ; // обрабатываемые ключи
     QTime timeSendResult ;      // Время передачи результата
     QString result {""} ;       // 0 - если подобранных ключей нет, или список подобранных ключей разделённых запятой
+    QString comment {""} ;      // Комментарий
 };
 
 typedef std::shared_ptr <QHostAddress> tdHostAddress ;      // typedef указателя на класс QHostAddress
@@ -27,6 +28,7 @@ const QString HeaderTimeReceiveBlock {"Время\nполучения\nключ�
 const QString HeaderKeyFirst {"Начальный\nключ"} ;
 const QString HeaderTimeSendResult {"Время\nотправки\nрезультата"} ;
 const QString HeaderResult {"Результат"} ;
+const QString HeaderComment {"Комментарий"} ;
 
 const QString stateUnknown {"Неопределено"} ;               // Описание возможных состояний
 const QString stateError {"Ошибка"} ;
@@ -35,6 +37,9 @@ const QString stateStart {"Выполнение основного цикла п
 const QString stateStop {"Процесс подбора остановлен"} ;
 const QString stateServerSearch {"Выполняется автоматический поиск сервера"} ;
 const QString statePause {"Выполнение подбора приостановлено"} ;
+
+const QString logServerConnected {"Клиент подключен к серверу: "} ;
+const QString logServerDisconnected {"Клиент отключен от сервера: "} ;
 
 const quint32 timerRefresh {1000} ;                         // значение таймера для обновления формы
 

@@ -12,15 +12,17 @@
 
 
 #include <assert.h>
+
+using namespace connection ;
+
 //-----------------------------------------------------------
-connection::TConnectionClient::TConnectionClient()
+TConnectionClient::TConnectionClient()
 {
     fState = TConnectionClient::stServerSearch ;    // При инициализации всегда сначала выполняется автоматический поиск сервера
     fPtrSocket.reset(new QTcpSocket ());            // После подключения к серверу соединение останется открытое
-    seachServer (commonDefine::portNumber) ;
 }
 //-----------------------------------------------------------
-void connection::TConnectionClient::seachServer (quint16 inPort)
+void TConnectionClient::seachServer (quint16 inPort)
 {
     fState = stServerSearch ;           // Установка состояния поиска сервера
     fPtrSocket -> disconnectFromHost() ;// Не задумываясь отключаюсь от сервера
@@ -40,10 +42,10 @@ void connection::TConnectionClient::seachServer (quint16 inPort)
                 QHostAddress tmpIpAddress = QHostAddress (ipAddressFirst + i) ;
                 fPtrSocket.reset(new QTcpSocket ()) ;
                 fPtrSocket -> connectToHost(tmpIpAddress, inPort);   // пытаемся зацепиться за сервер и если это удается, то это обрабатывается в слоте slotHostConnected
-                connect(fPtrSocket.get(), &QTcpSocket::connected, this, &connection::TConnectionClient::slotHostConnected) ;
+                connect(fPtrSocket.get(), &QTcpSocket::connected, this, &TConnectionClient::slotHostConnected) ;
                 std::this_thread::sleep_for(std::chrono::microseconds (100)) ;    // тормозим выполнение для нормальной обработки сигнала
                 QApplication::processEvents() ;
-                disconnect(fPtrSocket.get(), &QTcpSocket::connected, this, &connection::TConnectionClient::slotHostConnected) ;
+                disconnect(fPtrSocket.get(), &QTcpSocket::connected, this, &TConnectionClient::slotHostConnected) ;
                 if (fIsServerExist) {
                     fIpAddressServer = tmpIpAddress ;           // завершаем поиск после нахождения первого попавшегося сервера
                     fState = stWait ;
@@ -58,17 +60,54 @@ void connection::TConnectionClient::seachServer (quint16 inPort)
 /*!
  * \brief TConnectionClient::slotHostConnected  Слот обрабатывающий присоединение к серверу по указанному порту
  */
-void connection::TConnectionClient::slotHostConnected ()
+void TConnectionClient::slotHostConnected ()
 {
     fIsServerExist = true ;
+    emit signalHostConnected (fPtrSocket -> peerAddress()) ;
 }
 //-----------------------------------------------------------
 /*!
  * \brief TConnectionClient::getIpAddressServer Получаем адрес найденного сервера
  * \return  Данные найденного сервера
  */
-QHostAddress connection::TConnectionClient::getIpAddressServer ()
+QHostAddress TConnectionClient::getIpAddressServer ()
 {
     return fIpAddressServer ;
+}
+//-----------------------------------------------------------
+/*!
+ * \brief makeSlotConnection    Подключение всех необходимых для работы слотов
+ * \param inPtrSocket   Сокет к которому подключаются слоты
+ */
+void TConnectionClient::makeSlotConnection (QTcpSocket* inPtrSocket)
+{
+    connect (inPtrSocket, &QTcpSocket::disconnected, this, &TConnectionClient::slotHostDisconnected) ;
+    connect (inPtrSocket, SLOT (error(QAbstractSocket::SocketError)), this, SIGNAL (slotHostError(QAbstractSocket::SocketError))) ;
+    connect (inPtrSocket, &QTcpSocket::readyRead, this, &TConnectionClient::slotHostRearyRead) ;
+}
+//-----------------------------------------------------------
+/*!
+ * \brief TConnectionClient::slotServerDisconnected Слот срабатывающий при отключении сервера
+ */
+void TConnectionClient::slotHostDisconnected ()
+{
+    emit signalHostDisconnected() ;
+}
+//-----------------------------------------------------------
+/*!
+ * \brief TConnectionClient::slotHostError  Слот срабатывающий при ошибке обмена
+ * \param inError   Код ошибки
+ */
+void TConnectionClient::slotHostError (QAbstractSocket::SocketError inError)
+{
+
+}
+//-----------------------------------------------------------
+/*!
+ * \brief TConnectionClient::slotHostRearyRead Слот обрабатывающий получение данных от сервера
+ */
+void TConnectionClient::slotHostRearyRead ()
+{
+
 }
 //-----------------------------------------------------------
