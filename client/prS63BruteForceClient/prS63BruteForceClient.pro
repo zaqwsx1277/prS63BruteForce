@@ -28,7 +28,8 @@ SOURCES += \
         prS63BruteForceClient.cpp \
         TClientModel.cpp \
         ../../common/TConnection.cpp \
-        TConnectionClient.cpp
+        TConnectionClient.cpp \
+    ../../common/TException.cpp
 
 HEADERS += \
         prS63BruteForceClient.hpp \
@@ -36,7 +37,8 @@ HEADERS += \
         ../../common/TConnection.hpp \
         TConnectionClient.hpp \
     ../../common/TCommonDefine.hpp \
-    TCommonDefaneClient.hpp
+    TCommonDefaneClient.hpp \
+    ../../common/TException.hpp
 
 FORMS += \
         prS63BruteForceClient.ui

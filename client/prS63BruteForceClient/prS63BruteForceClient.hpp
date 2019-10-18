@@ -52,7 +52,9 @@ private:
     std::shared_ptr <TConnectionClient> fPtrConnectionClient {nullptr}; // Указатель на класс обрабатывающий подключение к серверу
     std::unique_ptr <client::TClientModel> fPrtClientModel {nullptr} ;  // Указатель на модель вывода лога
 
+    int fTimerIdRefresh {0} ;   // Id таймера на обновление формы
     std::unique_ptr <QTimer> fPtrStateRefresh {nullptr} ; // Указатель на таймер для запроса состояния сервера
+
     TConnection::state fStateServer {TConnection::stUnknown}; // Текущее состояние сервера
 
     void initForm () ;          // инициализирую все элементы формы
@@ -62,7 +64,8 @@ private:
     void showState () ;         // Вывод состояния
     void refreshLog () ;        // Обновление формы
 
-    void timerEvent(QTimerEvent *event) ;   // Обработчик таймера для обновления формы
+    void timerEvent(QTimerEvent*) ;   // Обработчик таймера для обновления формы
+    void closeEvent(QCloseEvent*) ;   // Обработчик события на закрытие формы
 };
 
 }

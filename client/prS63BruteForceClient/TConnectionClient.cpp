@@ -26,7 +26,7 @@ void TConnectionClient::seachServer (quint16 inPort)
 {
     fState = stServerSearch ;           // Установка состояния поиска сервера
     fPtrSocket -> disconnectFromHost() ;// Не задумываясь отключаюсь от сервера
-    fIsServerExist = false ;
+    fServerState = stDisconnected ;
                                         // Поиск сервера
     for (auto interface : QNetworkInterface::allInterfaces()) {
         auto ipList = interface.addressEntries() ;              // Получаем список локальных IP адресов
@@ -46,15 +46,16 @@ void TConnectionClient::seachServer (quint16 inPort)
                 std::this_thread::sleep_for(std::chrono::microseconds (100)) ;    // тормозим выполнение для нормальной обработки сигнала
                 QApplication::processEvents() ;
                 disconnect(fPtrSocket.get(), &QTcpSocket::connected, this, &TConnectionClient::slotHostConnected) ;
-                if (fIsServerExist) {
+                if (fServerState == stConnected) {
                     fIpAddressServer = tmpIpAddress ;           // завершаем поиск после нахождения первого попавшегося сервера
+                    makeSlotConnection (fPtrSocket.get()) ;
                     fState = stWait ;
                     break ;
                 }
             }
         }
     }
-    if (!fIsServerExist) fState = stError ;
+    if (stDisconnected == stDisconnected) fState = stError ;
 }
 //-----------------------------------------------------------
 /*!
@@ -62,7 +63,7 @@ void TConnectionClient::seachServer (quint16 inPort)
  */
 void TConnectionClient::slotHostConnected ()
 {
-    fIsServerExist = true ;
+    fServerState = stConnected ;
     emit signalHostConnected (fPtrSocket -> peerAddress()) ;
 }
 //-----------------------------------------------------------
@@ -91,6 +92,7 @@ void TConnectionClient::makeSlotConnection (QTcpSocket* inPtrSocket)
  */
 void TConnectionClient::slotHostDisconnected ()
 {
+    fServerState = stDisconnected ;
     emit signalHostDisconnected() ;
 }
 //-----------------------------------------------------------

@@ -22,7 +22,7 @@ prS63BruteForceClient::prS63BruteForceClient(QWidget *parent) :
     initForm () ;
     clearForm () ;
     fPtrConnectionClient.reset(new TConnectionClient ()) ;  // инициализируем работу с сервером
-    startTimer(commonDefineClient::timerRefresh) ;          // Запускаем таймер на обновление формы
+    fTimerIdRefresh = startTimer(commonDefineClient::timerRefresh) ;  // Запускаем таймер на обновление формы
 
     makeSlotConnection () ;
     fPtrConnectionClient -> seachServer(commonDefine::portNumber);
@@ -232,5 +232,14 @@ void prS63BruteForceClient::slotHostDisconnected ()
     item -> comment = commonDefineClient::logServerDisconnected + fPtrConnectionClient -> getIpAddressServer().toString() ;
     ui -> spServerAddress -> clear() ;
     fPrtClientModel -> push_back(item);
+}
+//---------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceClient::closeEvent     Обработчик события на закрытие формы
+ * \param inEvent
+ */
+void prS63BruteForceClient::closeEvent(QCloseEvent* inEvent)
+{
+    killTimer(fTimerIdRefresh);     // Останавливаем запущенные таймеры
 }
 //---------------------------------------------------------------------------
