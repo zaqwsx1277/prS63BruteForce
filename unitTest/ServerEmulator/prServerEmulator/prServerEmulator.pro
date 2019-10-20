@@ -24,12 +24,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+        ../../../common/TException.cpp \
         main.cpp \
         prServerEmulator.cpp \
         ../../../common/TConnection.cpp \
         TSEConnection.cpp
 
 HEADERS += \
+        ../../../common/TException.hpp \
+        TSEmulatorDefine.h \
         prServerEmulator.hpp \
         ../../../common/TConnection.hpp \
         TSEConnection.hpp

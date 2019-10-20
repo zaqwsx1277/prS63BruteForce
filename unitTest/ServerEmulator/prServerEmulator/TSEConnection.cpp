@@ -33,10 +33,9 @@ void TSEConnection::slotHostConnected ()
 void TSEConnection::slotHostDisconnected ()
 {
     QTcpSocket* ptrSocket = qobject_cast <QTcpSocket*> (sender ()) ;
-    if (ptrSocket != 0) {
+    if (ptrSocket != nullptr) {
         emit signalHostDisconnected(ptrSocket ->peerAddress().toIPv4Address());
     }
-    // else - нужно кинуть exeption, что произошло отключение неизвестного хоста
 }
 //-----------------------------------------------------------------------------------
 /*!
@@ -45,10 +44,9 @@ void TSEConnection::slotHostDisconnected ()
 void TSEConnection::slotHostError(QAbstractSocket::SocketError inError)
 {
     QTcpSocket* ptrSocket = qobject_cast <QTcpSocket*> (sender ()) ;
-    if (ptrSocket != 0) {
+    if (ptrSocket != nullptr) {
         emit signalHostError(ptrSocket ->peerAddress().toIPv4Address(), inError);
     }
-    // else - нужно кинуть exeption, что произошла ошибка неизвестного хоста
 }
 //-----------------------------------------------------------------------------------
 /*!

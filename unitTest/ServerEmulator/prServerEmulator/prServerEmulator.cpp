@@ -11,9 +11,7 @@ prServerEmulator::prServerEmulator(QWidget *parent) :
     ui->setupUi(this);
 
     clear() ;
-
     fPtrConnection.reset(new connection::TSEConnection) ;
-
     setConnect () ;
 }
 //------------------------------------------------------------------------------
