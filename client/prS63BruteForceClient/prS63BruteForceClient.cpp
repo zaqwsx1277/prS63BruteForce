@@ -39,7 +39,7 @@ prS63BruteForceClient::~prS63BruteForceClient()
 void prS63BruteForceClient::initForm ()
 {
                                     // Инициализируем таблицу для ведения лога
-    if (fPrtClientModel.get() != nullptr) disconnect (ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
+    if (fPrtClientModel) disconnect (ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
     fPrtClientModel.reset( new client::TClientModel (ui -> spThreadCount -> text().toUShort()));
     ui -> spLog -> setModel(fPrtClientModel.get()) ;
     for (quint8 i = 0; i < fPrtClientModel -> columnCount (); i++) {

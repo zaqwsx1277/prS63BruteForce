@@ -11,6 +11,14 @@ prServerEmulator::prServerEmulator(QWidget *parent) :
     ui->setupUi(this);
 
     clear() ;
+
+    fPrtSEModel.reset( new TSEmodel ());
+    ui -> spLog -> setModel(fPrtSEModel.get()) ;
+    for (quint8 i = 0; i < fPrtSEModel -> columnCount (); i++) {
+        ui-> spLog -> horizontalHeader() -> setSectionResizeMode(i, QHeaderView::Stretch) ;
+    }
+    connect(ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;    // Устанавливаем текущей последнюю строку
+
     fPtrConnection.reset(new connection::TSEConnection) ;
     setConnect () ;
 }

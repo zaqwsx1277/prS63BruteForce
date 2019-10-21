@@ -64,7 +64,6 @@ QVariant client::TClientModel::data(const QModelIndex &index, int role) const
         }
     }
     return retVal ;
-
 }
 //---------------------------------------------------
 QVariant client::TClientModel::headerData(int section, Qt::Orientation orientation, int role) const

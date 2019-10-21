@@ -14,7 +14,7 @@
 namespace client {
 //-----------------------------------------------------------------------------------
 /*!
- * \brief The TClientModel class    Модель для отображения лога работы клиентов
+ * \brief    Модель для отображения лога работы клиента
  */
 class TClientModel : public QAbstractTableModel, public std::vector <commonDefineClient::tdLogItemClient>
 {
@@ -35,7 +35,7 @@ private:
     quint16 fThreadCount {0} ;      // Количество выделенных очередей.
 
 public slots:
-//    void slotClearModel () ;         // Удаляем все данные из модели
+
 };
 
 }

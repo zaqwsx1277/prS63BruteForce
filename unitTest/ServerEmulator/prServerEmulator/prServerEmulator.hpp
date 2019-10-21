@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "TSEConnection.hpp"
+#include "TSEmodel.hpp"
 
 namespace Ui {
 class prServerEmulator;
@@ -29,6 +30,7 @@ private:
 
     QHostAddress fHostAddress ;     // Адрес подключившегося клиента
     std::unique_ptr <connection::TSEConnection> fPtrConnection  {nullptr} ; // Указатель на класс обрабатывающий всю работу по сети
+    std::unique_ptr <TSEmodel> fPrtSEModel {nullptr} ;  // Указатель на модель отображения лога
 
     void setConnect () ;            // Формирование всех конектов
     void clear () ;                 // Очистка всех полей

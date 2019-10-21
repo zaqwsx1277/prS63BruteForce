@@ -28,14 +28,17 @@ SOURCES += \
         main.cpp \
         prServerEmulator.cpp \
         ../../../common/TConnection.cpp \
-        TSEConnection.cpp
+        TSEConnection.cpp \
+    TSEmodel.cpp
 
 HEADERS += \
         ../../../common/TException.hpp \
         TSEmulatorDefine.h \
         prServerEmulator.hpp \
         ../../../common/TConnection.hpp \
-        TSEConnection.hpp
+        TSEConnection.hpp \
+    TSEmodel.hpp \
+    ../../../common/TCommonDefine.hpp
 
 FORMS += \
         prServerEmulator.ui
