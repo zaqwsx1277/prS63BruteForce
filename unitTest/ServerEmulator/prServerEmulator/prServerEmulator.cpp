@@ -3,6 +3,8 @@
 
 #include <QTcpSocket>
 
+#include "TException.hpp"
+
 //-----------------------------------------------------------------------------
 prServerEmulator::prServerEmulator(QWidget *parent) :
     QMainWindow(parent),
@@ -82,3 +84,13 @@ void prServerEmulator::on_pushButton_clicked()
     clear () ;
 }
 //-----------------------------------------------------------------------------
+/*!
+ * \brief prServerEmulator::on_pushButton_2_clicked Слот реагирующий на нажатие кнопки проверки состояния клиента
+ */
+void prServerEmulator::on_pushButton_2_clicked()
+{
+    try {
+
+    }
+      catch (exception::)
+}

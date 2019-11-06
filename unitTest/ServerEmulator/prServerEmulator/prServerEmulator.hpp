@@ -41,6 +41,7 @@ private slots:
     void slotHostError (quint32, QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибки от клиента
 
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 
 #endif // PRSERVEREMULATOR_HPP
