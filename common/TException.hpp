@@ -42,6 +42,8 @@ private:
     std::error_code fCode {0, blowfishCategory};
 };
 
+static const std::uint32_t blowfushError {1000} ;
+static const TException errConnectionSocket ("Ошибка инициализации сокета для работы с сервером!", {blowfushError + 1, blowfishCategory});
 
 }
 #endif // TEXCEPTION_HPP

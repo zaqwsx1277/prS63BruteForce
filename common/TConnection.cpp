@@ -1,4 +1,7 @@
 #include "TConnection.hpp"
+#include "TException.hpp"
+
+#include <QDataStream>
 
 using namespace connection ;
 
@@ -35,10 +38,18 @@ void TConnection::setState (const TConnection::state& inState)
  * \param inSendData    Передаваемые данные. Как правило это quint64 (8 байт)
  * \param inSocket      Сокет через который выполняется передача. По умолчание передача выполняется через fPtrSocket
  *
- * При ошибках кидается exeption
+ * Обработка ошибок должна выполняться в наследуемом классе
  */
-void TConnection::sendData (TConnection::exchangeProtocol inCommand, quint64 inSendData, std::unique_ptr <QTcpSocket> inSocket)
+void TConnection::sendData (TConnection::exchangeProtocol inCommand, quint64 inSendData, std::shared_ptr <QTcpSocket> inSocket)
 {
+    QByteArray sendBlock ;
+    QDataStream sendStream (&sendBlock, QIODevice::ReadWrite) ;
 
+    sendStream << quint32 (0xFFFF) << inCommand << inSendData ;
+    if (!inSocket)
+        if (fPtrSocket)  fPtrSocket -> write(sendBlock) ;
+          else throw exception::errConnectionSocket ;
+
+      else inSocket -> write(sendBlock) ;
 }
 //-------------------------------------------------------------------
