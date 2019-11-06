@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../prServerEmulator -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -isystem /usr/include/libdrm -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I../prServerEmulator -I. -I../../../common -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -isystem /usr/include/libdrm -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -50,11 +50,23 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../prServerEmulator/main.cpp \
-		../prServerEmulator/prServerEmulator.cpp moc_prServerEmulator.cpp
-OBJECTS       = main.o \
+SOURCES       = ../../../common/TException.cpp \
+		../prServerEmulator/main.cpp \
+		../prServerEmulator/prServerEmulator.cpp \
+		../../../common/TConnection.cpp \
+		../prServerEmulator/TSEConnection.cpp \
+		../prServerEmulator/TSEmodel.cpp moc_prServerEmulator.cpp \
+		moc_TConnection.cpp \
+		moc_TSEConnection.cpp
+OBJECTS       = TException.o \
+		main.o \
 		prServerEmulator.o \
-		moc_prServerEmulator.o
+		TConnection.o \
+		TSEConnection.o \
+		TSEmodel.o \
+		moc_prServerEmulator.o \
+		moc_TConnection.o \
+		moc_TSEConnection.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -118,6 +130,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		../prServerEmulator/.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -136,8 +149,18 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		../prServerEmulator/prServerEmulator.pro ../prServerEmulator/prServerEmulator.hpp ../prServerEmulator/main.cpp \
-		../prServerEmulator/prServerEmulator.cpp
+		../prServerEmulator/prServerEmulator.pro ../../../common/TException.hpp \
+		../prServerEmulator/TSEmulatorDefine.h \
+		../prServerEmulator/prServerEmulator.hpp \
+		../../../common/TConnection.hpp \
+		../prServerEmulator/TSEConnection.hpp \
+		../prServerEmulator/TSEmodel.hpp \
+		../../../common/TCommonDefine.hpp ../../../common/TException.cpp \
+		../prServerEmulator/main.cpp \
+		../prServerEmulator/prServerEmulator.cpp \
+		../../../common/TConnection.cpp \
+		../prServerEmulator/TSEConnection.cpp \
+		../prServerEmulator/TSEmodel.cpp
 QMAKE_TARGET  = prServerEmulator
 DESTDIR       = 
 TARGET        = prServerEmulator
@@ -212,6 +235,7 @@ Makefile: ../prServerEmulator/prServerEmulator.pro /usr/lib/x86_64-linux-gnu/qt5
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -299,6 +323,7 @@ Makefile: ../prServerEmulator/prServerEmulator.pro /usr/lib/x86_64-linux-gnu/qt5
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
@@ -337,8 +362,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../prServerEmulator/prServerEmulator.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../prServerEmulator/main.cpp ../prServerEmulator/prServerEmulator.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../common/TException.hpp ../prServerEmulator/TSEmulatorDefine.h ../prServerEmulator/prServerEmulator.hpp ../../../common/TConnection.hpp ../prServerEmulator/TSEConnection.hpp ../prServerEmulator/TSEmodel.hpp ../../../common/TCommonDefine.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../common/TException.cpp ../prServerEmulator/main.cpp ../prServerEmulator/prServerEmulator.cpp ../../../common/TConnection.cpp ../prServerEmulator/TSEConnection.cpp ../prServerEmulator/TSEmodel.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../prServerEmulator/prServerEmulator.ui $(DISTDIR)/
 
 
@@ -371,13 +396,28 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_prServerEmulator.cpp
+compiler_moc_header_make_all: moc_prServerEmulator.cpp moc_TConnection.cpp moc_TSEConnection.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_prServerEmulator.cpp
-moc_prServerEmulator.cpp: ../prServerEmulator/prServerEmulator.hpp \
+	-$(DEL_FILE) moc_prServerEmulator.cpp moc_TConnection.cpp moc_TSEConnection.cpp
+moc_prServerEmulator.cpp: ../prServerEmulator/TSEConnection.hpp \
+		../../../common/TConnection.hpp \
+		../prServerEmulator/TSEmodel.hpp \
+		../prServerEmulator/TSEmulatorDefine.h \
+		../prServerEmulator/prServerEmulator.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/antonov/workProject/prS63BruteForce/unitTest/ServerEmulator/prServerEmulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../prServerEmulator/prServerEmulator.hpp -o moc_prServerEmulator.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/antonov/workProject/prS63BruteForce/unitTest/ServerEmulator/prServerEmulator -I/home/antonov/workProject/prS63BruteForce/common -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../prServerEmulator/prServerEmulator.hpp -o moc_prServerEmulator.cpp
+
+moc_TConnection.cpp: ../../../common/TConnection.hpp \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/antonov/workProject/prS63BruteForce/unitTest/ServerEmulator/prServerEmulator -I/home/antonov/workProject/prS63BruteForce/common -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../../common/TConnection.hpp -o moc_TConnection.cpp
+
+moc_TSEConnection.cpp: ../../../common/TConnection.hpp \
+		../prServerEmulator/TSEConnection.hpp \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/antonov/workProject/prS63BruteForce/unitTest/ServerEmulator/prServerEmulator -I/home/antonov/workProject/prS63BruteForce/common -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../prServerEmulator/TSEConnection.hpp -o moc_TSEConnection.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -398,15 +438,46 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: ../prServerEmulator/main.cpp ../prServerEmulator/prServerEmulator.hpp
+TException.o: ../../../common/TException.cpp ../../../common/TException.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TException.o ../../../common/TException.cpp
+
+main.o: ../prServerEmulator/main.cpp ../prServerEmulator/prServerEmulator.hpp \
+		../prServerEmulator/TSEConnection.hpp \
+		../../../common/TConnection.hpp \
+		../prServerEmulator/TSEmodel.hpp \
+		../prServerEmulator/TSEmulatorDefine.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../prServerEmulator/main.cpp
 
 prServerEmulator.o: ../prServerEmulator/prServerEmulator.cpp ../prServerEmulator/prServerEmulator.hpp \
+		../prServerEmulator/TSEConnection.hpp \
+		../../../common/TConnection.hpp \
+		../prServerEmulator/TSEmodel.hpp \
+		../prServerEmulator/TSEmulatorDefine.h \
 		ui_prServerEmulator.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o prServerEmulator.o ../prServerEmulator/prServerEmulator.cpp
 
+TConnection.o: ../../../common/TConnection.cpp ../../../common/TConnection.hpp \
+		../../../common/TException.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TConnection.o ../../../common/TConnection.cpp
+
+TSEConnection.o: ../prServerEmulator/TSEConnection.cpp ../prServerEmulator/TSEConnection.hpp \
+		../../../common/TConnection.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSEConnection.o ../prServerEmulator/TSEConnection.cpp
+
+TSEmodel.o: ../prServerEmulator/TSEmodel.cpp ../prServerEmulator/TSEmodel.hpp \
+		../prServerEmulator/TSEmulatorDefine.h \
+		../../../common/TConnection.hpp \
+		../../../common/TCommonDefine.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TSEmodel.o ../prServerEmulator/TSEmodel.cpp
+
 moc_prServerEmulator.o: moc_prServerEmulator.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_prServerEmulator.o moc_prServerEmulator.cpp
+
+moc_TConnection.o: moc_TConnection.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_TConnection.o moc_TConnection.cpp
+
+moc_TSEConnection.o: moc_TSEConnection.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_TSEConnection.o moc_TSEConnection.cpp
 
 ####### Install
 
