@@ -15,14 +15,14 @@ class TSEConnection : public TConnection
 
 public:
     TSEConnection();
-    bool sendData (TConnection::exchangeProtocol, quint64) { return true ; }
+//    bool sendData (TConnection::exchangeProtocol, quint64) { return true ; }
     bool receiveData (TConnection::exchangeProtocol*, quint64*) {return true ;}
 
     void connectionClose () ;               // Закрываем соединение с клиентом
 
 private:
     std::unique_ptr <QTcpServer> fPtrServer {new QTcpServer ()} ;   // Указатель на сервер обрабатывающий входящие подключения
-    QTcpSocket *fPtrSocket {nullptr} ;      // Указатель на сокет обрабатывающий обмен данными с клиентом
+//    QTcpSocket *fPtrSocket {nullptr} ;      // Указатель на сокет обрабатывающий обмен данными с клиентом
 
 private slots:
     void slotHostConnected () ;             // Слот срабатывающий при подключении клиента

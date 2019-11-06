@@ -29,7 +29,7 @@ private:
     Ui::prServerEmulator *ui;
 
     QHostAddress fHostAddress ;     // Адрес подключившегося клиента
-    std::unique_ptr <connection::TSEConnection> fPtrConnection  {nullptr} ; // Указатель на класс обрабатывающий всю работу по сети
+    std::unique_ptr <connection::TSEConnection> fPtrConnection  {nullptr} ; // Указатель на класс обрабатывающий всю работу по сети.
     std::unique_ptr <TSEmodel> fPrtSEModel {nullptr} ;  // Указатель на модель отображения лога
 
     void setConnect () ;            // Формирование всех конектов

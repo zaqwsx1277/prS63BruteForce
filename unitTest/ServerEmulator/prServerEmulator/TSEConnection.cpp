@@ -17,7 +17,7 @@ TSEConnection::TSEConnection() : TConnection ()
  */
 void TSEConnection::slotHostConnected ()
 {
-    fPtrSocket  = fPtrServer -> nextPendingConnection() ;
+    fPtrSocket.  = fPtrServer -> nextPendingConnection() ;
     if (fPtrSocket != nullptr) {
         connect (fPtrSocket, &QTcpSocket::disconnected, this, &TSEConnection::slotHostDisconnected) ;
         connect (fPtrSocket, SIGNAL (error (QAbstractSocket::SocketError)), this, SLOT (slotHostError (QAbstractSocket::SocketError))) ;
@@ -54,7 +54,8 @@ void TSEConnection::slotHostError(QAbstractSocket::SocketError inError)
  */
 void TSEConnection::slotHostReadyRead ()
 {
-
+    QByteArray receiveBlock ;
+    QDataStream receiveStream (fPtrSocket.get()) ;
 }
 //-----------------------------------------------------------------------------------
 /*!
