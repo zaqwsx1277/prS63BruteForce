@@ -53,3 +53,14 @@ void TConnection::sendData (TConnection::exchangeProtocol inCommand, quint64 inS
       else inSocket -> write(sendBlock) ;
 }
 //-------------------------------------------------------------------
+connection::TDataTransfer& connection::operator >> (QDataStream& inStream, TDataTransfer &inData)
+{
+    inStream >> inData.title ;
+    int tempCommand ;
+    inStream >> tempCommand ;
+    inData.command =  static_cast <TConnection::exchangeProtocol> (tempCommand) ;
+    inStream >> inData.data ;
+
+    return inData ;
+}
+//-------------------------------------------------------------------

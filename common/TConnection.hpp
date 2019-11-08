@@ -18,7 +18,9 @@ class TConnection : public QObject
 public:
     TConnection();
                                 /// Протокол обмена между сервером и клиентами.
-    enum exchangeProtocol {
+    enum exchangeProtocol  {
+                    /// Команда не определена.
+        cmdUnknown,
                     /// Запрос клиента на подключение
         cmdConnectionRequest,
                     /// Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности.
@@ -77,6 +79,20 @@ public:
 
     void sendData (TConnection::exchangeProtocol, quint64, std::shared_ptr <QTcpSocket> = nullptr) ;      // Метод передачи данных
     bool virtual receiveData (TConnection::exchangeProtocol*, quint64*) = 0 ; // Виртуальный метод получения данных
+};
+//----------------------------------------------------------------------------------------------------------
+/*!
+ * \brief The TDataTransfer struct Формат передаваемых данных
+ *
+ *  Формат передаваемых данных имеет фиксированный размер
+ */
+struct TDataTransfer
+{
+    quint32 title {0xFFFF} ;                // Заголовок передаваемых данных. Всегда должен быть равен 0хFFFF
+    TConnection::exchangeProtocol command {TConnection::exchangeProtocol::cmdUnknown}; // Передаваемая команда
+    qint64 data {0} ;                      // Передаваемые данные
+
+    friend TDataTransfer& operator >> (QDataStream&, TDataTransfer&) ;
 };
 
 }

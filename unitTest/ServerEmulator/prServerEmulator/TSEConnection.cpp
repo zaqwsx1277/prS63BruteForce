@@ -2,6 +2,7 @@
 
 #include <QTcpSocket>
 #include <QHostAddress>
+#include <QDataStream>
 
 using namespace connection ;
 //----------------------------------------------------------------------------------
@@ -17,11 +18,11 @@ TSEConnection::TSEConnection() : TConnection ()
  */
 void TSEConnection::slotHostConnected ()
 {
-    fPtrSocket.  = fPtrServer -> nextPendingConnection() ;
+    fPtrSocket.reset(fPtrServer -> nextPendingConnection()) ;
     if (fPtrSocket != nullptr) {
-        connect (fPtrSocket, &QTcpSocket::disconnected, this, &TSEConnection::slotHostDisconnected) ;
-        connect (fPtrSocket, SIGNAL (error (QAbstractSocket::SocketError)), this, SLOT (slotHostError (QAbstractSocket::SocketError))) ;
-        connect (fPtrSocket, &QTcpSocket::readyRead, this, &TSEConnection::slotHostReadyRead) ;
+        connect (fPtrSocket.get(), &QTcpSocket::disconnected, this, &TSEConnection::slotHostDisconnected) ;
+        connect (fPtrSocket.get(), SIGNAL (error (QAbstractSocket::SocketError)), this, SLOT (slotHostError (QAbstractSocket::SocketError))) ;
+        connect (fPtrSocket.get(), &QTcpSocket::readyRead, this, &TSEConnection::slotHostReadyRead) ;
 
         emit signalHostConnected (fPtrSocket  -> peerAddress ().toIPv4Address()) ;
     }
@@ -54,8 +55,15 @@ void TSEConnection::slotHostError(QAbstractSocket::SocketError inError)
  */
 void TSEConnection::slotHostReadyRead ()
 {
-    QByteArray receiveBlock ;
+    connection::TDataTransfer receiveBlock ;
     QDataStream receiveStream (fPtrSocket.get()) ;
+
+    while (true) {              // Ожидаем получения всего блока передаваемых данных
+        if (fPtrSocket -> bytesAvailable() < sizeof (connection::TDataTransfer)) break ;
+        receiveStream >> receiveBlock ;
+
+        int i = 0 ;
+    }
 }
 //-----------------------------------------------------------------------------------
 /*!
