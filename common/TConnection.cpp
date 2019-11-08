@@ -1,8 +1,6 @@
 #include "TConnection.hpp"
 #include "TException.hpp"
 
-#include <QDataStream>
-
 using namespace connection ;
 
 //-------------------------------------------------------------------
@@ -40,7 +38,7 @@ void TConnection::setState (const TConnection::state& inState)
  *
  * Обработка ошибок должна выполняться в наследуемом классе
  */
-void TConnection::sendData (TConnection::exchangeProtocol inCommand, quint64 inSendData, std::shared_ptr <QTcpSocket> inSocket)
+void TConnection::sendData (const TConnection::exchangeProtocol inCommand, const quint64 inSendData, std::shared_ptr <QTcpSocket> inSocket)
 {
     QByteArray sendBlock ;
     QDataStream sendStream (&sendBlock, QIODevice::ReadWrite) ;
@@ -53,7 +51,13 @@ void TConnection::sendData (TConnection::exchangeProtocol inCommand, quint64 inS
       else inSocket -> write(sendBlock) ;
 }
 //-------------------------------------------------------------------
-connection::TDataTransfer& connection::operator >> (QDataStream& inStream, TDataTransfer &inData)
+/*!
+ * \brief connection::operator >>   Перегрузка потокового оператора получения данных
+ * \param inStream
+ * \param inData
+ * \return
+ */
+TDataTransfer& connection::operator >> (QDataStream& inStream, TDataTransfer &inData)
 {
     inStream >> inData.title ;
     int tempCommand ;
@@ -62,5 +66,17 @@ connection::TDataTransfer& connection::operator >> (QDataStream& inStream, TData
     inStream >> inData.data ;
 
     return inData ;
+}
+//-------------------------------------------------------------------
+/*!
+ * \brief connection::operator <<   Перегрузка потокового оператора передачи данных
+ * \param inStream
+ * \param inData
+ * \return
+ */
+QDataStream& connection::operator << (QDataStream& inStream, const TDataTransfer&inData)
+{
+    inStream << inData.title << inData.command << inData.data ;
+    return inStream ;
 }
 //-------------------------------------------------------------------

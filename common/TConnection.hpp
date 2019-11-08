@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QDataStream>
 
 #include <memory>
 
@@ -77,7 +78,8 @@ public:
     state getState () ;            // Получение текущего состояния
     void setState (const state&) ; // Установка состояния
 
-    void sendData (TConnection::exchangeProtocol, quint64, std::shared_ptr <QTcpSocket> = nullptr) ;      // Метод передачи данных
+    void sendData (const TConnection::exchangeProtocol, const quint64, std::shared_ptr <QTcpSocket> = nullptr) ;      // Метод передачи данных
+    void sendData (const TDataTransfer&, std::shared_ptr <QTcpSocket> = nullptr) ;      // Метод передачи данных
     bool virtual receiveData (TConnection::exchangeProtocol*, quint64*) = 0 ; // Виртуальный метод получения данных
 };
 //----------------------------------------------------------------------------------------------------------
@@ -93,6 +95,7 @@ struct TDataTransfer
     qint64 data {0} ;                      // Передаваемые данные
 
     friend TDataTransfer& operator >> (QDataStream&, TDataTransfer&) ;
+    friend QDataStream& operator << (QDataStream&, const TDataTransfer&) ;
 };
 
 }
