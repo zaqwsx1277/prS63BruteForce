@@ -10,6 +10,8 @@
 
 namespace connection {
 
+struct TDataTransfer ;
+
 /*!
  * \brief The TConnection class Базовый класс для обслуживания работы распределенной системы
  */
