@@ -43,7 +43,12 @@ private:
 };
 
 static const std::uint32_t blowfushError {1000} ;
+static const TException noError ("Ошибки отсутствуют!");
 static const TException errConnectionSocket ("Ошибка инициализации сокета для работы с сервером!", {blowfushError + 1, blowfishCategory});
+static const TException errTransferLost ("Потеря полученных данных!", {blowfushError + 2, blowfishCategory});
+static const TException errTransferNoTitle ("Ошибка заголовка кадра!", {blowfushError + 3, blowfishCategory});
+static const TException errTransferNoCommand ("Ошибка в формате коменды!", {blowfushError + 4, blowfishCategory});
+static const TException errTransferLostSequence ("Потеряна последовательность передачи!", {blowfushError + 5, blowfishCategory});
 
 }
 #endif // TEXCEPTION_HPP

@@ -38,8 +38,9 @@ const QString stateStop {"Процесс подбора остановлен"} ;
 const QString stateServerSearch {"Выполняется автоматический поиск сервера"} ;
 const QString statePause {"Выполнение подбора приостановлено"} ;
 
-const QString logServerConnected {"Клиент подключен к серверу: "} ;
+const QString logServerConnected {"Клиент подключен к серверу: "} ;     // Описание возможных записей в лог
 const QString logServerDisconnected {"Клиент отключен от сервера: "} ;
+const QString logServerStateRequest {"Получен запрос состояния от сервера: "} ;
 
 const quint32 timerRefresh {1000} ;                         // значение таймера для обновления формы
 

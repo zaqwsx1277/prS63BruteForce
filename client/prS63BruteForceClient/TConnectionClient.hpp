@@ -22,9 +22,6 @@ public:
     void seachServer (quint16) ;            // Поиск сервера в локальной сети
     QHostAddress getIpAddressServer () ;    // Получаем адрес найденного сервера
 
-    bool sendData (TConnection::exchangeProtocol, quint64) { return true ;}      // Метод обработки передачи данных
-    bool receiveData (TConnection::exchangeProtocol*, quint64*) { return true;}  // Метод обработки получения данных
-
 private:
 
     QHostAddress fIpAddressServer = QHostAddress ()  ; // IP адрес сервера
@@ -39,8 +36,9 @@ private slots:
     void slotHostReadyRead () ;     // Слот обрабатывающий получение данных от сервера
 
 signals:                            // Все сигналы обрабатываются в основной форме
-    void signalHostConnected (QHostAddress) ; // Сигнал о подлючении к серверу.
-    void signalHostDisconnected () ; // Сигнал об отключении от сервера.
+    void signalHostConnected (QHostAddress) ;   // Сигнал о подлючении к серверу.
+    void signalHostDisconnected () ;            // Сигнал об отключении от сервера.
+    void signalReadData (TDataTransfer) ;       // Сингал об успешном получении данных
 };
 
 }

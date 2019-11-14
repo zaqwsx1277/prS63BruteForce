@@ -119,7 +119,7 @@ QVariant client::TClientModel::headerData(int section, Qt::Orientation orientati
  */
 void client::TClientModel::push_back (commonDefineClient::tdLogItemClient inItem)
 {
-    std::lock_guard <std::mutex> refreshWait (commonDefine::mutexRefresh) ;    // блокируем допуск остальным потокам и на обновление
+    std::lock_guard <std::mutex> refreshWait (commonDefine::mutexRefresh) ;    // блокируем допуск остальным потокам на обновление
     std::vector <commonDefineClient::tdLogItemClient>::push_back(inItem);
 }
 //---------------------------------------------------

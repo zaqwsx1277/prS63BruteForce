@@ -38,7 +38,8 @@ private slots:
     void on_spThreadCount_textChanged(const QString &arg1);
     void slotStateRefresh () ;          // Слот обрабатывающий таймер на обновление статуса сервера
     void slotHostConnected (QHostAddress) ; // Слот обрабатывающий подключение клиента к серверу
-    void slotHostDisconnected () ;       // Слот обрабатывающий отключение от сервера
+    void slotHostDisconnected () ;      // Слот обрабатывающий отключение от сервера
+    void slotReadData (TDataTransfer) ; // Слот обрабатывающий получение данных от сервера
 
 private:
     Ui::prS63BruteForceClient *ui;

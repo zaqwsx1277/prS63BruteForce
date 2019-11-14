@@ -1,15 +1,16 @@
 #include "TConnectionClient.hpp"
 #include "TCommonDefine.hpp"
+#include "TException.hpp"
 
 #include <QNetworkInterface>
 #include <QTcpSocket>
 #include <QApplication>
+#include <QMessageBox>
 
 #include <cmath>
 #include <memory>
 #include <chrono>
 #include <thread>
-
 
 #include <assert.h>
 
@@ -110,6 +111,26 @@ void TConnectionClient::slotHostError (QAbstractSocket::SocketError inError)
  */
 void TConnectionClient::slotHostReadyRead ()
 {
-    int i = 0 ;
+    TDataTransfer readData ;
+    try {
+        receiveData (readData) ;    // Получаем данные от сервера
+        emit signalReadData(readData) ;     // Генерируем сигнал о получении данных от сервера
+
+    }
+      catch (exception::TException &ex) {   // Обработка ошибок моего софта
+        QString textEx = QString::fromStdString(ex.what()) ;
+        QMessageBox::critical(nullptr, "Ошибка ПО", textEx, QMessageBox::Yes) ;
+      }
+
+      catch (std::exception &ex) {          // Обработка ошибок  std::exception
+        QString textEx = QString::fromStdString(ex.what()) ;
+        QMessageBox::critical(nullptr, "Ошибка std::exception", textEx, QMessageBox::Yes) ;
+      }
+
+      catch (...) {                         // Обработка остальных ошибок
+        QMessageBox::critical(nullptr, "Ошибка ПО", "Общая ошибка приложения", QMessageBox::Yes) ;
+      }
+
+    auto i = 0 ;
 }
 //-----------------------------------------------------------

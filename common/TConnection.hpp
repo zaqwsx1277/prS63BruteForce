@@ -82,13 +82,13 @@ public:
 
     void sendData (const TConnection::exchangeProtocol, const quint64, std::shared_ptr <QTcpSocket> = nullptr) ;      // Метод передачи данных
     void sendData (const TDataTransfer&, std::shared_ptr <QTcpSocket> = nullptr) ;      // Метод передачи данных
-    bool virtual receiveData (TConnection::exchangeProtocol*, quint64*) = 0 ; // Виртуальный метод получения данных
+    void receiveData (TDataTransfer&, const std::shared_ptr <QTcpSocket> = nullptr) ;   // Метод получения данных
 };
 //----------------------------------------------------------------------------------------------------------
 /*!
  * \brief The TDataTransfer struct Формат передаваемых данных
  *
- *  Формат передаваемых данных имеет фиксированный размер
+ *  Формат кадра передаваемых данных имеет фиксированный размер
  */
 struct TDataTransfer
 {

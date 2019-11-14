@@ -44,11 +44,34 @@ void TConnection::sendData (const TConnection::exchangeProtocol inCommand, const
     QDataStream sendStream (&sendBlock, QIODevice::ReadWrite) ;
 
     sendStream << quint32 (0xFFFF) << inCommand << inSendData ;
-    if (!inSocket)
+    if (!inSocket)                                          // Проверяем корректность сокета через который необходимо работать
         if (fPtrSocket)  fPtrSocket -> write(sendBlock) ;
           else throw exception::errConnectionSocket ;
 
       else inSocket -> write(sendBlock) ;
+}
+//-------------------------------------------------------------------
+/*!
+ * \brief TConnection::receiveData  Метод получения данных
+ * \param inDataTransfer            Полученные данные
+ * \param nSocket                   Сокет через который выполняется приём. По умолчание передача выполняется через fPtrSocket
+ */
+void TConnection::receiveData (TDataTransfer& inDataTransfer, const std::shared_ptr <QTcpSocket> inSocket)
+{
+    QTcpSocket *workTcpSocket = inSocket.get() ;    // Проверяем корректность сокета через который необходимо работать
+    if (workTcpSocket == nullptr)
+        if (!fPtrSocket) throw exception::errConnectionSocket ;
+          else workTcpSocket = fPtrSocket.get() ;
+                                        // Получаем кадр данных.
+    QDataStream readStream (workTcpSocket) ;
+                                        // Если размер полученных данных меньше размера кадра, то генерируется исключение о потерянной команде
+    qint64 readSize = fPtrSocket -> bytesAvailable() ;
+    if (readSize < sizeof (TDataTransfer)) throw exception::errTransferLost ;
+    readStream >> inDataTransfer ;
+                                        // Выполняем проверки корректности полученных данных
+    if (inDataTransfer.title != 0xFFFF) throw exception::errTransferNoTitle ;
+    if (inDataTransfer.command >= cmdCount) throw exception::errTransferNoCommand ;
+    if (readSize != sizeof (TDataTransfer)) throw exception::errTransferLostSequence ;
 }
 //-------------------------------------------------------------------
 /*!

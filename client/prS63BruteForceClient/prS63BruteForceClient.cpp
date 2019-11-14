@@ -62,9 +62,10 @@ void prS63BruteForceClient::makeSlotConnection ()
     fPtrStateRefresh.reset(new QTimer ()) ;                 // Инициализация таймера на запрос состояния сервера
     connect (fPtrStateRefresh.get (), &QTimer::timeout, this, &prS63BruteForceClient::slotStateRefresh) ;
 
-    if (fPtrConnectionClient) {
+    if (fPtrConnectionClient) {                             // Инициализация всех конектов
         connect(fPtrConnectionClient.get(), &TConnectionClient::signalHostConnected, this, &prS63BruteForceClient::slotHostConnected) ;
         connect(fPtrConnectionClient.get(), &TConnectionClient::signalHostDisconnected, this, &prS63BruteForceClient::slotHostDisconnected) ;
+        connect(fPtrConnectionClient.get(), &TConnectionClient::signalReadData, this, &prS63BruteForceClient::slotReadData) ;
     }
 // Приделать exception на аварийное завершение работы
 
@@ -203,6 +204,7 @@ void client::prS63BruteForceClient::slotStateRefresh ()
 void prS63BruteForceClient::slotHostConnected (QHostAddress inHostConnected)
 {
     if (fPrtClientModel) {
+                                // Записываем в лог информацию о подключении к серверу
         commonDefineClient::tdLogItemClient item = std::make_shared <commonDefineClient::TLogItemClient> () ;
         item -> comment = commonDefineClient::logServerConnected + inHostConnected.toString() ;
         ui -> spServerAddress -> setText(inHostConnected.toString()) ;
@@ -218,7 +220,7 @@ void prS63BruteForceClient::refreshLog ()
 {
     if (fPrtClientModel) {
         std::lock_guard <std::mutex> refreshWait (commonDefine::mutexRefresh) ; // блокируем допуск остальным потокaм на работу с контейнером
-        fPrtClientModel -> refreshView() ;                                                     // Обновляем отображение данных
+        fPrtClientModel -> refreshView() ;                                      // Обновляем отображение данных
         QApplication::processEvents() ;
     }
 }
@@ -232,6 +234,30 @@ void prS63BruteForceClient::slotHostDisconnected ()
     item -> comment = commonDefineClient::logServerDisconnected + fPtrConnectionClient -> getIpAddressServer().toString() ;
     ui -> spServerAddress -> clear() ;
     fPrtClientModel -> push_back(item);
+}
+//---------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceClient::slotReadData   Слот обрабатывающий получение данных от сервера
+ */
+void prS63BruteForceClient::slotReadData (TDataTransfer inDataTransfer)
+{
+    switch (inDataTransfer.command) {
+      case TConnection::cmdStateRequest : {
+        commonDefineClient::tdLogItemClient item = std::make_shared <commonDefineClient::TLogItemClient> () ;
+        item -> comment = commonDefineClient::logServerStateRequest ;
+        fPrtClientModel -> push_back(item);
+
+        TDataTransfer dataTransfer ;// Автоматически возвращаем серверу состояние клиента
+        dataTransfer.command = TConnection::cmdStateConfirm ;
+//        dataTransfer.data = getState() ;
+//            sendData (dataTransfer) ;
+
+      }
+      break ;
+
+      default :
+      break ;
+    }
 }
 //---------------------------------------------------------------------------
 /*!
