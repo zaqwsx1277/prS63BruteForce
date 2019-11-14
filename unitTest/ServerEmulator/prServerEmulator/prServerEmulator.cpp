@@ -6,6 +6,8 @@
 
 #include "TException.hpp"
 
+using namespace connection ;
+
 //-----------------------------------------------------------------------------
 prServerEmulator::prServerEmulator(QWidget *parent) :
     QMainWindow(parent),
@@ -91,17 +93,17 @@ void prServerEmulator::on_pushButton_clicked()
 void prServerEmulator::on_pushButton_2_clicked()
 {
     try {
-        fPtrConnection -> sendData (connection::TConnection::exchangeProtocol::cmdStateRequest, 0) ; // Запрос состояния клиента
+        fPtrConnection -> sendData (TConnection::exchangeProtocol::cmdStateRequest, 0) ; // Запрос состояния клиента
 
     }
       catch (exception::TException &ex) {   // Обработка ошибок моего софта
         QString textEx = QString::fromStdString(ex.what()) ;
-        QMessageBox::critical(nullptr, "Ошибка ПО", textEx, QMessageBox::Yes) ;
+        QMessageBox::critical(nullptr, "Ошибка ПО ", textEx, QMessageBox::Yes) ;
       }
 
       catch (std::exception &ex) {
         QString textEx = QString::fromStdString(ex.what()) ;
-        QMessageBox::critical(nullptr, "Ошибка std::exception", textEx, QMessageBox::Yes) ;
+        QMessageBox::critical(nullptr, "Ошибка std::exception ", textEx, QMessageBox::Yes) ;
       }
 
       catch (...) {                         // Обработка остальных ошибок  std::exception
