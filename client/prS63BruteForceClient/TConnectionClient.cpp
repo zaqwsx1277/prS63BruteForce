@@ -84,7 +84,7 @@ void TConnectionClient::makeSlotConnection (QTcpSocket* inPtrSocket)
 {
     connect (inPtrSocket, &QTcpSocket::disconnected, this, &TConnectionClient::slotHostDisconnected) ;
     connect (inPtrSocket, SLOT (error(QAbstractSocket::SocketError)), this, SIGNAL (slotHostError(QAbstractSocket::SocketError))) ;
-    connect (inPtrSocket, &QTcpSocket::readyRead, this, &TConnectionClient::slotHostRearyRead) ;
+    connect (inPtrSocket, &QTcpSocket::readyRead, this, &TConnectionClient::slotHostReadyRead) ;
 }
 //-----------------------------------------------------------
 /*!
@@ -108,8 +108,8 @@ void TConnectionClient::slotHostError (QAbstractSocket::SocketError inError)
 /*!
  * \brief TConnectionClient::slotHostRearyRead Слот обрабатывающий получение данных от сервера
  */
-void TConnectionClient::slotHostRearyRead ()
+void TConnectionClient::slotHostReadyRead ()
 {
-
+    int i = 0 ;
 }
 //-----------------------------------------------------------

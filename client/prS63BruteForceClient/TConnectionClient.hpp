@@ -36,7 +36,7 @@ private slots:
     void slotHostConnected () ;     // Слот срабатывающий при нахождении сервера
     void slotHostDisconnected () ;  // Слот срабатывающий при отключении сервера
     void slotHostError (QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибке обмена
-    void slotHostRearyRead () ;     // Слот обрабатывающий получение данных от сервера
+    void slotHostReadyRead () ;     // Слот обрабатывающий получение данных от сервера
 
 signals:                            // Все сигналы обрабатываются в основной форме
     void signalHostConnected (QHostAddress) ; // Сигнал о подлючении к серверу.
