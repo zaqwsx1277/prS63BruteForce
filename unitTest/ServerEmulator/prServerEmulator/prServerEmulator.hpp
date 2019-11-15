@@ -35,6 +35,8 @@ private:
     void setConnect () ;            // Формирование всех конектов
     void clear () ;                 // Очистка всех полей
 
+    void closeEvent (QCloseEvent*) ; // Событие срабатывающее на закрытие формы
+
 private slots:
     void slotHostConnected (quint32) ;  // Слот срабатывающий при подключении клиента
     void slotHostDisconnected (quint32) ; // Слот срабатывающий при отключении клиента

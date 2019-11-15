@@ -62,7 +62,7 @@ void TSEConnection::slotHostReadyRead ()
         if (fPtrSocket -> bytesAvailable() < sizeof (connection::TDataTransfer)) break ;
         receiveStream >> receiveBlock ;
 
-        int i = 0 ;
+
     }
 }
 //-----------------------------------------------------------------------------------
@@ -71,6 +71,9 @@ void TSEConnection::slotHostReadyRead ()
  */
 void TSEConnection::connectionClose ()
 {
-    fPtrSocket  -> disconnectFromHost() ;
+    if (fPtrSocket) {
+        fPtrSocket -> disconnectFromHost() ;
+        fPtrSocket.reset() ;
+    }
 }
 //-----------------------------------------------------------------------------------

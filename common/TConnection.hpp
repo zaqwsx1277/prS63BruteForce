@@ -20,6 +20,7 @@ class TConnection : public QObject
     Q_OBJECT
 public:
     TConnection();
+    ~TConnection();
                                 /// Протокол обмена между сервером и клиентами.
     enum exchangeProtocol  {
         cmdUnknown,             ///< Команда не определена.

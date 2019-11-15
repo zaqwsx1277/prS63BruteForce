@@ -76,6 +76,8 @@ void prServerEmulator::clear ()
 {
     ui -> spClientAddress -> clear() ;
     ui -> spClientState -> clear() ;
+
+
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -110,3 +112,13 @@ void prServerEmulator::on_pushButton_2_clicked()
         QMessageBox::critical(nullptr, "Ошибка ПО", "Общая ошибка приложения", QMessageBox::Yes) ;
       }
 }
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prServerEmulator::closeEvent  Событие срабатывающее на закрытие формы
+ */
+void prServerEmulator::closeEvent (QCloseEvent*)
+{
+    fPtrConnection -> connectionClose() ;
+    fPtrConnection.reset() ;
+}
+//-----------------------------------------------------------------------------
