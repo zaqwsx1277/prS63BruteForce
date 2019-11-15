@@ -22,59 +22,36 @@ public:
     TConnection();
                                 /// Протокол обмена между сервером и клиентами.
     enum exchangeProtocol  {
-                    /// Команда не определена.
-        cmdUnknown,
-                    /// Запрос клиента на подключение
-        cmdConnectionRequest,
-                    /// Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности.
-        cmdConnectionConfirm,
-                    /// Завершение подключения
-        cmdConnectionClose,
-                    /// Со стороны сервере передается начальный ключ блока. Со стороны клиента передается подобранный ключ
-        cmdTransferData,
-                    /// Сервер и клиент подтверждают получение данных со стороны опонента
-        cmdAcceptData,
-                    /// Сервер и клиент отказываются от получение данных со стороны опонента.
-        cmdRefuseData,
-                    /// Запрос клиента нового блока
-        cmdTransferRequest,
-                    /// Запрос сервером или клиентом состояния опонента
-        cmdStateRequest,
-                    /// Сервер или клиент возвращает свое состояние
-        cmdStateConfirm,
-                    /// Количество команд в протоколе
-        cmdCount} ;
+        cmdUnknown,             ///< Команда не определена.
+        cmdConnectionRequest,   ///< Запрос клиента на подключение
+        cmdConnectionConfirm,   ///< Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности.
+        cmdConnectionClose,     ///< Завершение подключения
+        cmdTransferData,        ///< Со стороны сервере передается начальный ключ блока. Со стороны клиента передается подобранный ключ
+        cmdAcceptData,          ///< Сервер и клиент подтверждают получение данных со стороны опонента
+        cmdRefuseData,          ///< Сервер и клиент отказываются от получение данных со стороны опонента.
+        cmdTransferRequest,     ///< Запрос клиента нового блока
+        cmdStateRequest,        ///< Запрос сервером или клиентом состояния опонента
+        cmdStateConfirm,        ///< Сервер или клиент возвращает свое состояние
+        cmdCount                ///< Количество команд в протоколе
+    } ;
 
     /// Возможные состояния
     enum state {
-                    /// Состояние неопределено
-        stUnknown,
-                    /// Соединение установлено
-        stConnected,
-                    /// Соединение разорванно
-        stDisconnected,
-                    /// Ожидание действий оператора
-        stWait,
-                    /// Готовность к запуску
-        stReadyToStart,
-                    /// Отсутствует готовность к запуску
-        stNotReadyToStart,
-                    /// Рабочий режим
-        stStart,
-                    /// Работа полностью остановлена
-        stStop,
-                    /// Произошла ошибка
-        stError,
-                    /// Поиск клиентом сервера
-        stServerSearch,
-                    /// Работа приостановлена
-        stPause,
-                    /// Завершение работы приложения
-        stAppClose
+        stUnknown,              ///< Состояние неопределено
+        stConnected,            ///< Соединение установлено
+        stDisconnected,         ///< Соединение разорванно
+        stWait,                 ///< Ожидание действий оператора
+        stReadyToStart,         ///< Готовность к запуску
+        stNotReadyToStart,      ///< Отсутствует готовность к запуску
+        stStart,                ///< Рабочий режим
+        stStop,                 ///< Работа полностью остановлена
+        stError,                ///< Произошла ошибка
+        stServerSearch,         ///< Поиск клиентом сервера
+        stPause,                ///< Работа приостановлена
+        stAppClose              ///< Завершение работы приложения
     } ;
 
 protected:
-
     state fState {stUnknown} ; // Текущее состояние
     std::shared_ptr <QTcpServer> fPtrServer {nullptr} ; // Указатель на сервер, который при работе будет постоянно прослушивать требуемый порт
     std::shared_ptr <QTcpSocket> fPtrSocket {nullptr} ; // Указатель на сокет, через который будет выполняться обмен данными с сервером
@@ -95,9 +72,9 @@ public:
  */
 struct TDataTransfer
 {
-    quint32 title {0xFFFF} ;                // Заголовок передаваемых данных. Всегда должен быть равен 0хFFFF
-    TConnection::exchangeProtocol command {TConnection::exchangeProtocol::cmdUnknown}; // Передаваемая команда
-    qint64 data {0} ;                      // Передаваемые данные
+    quint32 title {0xFFFF} ;                ///< Заголовок передаваемых данных. Всегда должен быть равен 0хFFFF
+    TConnection::exchangeProtocol command {TConnection::exchangeProtocol::cmdUnknown}; ///< Передаваемая команда
+    qint64 data {0} ;                      ///< Передаваемые данные
 
     friend TDataTransfer& operator >> (QDataStream&, TDataTransfer&) ;
     friend QDataStream& operator << (QDataStream&, const TDataTransfer&) ;
