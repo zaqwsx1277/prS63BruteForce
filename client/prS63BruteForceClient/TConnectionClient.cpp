@@ -19,15 +19,13 @@ using namespace connection ;
 //-----------------------------------------------------------
 TConnectionClient::TConnectionClient()
 {
-    fState = TConnectionClient::stServerSearch ;    // При инициализации всегда сначала выполняется автоматический поиск сервера
     fPtrSocket.reset(new QTcpSocket ());            // После подключения к серверу соединение останется открытое
 }
 //-----------------------------------------------------------
 void TConnectionClient::seachServer (quint16 inPort)
 {
-    fState = stServerSearch ;           // Установка состояния поиска сервера
+    setState(stServerSearch) ;           // Установка состояния поиска сервера
     fPtrSocket -> disconnectFromHost() ;// Не задумываясь отключаюсь от сервера
-    fServerState = stDisconnected ;
                                         // Поиск сервера
     for (auto interface : QNetworkInterface::allInterfaces()) {
         auto ipList = interface.addressEntries() ;              // Получаем список локальных IP адресов
@@ -47,16 +45,14 @@ void TConnectionClient::seachServer (quint16 inPort)
                 std::this_thread::sleep_for(std::chrono::microseconds (100)) ;    // тормозим выполнение для нормальной обработки сигнала
                 QApplication::processEvents() ;
                 disconnect(fPtrSocket.get(), &QTcpSocket::connected, this, &TConnectionClient::slotHostConnected) ;
-                if (fServerState == stConnected) {
+                if (getState() == stConnected) {
                     fIpAddressServer = tmpIpAddress ;           // завершаем поиск после нахождения первого попавшегося сервера
                     makeSlotConnection (fPtrSocket.get()) ;
-                    fState = stWait ;
                     break ;
                 }
             }
         }
     }
-    if (stDisconnected == stDisconnected) fState = stError ;
 }
 //-----------------------------------------------------------
 /*!
@@ -64,7 +60,7 @@ void TConnectionClient::seachServer (quint16 inPort)
  */
 void TConnectionClient::slotHostConnected ()
 {
-    fServerState = stConnected ;
+    setState(stConnected) ;
     emit signalHostConnected (fPtrSocket -> peerAddress()) ;
 }
 //-----------------------------------------------------------
@@ -93,8 +89,8 @@ void TConnectionClient::makeSlotConnection (QTcpSocket* inPtrSocket)
  */
 void TConnectionClient::slotHostDisconnected ()
 {
-    fServerState = stDisconnected ;
-    emit signalHostDisconnected() ;
+    setState (stDisconnected) ;
+    emit signalHostDisconnected () ;
 }
 //-----------------------------------------------------------
 /*!

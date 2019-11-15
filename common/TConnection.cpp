@@ -52,6 +52,25 @@ void TConnection::sendData (const TConnection::exchangeProtocol inCommand, const
 }
 //-------------------------------------------------------------------
 /*!
+ * \brief TConnection::sendData  Метод передачи данных
+ * \param inDataTransfer        Кадр для передачи данных
+ * \param inSocket              Сокет через который выполняется передача. По умолчание передача выполняется через fPtrSocket
+ */
+void TConnection::sendData (const TDataTransfer& inDataTransfer, std::shared_ptr <QTcpSocket> inSocket)
+{
+    QByteArray sendBlock ;
+    QDataStream sendStream (&sendBlock, QIODevice::ReadWrite) ;
+
+    sendStream << inDataTransfer ;
+    if (!inSocket)                                          // Проверяем корректность сокета через который необходимо работать
+        if (fPtrSocket)  fPtrSocket -> write(sendBlock) ;
+          else throw exception::errConnectionSocket ;
+
+      else inSocket -> write(sendBlock) ;
+
+}
+//-------------------------------------------------------------------
+/*!
  * \brief TConnection::receiveData  Метод получения данных
  * \param inDataTransfer            Полученные данные
  * \param nSocket                   Сокет через который выполняется приём. По умолчание передача выполняется через fPtrSocket

@@ -1,0 +1,79 @@
+\hypertarget{classclient_1_1_t_client_model}{}\section{client\+:\+:T\+Client\+Model Class Reference}
+\label{classclient_1_1_t_client_model}\index{client\+::\+T\+Client\+Model@{client\+::\+T\+Client\+Model}}
+
+
+Модель для отображения лога работы клиента  
+
+
+
+
+{\ttfamily \#include $<$/home/antonov/work\+Project/pr\+S63\+Brute\+Force/client/pr\+S63\+Brute\+Force\+Client/\+T\+Client\+Model.\+hpp$>$}
+
+
+
+Inheritance diagram for client\+:\+:T\+Client\+Model\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{classclient_1_1_t_client_model__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for client\+:\+:T\+Client\+Model\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{classclient_1_1_t_client_model__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classclient_1_1_t_client_model_a56d1ca59a519931a703e024698c83a42}\label{classclient_1_1_t_client_model_a56d1ca59a519931a703e024698c83a42}} 
+\hyperlink{classclient_1_1_t_client_model_a56d1ca59a519931a703e024698c83a42}{T\+Client\+Model} (quint16 in\+Thread\+Count, Q\+Object $\ast$parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classclient_1_1_t_client_model_a56d1ca59a519931a703e024698c83a42}{T\+Client\+Model\+::\+T\+Client\+Model} Конструктор модели \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classclient_1_1_t_client_model_a282427450592390fce094bdc9645b00f}\label{classclient_1_1_t_client_model_a282427450592390fce094bdc9645b00f}} 
+int {\bfseries row\+Count} (const Q\+Model\+Index \&parent) const
+\item 
+\mbox{\Hypertarget{classclient_1_1_t_client_model_ada4b178e21da50180ec36f2faf8e89d2}\label{classclient_1_1_t_client_model_ada4b178e21da50180ec36f2faf8e89d2}} 
+int {\bfseries column\+Count} (const Q\+Model\+Index \&parent=Q\+Model\+Index()) const
+\item 
+\mbox{\Hypertarget{classclient_1_1_t_client_model_ac8203af327c334a6b28bddd2c2f4626c}\label{classclient_1_1_t_client_model_ac8203af327c334a6b28bddd2c2f4626c}} 
+Q\+Variant {\bfseries data} (const Q\+Model\+Index \&index, int role) const
+\item 
+\mbox{\Hypertarget{classclient_1_1_t_client_model_a3e5645fece3531d74e2961968a3ea597}\label{classclient_1_1_t_client_model_a3e5645fece3531d74e2961968a3ea597}} 
+Q\+Variant {\bfseries header\+Data} (int section, Qt\+::\+Orientation orientation, int role=Qt\+::\+Display\+Role) const
+\item 
+void \hyperlink{classclient_1_1_t_client_model_aed00383c6177d60cb6f4b34b23fce485}{push\+\_\+back} (common\+Define\+Client\+::td\+Log\+Item\+Client)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classclient_1_1_t_client_model_aed00383c6177d60cb6f4b34b23fce485}{client\+::\+T\+Client\+Model\+::push\+\_\+back} Добавляем в модель запись о сгенерированном числе. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classclient_1_1_t_client_model_aea0cb37f9e91c028f699e4da3663fcea}\label{classclient_1_1_t_client_model_aea0cb37f9e91c028f699e4da3663fcea}} 
+void \hyperlink{classclient_1_1_t_client_model_aea0cb37f9e91c028f699e4da3663fcea}{refresh\+View} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classclient_1_1_t_client_model_aea0cb37f9e91c028f699e4da3663fcea}{client\+::\+T\+Client\+Model\+::refresh\+View} Обновление отображения данных \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Модель для отображения лога работы клиента 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classclient_1_1_t_client_model_aed00383c6177d60cb6f4b34b23fce485}\label{classclient_1_1_t_client_model_aed00383c6177d60cb6f4b34b23fce485}} 
+\index{client\+::\+T\+Client\+Model@{client\+::\+T\+Client\+Model}!push\+\_\+back@{push\+\_\+back}}
+\index{push\+\_\+back@{push\+\_\+back}!client\+::\+T\+Client\+Model@{client\+::\+T\+Client\+Model}}
+\subsubsection{\texorpdfstring{push\+\_\+back()}{push\_back()}}
+{\footnotesize\ttfamily void client\+::\+T\+Client\+Model\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{common\+Define\+Client\+::td\+Log\+Item\+Client}]{in\+Item }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classclient_1_1_t_client_model_aed00383c6177d60cb6f4b34b23fce485}{client\+::\+T\+Client\+Model\+::push\+\_\+back} Добавляем в модель запись о сгенерированном числе. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in\+Item} & Унказатель на добавляемая запись\\
+\hline
+\end{DoxyParams}
+Обновлять данные в этот момент нельзя, т.\+к. при очистке контейнера софт может обновлять отображение данных и т.\+о. будет падать. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/antonov/work\+Project/pr\+S63\+Brute\+Force/client/pr\+S63\+Brute\+Force\+Client/T\+Client\+Model.\+hpp\item 
+/home/antonov/work\+Project/pr\+S63\+Brute\+Force/client/pr\+S63\+Brute\+Force\+Client/T\+Client\+Model.\+cpp\end{DoxyCompactItemize}

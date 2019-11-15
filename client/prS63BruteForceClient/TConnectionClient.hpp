@@ -25,7 +25,7 @@ public:
 private:
 
     QHostAddress fIpAddressServer = QHostAddress ()  ; // IP адрес сервера
-    TConnectionClient::state fServerState {stUnknown} ; // Состояние сервера
+//    TConnectionClient::state fServerState {stUnknown} ; // Состояние сервера
 
     void makeSlotConnection (QTcpSocket*) ; // Для указанного Сокета создаются все нужные конекты
 

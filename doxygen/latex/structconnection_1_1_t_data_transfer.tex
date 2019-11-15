@@ -1,0 +1,42 @@
+\hypertarget{structconnection_1_1_t_data_transfer}{}\section{connection\+:\+:T\+Data\+Transfer Struct Reference}
+\label{structconnection_1_1_t_data_transfer}\index{connection\+::\+T\+Data\+Transfer@{connection\+::\+T\+Data\+Transfer}}
+
+
+The \hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} struct Формат передаваемых данных  
+
+
+
+
+{\ttfamily \#include $<$/home/antonov/work\+Project/pr\+S63\+Brute\+Force/common/\+T\+Connection.\+hpp$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structconnection_1_1_t_data_transfer_a66bbc3ff7818cc73b425c85cebadbe7c}\label{structconnection_1_1_t_data_transfer_a66bbc3ff7818cc73b425c85cebadbe7c}} 
+quint32 \hyperlink{structconnection_1_1_t_data_transfer_a66bbc3ff7818cc73b425c85cebadbe7c}{title} \{0x\+F\+F\+F\+F\}
+\begin{DoxyCompactList}\small\item\em Заголовок передаваемых данных. Всегда должен быть равен 0х\+F\+F\+FF. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structconnection_1_1_t_data_transfer_a8036bfcd09e3c43bb429ce639eca5d5e}\label{structconnection_1_1_t_data_transfer_a8036bfcd09e3c43bb429ce639eca5d5e}} 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{T\+Connection\+::exchange\+Protocol} \hyperlink{structconnection_1_1_t_data_transfer_a8036bfcd09e3c43bb429ce639eca5d5e}{command} \{T\+Connection\+::exchange\+Protocol\+::cmd\+Unknown\}
+\begin{DoxyCompactList}\small\item\em Передаваемая команда \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structconnection_1_1_t_data_transfer_a42d2e0b73dbedfde9dfe914f83af81ab}\label{structconnection_1_1_t_data_transfer_a42d2e0b73dbedfde9dfe914f83af81ab}} 
+qint64 \hyperlink{structconnection_1_1_t_data_transfer_a42d2e0b73dbedfde9dfe914f83af81ab}{data} \{0\}
+\begin{DoxyCompactList}\small\item\em Передаваемые данные \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structconnection_1_1_t_data_transfer_aa8825827be912f7c88a0fc5165345b9c}\label{structconnection_1_1_t_data_transfer_aa8825827be912f7c88a0fc5165345b9c}} 
+\hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \& {\bfseries operator$>$$>$} (Q\+Data\+Stream \&, \hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&)
+\item 
+\mbox{\Hypertarget{structconnection_1_1_t_data_transfer_ace0b5fbb944e7181346dda303ad35aa4}\label{structconnection_1_1_t_data_transfer_ace0b5fbb944e7181346dda303ad35aa4}} 
+Q\+Data\+Stream \& {\bfseries operator$<$$<$} (Q\+Data\+Stream \&, const \hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} struct Формат передаваемых данных 
+
+Формат кадра передаваемых данных имеет фиксированный размер 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/antonov/work\+Project/pr\+S63\+Brute\+Force/common/T\+Connection.\+hpp\end{DoxyCompactItemize}

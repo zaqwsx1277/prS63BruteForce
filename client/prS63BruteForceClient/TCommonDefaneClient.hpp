@@ -37,6 +37,8 @@ const QString stateStart {"Выполнение основного цикла п
 const QString stateStop {"Процесс подбора остановлен"} ;
 const QString stateServerSearch {"Выполняется автоматический поиск сервера"} ;
 const QString statePause {"Выполнение подбора приостановлено"} ;
+const QString stateConnectedToServer {"Подключен к серверу"} ;
+const QString stateDisconnectedFromServer {"Отключен от сервера"} ;
 
 const QString logServerConnected {"Клиент подключен к серверу: "} ;     // Описание возможных записей в лог
 const QString logServerDisconnected {"Клиент отключен от сервера: "} ;

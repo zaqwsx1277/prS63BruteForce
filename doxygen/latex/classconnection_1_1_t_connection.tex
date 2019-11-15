@@ -1,0 +1,289 @@
+\hypertarget{classconnection_1_1_t_connection}{}\section{connection\+:\+:T\+Connection Class Reference}
+\label{classconnection_1_1_t_connection}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
+
+
+The \hyperlink{classconnection_1_1_t_connection}{T\+Connection} class Базовый класс для обслуживания работы распределенной системы  
+
+
+
+
+{\ttfamily \#include $<$/home/antonov/work\+Project/pr\+S63\+Brute\+Force/common/\+T\+Connection.\+hpp$>$}
+
+
+
+Inheritance diagram for connection\+:\+:T\+Connection\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classconnection_1_1_t_connection__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for connection\+:\+:T\+Connection\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{classconnection_1_1_t_connection__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{exchange\+Protocol} \{ \newline
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a70f4e9439076a2b1cdc0f89b0f3e81cb}{cmd\+Unknown}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a17295bd27841a9cb3ad942201087e366}{cmd\+Connection\+Request}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c}{cmd\+Connection\+Confirm}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d}{cmd\+Connection\+Close}, 
+\newline
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5f20bb0c4e68d19fedbb8f9c8c91f255}{cmd\+Transfer\+Data}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a1b1480ee3f1a3727645610c6451c2d82}{cmd\+Accept\+Data}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34afa78af46af0ba99a38de59dddf750b8f}{cmd\+Refuse\+Data}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34acef0bc6c3064f9f5f9ff2c3f959c66a6}{cmd\+Transfer\+Request}, 
+\newline
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad56de56b3d7d7b5fa429869bdadc001a}{cmd\+State\+Request}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12b5301bb4cdfde5b03b189d639d3d88}{cmd\+State\+Confirm}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811}{cmd\+Count}
+ \}\begin{DoxyCompactList}\small\item\em Протокол обмена между сервером и клиентами. \end{DoxyCompactList}
+\item 
+enum \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \{ \newline
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4}{st\+Unknown}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca718b9080d3864c424cc4e162554b7cea}{st\+Connected}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca01c9bac9850308a008d1acba4c1a68b7}{st\+Disconnected}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498}{st\+Wait}, 
+\newline
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16}{st\+Ready\+To\+Start}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07}{st\+Not\+Ready\+To\+Start}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca242131a52a37a2916e7292733c05bfda}{st\+Start}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caaef0b02f1701010c8b408087afbb1172}{st\+Stop}, 
+\newline
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca67a6ae9e7f0931220dc51adc849cc41e}{st\+Error}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca1429dfb087b4132ff51a6d083c452624}{st\+Server\+Search}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca194b89ec7cadeb35331341be96c05f76}{st\+Pause}, 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca4e5cb1da08e0cca3013f7fdbdf430273}{st\+App\+Close}
+ \}\begin{DoxyCompactList}\small\item\em Возможные состояния \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classconnection_1_1_t_connection_a3457e15061be61110b825fd1760e3834}\label{classconnection_1_1_t_connection_a3457e15061be61110b825fd1760e3834}} 
+\hyperlink{classconnection_1_1_t_connection_a3457e15061be61110b825fd1760e3834}{T\+Connection} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_a3457e15061be61110b825fd1760e3834}{T\+Connection\+::\+T\+Connection} Конструктор класса \end{DoxyCompactList}\item 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \hyperlink{classconnection_1_1_t_connection_a23088724b46efeed0ae8d0d6b1e738b1}{get\+State} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_a23088724b46efeed0ae8d0d6b1e738b1}{T\+Connection\+::get\+State} Получение состояния соединения \end{DoxyCompactList}\item 
+void \hyperlink{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}{set\+State} (const \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \&)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}{T\+Connection\+::set\+State} Установка состояния соединения \end{DoxyCompactList}\item 
+void \hyperlink{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}{send\+Data} (const \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{T\+Connection\+::exchange\+Protocol}, const quint64, std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$=nullptr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}{T\+Connection\+::send\+Data} Метод передачи данных \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classconnection_1_1_t_connection_acd87152af430e1b8e73f301ab087b1b8}\label{classconnection_1_1_t_connection_acd87152af430e1b8e73f301ab087b1b8}} 
+void {\bfseries send\+Data} (const \hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&, std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$=nullptr)
+\item 
+void \hyperlink{classconnection_1_1_t_connection_aa55500363892831d9764496cd63cec73}{receive\+Data} (\hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&, const std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$=nullptr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_aa55500363892831d9764496cd63cec73}{T\+Connection\+::receive\+Data} Метод получения данных \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classconnection_1_1_t_connection_aa55714bb2a9a2b9330b2fd81f7a47f17}\label{classconnection_1_1_t_connection_aa55714bb2a9a2b9330b2fd81f7a47f17}} 
+\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} {\bfseries f\+State} \{\hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4}{st\+Unknown}\}
+\item 
+\mbox{\Hypertarget{classconnection_1_1_t_connection_aef0ac752e1f8b50fe31a01aff7ee802a}\label{classconnection_1_1_t_connection_aef0ac752e1f8b50fe31a01aff7ee802a}} 
+std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Server $>$ {\bfseries f\+Ptr\+Server} \{nullptr\}
+\item 
+\mbox{\Hypertarget{classconnection_1_1_t_connection_a84981e0f089de2f0a0d2496f43fa09ac}\label{classconnection_1_1_t_connection_a84981e0f089de2f0a0d2496f43fa09ac}} 
+std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$ {\bfseries f\+Ptr\+Socket} \{nullptr\}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classconnection_1_1_t_connection}{T\+Connection} class Базовый класс для обслуживания работы распределенной системы 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}} 
+\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!exchange\+Protocol@{exchange\+Protocol}}
+\index{exchange\+Protocol@{exchange\+Protocol}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
+\subsubsection{\texorpdfstring{exchange\+Protocol}{exchangeProtocol}}
+{\footnotesize\ttfamily enum \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{connection\+::\+T\+Connection\+::exchange\+Protocol}}
+
+
+
+Протокол обмена между сервером и клиентами. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Unknown@{cmd\+Unknown}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Unknown@{cmd\+Unknown}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a70f4e9439076a2b1cdc0f89b0f3e81cb}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a70f4e9439076a2b1cdc0f89b0f3e81cb}} 
+cmd\+Unknown&Команда не определена. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Connection\+Request@{cmd\+Connection\+Request}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Connection\+Request@{cmd\+Connection\+Request}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a17295bd27841a9cb3ad942201087e366}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a17295bd27841a9cb3ad942201087e366}} 
+cmd\+Connection\+Request&Запрос клиента на подключение \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Connection\+Confirm@{cmd\+Connection\+Confirm}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Connection\+Confirm@{cmd\+Connection\+Confirm}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c}} 
+cmd\+Connection\+Confirm&Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Connection\+Close@{cmd\+Connection\+Close}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Connection\+Close@{cmd\+Connection\+Close}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d}} 
+cmd\+Connection\+Close&Завершение подключения \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Transfer\+Data@{cmd\+Transfer\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Transfer\+Data@{cmd\+Transfer\+Data}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5f20bb0c4e68d19fedbb8f9c8c91f255}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5f20bb0c4e68d19fedbb8f9c8c91f255}} 
+cmd\+Transfer\+Data&Со стороны сервере передается начальный ключ блока. Со стороны клиента передается подобранный ключ \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Accept\+Data@{cmd\+Accept\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Accept\+Data@{cmd\+Accept\+Data}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a1b1480ee3f1a3727645610c6451c2d82}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a1b1480ee3f1a3727645610c6451c2d82}} 
+cmd\+Accept\+Data&Сервер и клиент подтверждают получение данных со стороны опонента \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Refuse\+Data@{cmd\+Refuse\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Refuse\+Data@{cmd\+Refuse\+Data}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34afa78af46af0ba99a38de59dddf750b8f}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34afa78af46af0ba99a38de59dddf750b8f}} 
+cmd\+Refuse\+Data&Сервер и клиент отказываются от получение данных со стороны опонента. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Transfer\+Request@{cmd\+Transfer\+Request}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Transfer\+Request@{cmd\+Transfer\+Request}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34acef0bc6c3064f9f5f9ff2c3f959c66a6}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34acef0bc6c3064f9f5f9ff2c3f959c66a6}} 
+cmd\+Transfer\+Request&Запрос клиента нового блока \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+State\+Request@{cmd\+State\+Request}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+State\+Request@{cmd\+State\+Request}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad56de56b3d7d7b5fa429869bdadc001a}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad56de56b3d7d7b5fa429869bdadc001a}} 
+cmd\+State\+Request&Запрос сервером или клиентом состояния опонента \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+State\+Confirm@{cmd\+State\+Confirm}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+State\+Confirm@{cmd\+State\+Confirm}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12b5301bb4cdfde5b03b189d639d3d88}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12b5301bb4cdfde5b03b189d639d3d88}} 
+cmd\+State\+Confirm&Сервер или клиент возвращает свое состояние \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Count@{cmd\+Count}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Count@{cmd\+Count}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811}} 
+cmd\+Count&Количество команд в протоколе \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}} 
+\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!state@{state}}
+\index{state@{state}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
+\subsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily enum \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{connection\+::\+T\+Connection\+::state}}
+
+
+
+Возможные состояния 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Unknown@{st\+Unknown}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Unknown@{st\+Unknown}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4}} 
+st\+Unknown&Состояние неопределено \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Connected@{st\+Connected}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Connected@{st\+Connected}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca718b9080d3864c424cc4e162554b7cea}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca718b9080d3864c424cc4e162554b7cea}} 
+st\+Connected&Соединение установлено \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Disconnected@{st\+Disconnected}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Disconnected@{st\+Disconnected}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca01c9bac9850308a008d1acba4c1a68b7}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca01c9bac9850308a008d1acba4c1a68b7}} 
+st\+Disconnected&Соединение разорванно \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Wait@{st\+Wait}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Wait@{st\+Wait}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498}} 
+st\+Wait&Ожидание действий оператора \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Ready\+To\+Start@{st\+Ready\+To\+Start}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Ready\+To\+Start@{st\+Ready\+To\+Start}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16}} 
+st\+Ready\+To\+Start&Готовность к запуску \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Not\+Ready\+To\+Start@{st\+Not\+Ready\+To\+Start}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Not\+Ready\+To\+Start@{st\+Not\+Ready\+To\+Start}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07}} 
+st\+Not\+Ready\+To\+Start&Отсутствует готовность к запуску \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Start@{st\+Start}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Start@{st\+Start}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca242131a52a37a2916e7292733c05bfda}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca242131a52a37a2916e7292733c05bfda}} 
+st\+Start&Рабочий режим \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Stop@{st\+Stop}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Stop@{st\+Stop}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caaef0b02f1701010c8b408087afbb1172}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612caaef0b02f1701010c8b408087afbb1172}} 
+st\+Stop&Работа полностью остановлена \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Error@{st\+Error}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Error@{st\+Error}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca67a6ae9e7f0931220dc51adc849cc41e}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca67a6ae9e7f0931220dc51adc849cc41e}} 
+st\+Error&Произошла ошибка \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Server\+Search@{st\+Server\+Search}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Server\+Search@{st\+Server\+Search}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca1429dfb087b4132ff51a6d083c452624}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca1429dfb087b4132ff51a6d083c452624}} 
+st\+Server\+Search&Поиск клиентом сервера \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+Pause@{st\+Pause}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+Pause@{st\+Pause}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca194b89ec7cadeb35331341be96c05f76}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca194b89ec7cadeb35331341be96c05f76}} 
+st\+Pause&Работа приостановлена \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{st\+App\+Close@{st\+App\+Close}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!st\+App\+Close@{st\+App\+Close}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca4e5cb1da08e0cca3013f7fdbdf430273}\label{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612ca4e5cb1da08e0cca3013f7fdbdf430273}} 
+st\+App\+Close&Завершение работы приложения \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classconnection_1_1_t_connection_a23088724b46efeed0ae8d0d6b1e738b1}\label{classconnection_1_1_t_connection_a23088724b46efeed0ae8d0d6b1e738b1}} 
+\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!get\+State@{get\+State}}
+\index{get\+State@{get\+State}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
+\subsubsection{\texorpdfstring{get\+State()}{getState()}}
+{\footnotesize\ttfamily \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{T\+Connection\+::state} connection\+::\+T\+Connection\+::get\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classconnection_1_1_t_connection_a23088724b46efeed0ae8d0d6b1e738b1}{T\+Connection\+::get\+State} Получение состояния соединения 
+
+\begin{DoxyReturn}{Returns}
+Состояние соединения 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classconnection_1_1_t_connection_aa55500363892831d9764496cd63cec73}\label{classconnection_1_1_t_connection_aa55500363892831d9764496cd63cec73}} 
+\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!receive\+Data@{receive\+Data}}
+\index{receive\+Data@{receive\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
+\subsubsection{\texorpdfstring{receive\+Data()}{receiveData()}}
+{\footnotesize\ttfamily void T\+Connection\+::receive\+Data (\begin{DoxyParamCaption}\item[{\hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&}]{in\+Data\+Transfer,  }\item[{const std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$}]{in\+Socket = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classconnection_1_1_t_connection_aa55500363892831d9764496cd63cec73}{T\+Connection\+::receive\+Data} Метод получения данных 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in\+Data\+Transfer} & Полученные данные \\
+\hline
+{\em n\+Socket} & Сокет через который выполняется приём. По умолчание передача выполняется через f\+Ptr\+Socket \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}\label{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}} 
+\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!send\+Data@{send\+Data}}
+\index{send\+Data@{send\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
+\subsubsection{\texorpdfstring{send\+Data()}{sendData()}}
+{\footnotesize\ttfamily void T\+Connection\+::send\+Data (\begin{DoxyParamCaption}\item[{const \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{T\+Connection\+::exchange\+Protocol}}]{in\+Command,  }\item[{const quint64}]{in\+Send\+Data,  }\item[{std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$}]{in\+Socket = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}{T\+Connection\+::send\+Data} Метод передачи данных 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in\+Command} & Команда (enum exchange\+Protocol) \\
+\hline
+{\em in\+Send\+Data} & Передаваемые данные. Как правило это quint64 (8 байт) \\
+\hline
+{\em in\+Socket} & Сокет через который выполняется передача. По умолчание передача выполняется через f\+Ptr\+Socket\\
+\hline
+\end{DoxyParams}
+Обработка ошибок должна выполняться в наследуемом классе \mbox{\Hypertarget{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}\label{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}} 
+\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!set\+State@{set\+State}}
+\index{set\+State@{set\+State}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
+\subsubsection{\texorpdfstring{set\+State()}{setState()}}
+{\footnotesize\ttfamily void T\+Connection\+::set\+State (\begin{DoxyParamCaption}\item[{const \hyperlink{classconnection_1_1_t_connection_aee7dfb7510592bd2697ab6f906b9612c}{state} \&}]{in\+State }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}{T\+Connection\+::set\+State} Установка состояния соединения 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in\+State} & Устанавливаемое соединение \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/antonov/work\+Project/pr\+S63\+Brute\+Force/common/T\+Connection.\+hpp\item 
+/home/antonov/work\+Project/pr\+S63\+Brute\+Force/common/T\+Connection.\+cpp\end{DoxyCompactItemize}

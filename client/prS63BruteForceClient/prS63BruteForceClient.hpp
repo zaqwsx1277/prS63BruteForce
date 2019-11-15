@@ -56,7 +56,7 @@ private:
     int fTimerIdRefresh {0} ;   // Id таймера на обновление формы
     std::unique_ptr <QTimer> fPtrStateRefresh {nullptr} ; // Указатель на таймер для запроса состояния сервера
 
-    TConnection::state fStateServer {TConnection::stUnknown}; // Текущее состояние сервера
+//    TConnection::state fStateServer {TConnection::stUnknown}; // Текущее состояние сервера
 
     void initForm () ;          // инициализирую все элементы формы
     void makeSlotConnection () ;// Подключение всех необходимых слотов для работы с сервером

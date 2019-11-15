@@ -67,7 +67,9 @@ void prS63BruteForceClient::makeSlotConnection ()
         connect(fPtrConnectionClient.get(), &TConnectionClient::signalHostDisconnected, this, &prS63BruteForceClient::slotHostDisconnected) ;
         connect(fPtrConnectionClient.get(), &TConnectionClient::signalReadData, this, &prS63BruteForceClient::slotReadData) ;
     }
-// Приделать exception на аварийное завершение работы
+    else {
+
+    }
 
 }
 //----------------------------------------------------------------------
@@ -139,6 +141,14 @@ void prS63BruteForceClient::showState ()
           case connection::TConnection::stPause :
             ui -> spState -> setText(commonDefineClient::statePause);
           break;
+
+          case connection::TConnection::stConnected :
+            ui -> spState -> setText(commonDefineClient::stateConnectedToServer);
+          break;
+
+          case connection::TConnection::stDisconnected :
+            ui -> spState -> setText(commonDefineClient::stateDisconnectedFromServer);
+          break;
         }
     }
 }
@@ -204,6 +214,7 @@ void client::prS63BruteForceClient::slotStateRefresh ()
 void prS63BruteForceClient::slotHostConnected (QHostAddress inHostConnected)
 {
     if (fPrtClientModel) {
+        fPtrConnectionClient -> setState(TConnection::stConnected);
                                 // Записываем в лог информацию о подключении к серверу
         commonDefineClient::tdLogItemClient item = std::make_shared <commonDefineClient::TLogItemClient> () ;
         item -> comment = commonDefineClient::logServerConnected + inHostConnected.toString() ;
@@ -231,6 +242,8 @@ void prS63BruteForceClient::refreshLog ()
 void prS63BruteForceClient::slotHostDisconnected ()
 {
     if (fPtrConnectionClient -> getState() != TConnection::stAppClose) {
+        fPtrConnectionClient -> setState(TConnection::stDisconnected);
+                                // Записываем в лог информацию об отключении от сервера
         commonDefineClient::tdLogItemClient item = std::make_shared <commonDefineClient::TLogItemClient> () ;
         item -> comment = commonDefineClient::logServerDisconnected + fPtrConnectionClient -> getIpAddressServer().toString() ;
         ui -> spServerAddress -> clear() ;
@@ -251,8 +264,8 @@ void prS63BruteForceClient::slotReadData (TDataTransfer inDataTransfer)
 
         TDataTransfer dataTransfer ;// Автоматически возвращаем серверу состояние клиента
         dataTransfer.command = TConnection::cmdStateConfirm ;
-//        dataTransfer.data = getState() ;
-//            sendData (dataTransfer) ;
+        dataTransfer.data = fPtrConnectionClient -> getState() ;
+        fPtrConnectionClient -> sendData (dataTransfer) ;
 
       }
       break ;
