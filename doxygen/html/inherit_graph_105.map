@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classconnection_1_1_t_connection.html" title="The TConnection class Базовый класс для обслуживания работы распределенной системы ..." alt="" coords="124,31,291,57"/>
-<area shape="rect" id="node3" href="$classconnection_1_1_t_connection_client.html" title="Класс для работы с сервером раздающим блоки ключей для подбора " alt="" coords="341,5,542,32"/>
-<area shape="rect" id="node4" href="$classconnection_1_1_t_connection_server.html" title="The TConnectionServer class Класс для работы с распределённой системой подбора ключей ..." alt="" coords="339,56,544,83"/>
-<area shape="rect" id="node5" href="$classserver_1_1_t_brute_force_manager.html" title="Класс выполняющий распределение блоков между клиентами " alt="" coords="592,56,780,83"/>
-</map>

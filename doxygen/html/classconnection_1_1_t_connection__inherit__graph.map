@@ -1,5 +1,0 @@
-<map id="connection::TConnection" name="connection::TConnection">
-<area shape="rect" id="node3" href="$classconnection_1_1_t_connection_client.html" title="Класс для работы с сервером раздающим блоки ключей для подбора " alt="" coords="5,155,207,181"/>
-<area shape="rect" id="node4" href="$classconnection_1_1_t_connection_server.html" title="The TConnectionServer class Класс для работы с распределённой системой подбора ключей ..." alt="" coords="231,155,437,181"/>
-<area shape="rect" id="node5" href="$classserver_1_1_t_brute_force_manager.html" title="Класс выполняющий управление и распределение блоков между клиентами (в том числе локальным) ..." alt="" coords="240,229,428,256"/>
-</map>
