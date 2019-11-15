@@ -68,7 +68,10 @@ public:
                     /// Поиск клиентом сервера
         stServerSearch,
                     /// Работа приостановлена
-        stPause } ;
+        stPause,
+                    /// Завершение работы приложения
+        stAppClose
+    } ;
 
 protected:
 

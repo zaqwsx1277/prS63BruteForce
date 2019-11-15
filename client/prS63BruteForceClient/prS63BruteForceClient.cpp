@@ -218,7 +218,7 @@ void prS63BruteForceClient::slotHostConnected (QHostAddress inHostConnected)
  */
 void prS63BruteForceClient::refreshLog ()
 {
-    if (fPrtClientModel) {
+    if (fPrtClientModel && fPtrConnectionClient -> getState() != TConnection::stAppClose) {
         std::lock_guard <std::mutex> refreshWait (commonDefine::mutexRefresh) ; // блокируем допуск остальным потокaм на работу с контейнером
         fPrtClientModel -> refreshView() ;                                      // Обновляем отображение данных
         QApplication::processEvents() ;
@@ -230,10 +230,12 @@ void prS63BruteForceClient::refreshLog ()
  */
 void prS63BruteForceClient::slotHostDisconnected ()
 {
-    commonDefineClient::tdLogItemClient item = std::make_shared <commonDefineClient::TLogItemClient> () ;
-    item -> comment = commonDefineClient::logServerDisconnected + fPtrConnectionClient -> getIpAddressServer().toString() ;
-    ui -> spServerAddress -> clear() ;
-    fPrtClientModel -> push_back(item);
+    if (fPtrConnectionClient -> getState() != TConnection::stAppClose) {
+        commonDefineClient::tdLogItemClient item = std::make_shared <commonDefineClient::TLogItemClient> () ;
+        item -> comment = commonDefineClient::logServerDisconnected + fPtrConnectionClient -> getIpAddressServer().toString() ;
+        ui -> spServerAddress -> clear() ;
+        fPrtClientModel -> push_back(item);
+    }
 }
 //---------------------------------------------------------------------------
 /*!
@@ -266,6 +268,7 @@ void prS63BruteForceClient::slotReadData (TDataTransfer inDataTransfer)
  */
 void prS63BruteForceClient::closeEvent(QCloseEvent* inEvent)
 {
+    fPtrConnectionClient -> setState(TConnection::stAppClose) ;
     killTimer(fTimerIdRefresh);     // Останавливаем запущенные таймеры
 }
 //---------------------------------------------------------------------------
