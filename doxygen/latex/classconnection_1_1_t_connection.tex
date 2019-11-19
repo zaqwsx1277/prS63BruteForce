@@ -34,15 +34,18 @@ enum \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a70f4e9439076a2b1cdc0f89b0f3e81cb}{cmd\+Unknown}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a17295bd27841a9cb3ad942201087e366}{cmd\+Connection\+Request}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c}{cmd\+Connection\+Confirm}, 
-\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d}{cmd\+Connection\+Close}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34af445de10e7265ea0495b5472a7b86b54}{cmd\+Connection\+Reject}, 
 \newline
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d}{cmd\+Connection\+Close}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a5f20bb0c4e68d19fedbb8f9c8c91f255}{cmd\+Transfer\+Data}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a1b1480ee3f1a3727645610c6451c2d82}{cmd\+Accept\+Data}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34afa78af46af0ba99a38de59dddf750b8f}{cmd\+Refuse\+Data}, 
-\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34acef0bc6c3064f9f5f9ff2c3f959c66a6}{cmd\+Transfer\+Request}, 
 \newline
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34acef0bc6c3064f9f5f9ff2c3f959c66a6}{cmd\+Transfer\+Request}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ad56de56b3d7d7b5fa429869bdadc001a}{cmd\+State\+Request}, 
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12b5301bb4cdfde5b03b189d639d3d88}{cmd\+State\+Confirm}, 
+\hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab35ef7d74f60f18637744b189778417e}{cmd\+Error}, 
+\newline
 \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811}{cmd\+Count}
  \}\begin{DoxyCompactList}\small\item\em Протокол обмена между сервером и клиентами. \end{DoxyCompactList}
 \item 
@@ -75,9 +78,8 @@ void \hyperlink{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d
 \begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}{T\+Connection\+::set\+State} Установка состояния соединения \end{DoxyCompactList}\item 
 void \hyperlink{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}{send\+Data} (const \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{T\+Connection\+::exchange\+Protocol}, const quint64, std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$=nullptr)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}{T\+Connection\+::send\+Data} Метод передачи данных \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classconnection_1_1_t_connection_acd87152af430e1b8e73f301ab087b1b8}\label{classconnection_1_1_t_connection_acd87152af430e1b8e73f301ab087b1b8}} 
-void {\bfseries send\+Data} (const \hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&, std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$=nullptr)
-\item 
+void \hyperlink{classconnection_1_1_t_connection_a33820a3f5bdd262104599df7174e229d}{send\+Data} (const \hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&, std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$=nullptr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}{T\+Connection\+::send\+Data} Метод передачи данных \end{DoxyCompactList}\item 
 void \hyperlink{classconnection_1_1_t_connection_aa55500363892831d9764496cd63cec73}{receive\+Data} (\hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&, const std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$=nullptr)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classconnection_1_1_t_connection_aa55500363892831d9764496cd63cec73}{T\+Connection\+::receive\+Data} Метод получения данных \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
@@ -118,7 +120,11 @@ cmd\+Connection\+Request&Запрос клиента на подключение
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Connection\+Confirm@{cmd\+Connection\+Confirm}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Connection\+Confirm@{cmd\+Connection\+Confirm}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c}} 
-cmd\+Connection\+Confirm&Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности. \\
+cmd\+Connection\+Confirm&Подтверждение сервера о подключении и передача клиенту параметров работы. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Connection\+Reject@{cmd\+Connection\+Reject}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Connection\+Reject@{cmd\+Connection\+Reject}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34af445de10e7265ea0495b5472a7b86b54}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34af445de10e7265ea0495b5472a7b86b54}} 
+cmd\+Connection\+Reject&Сервер отказывется от подключения клиента ((условия такого отказа пока неопределены). \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Connection\+Close@{cmd\+Connection\+Close}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Connection\+Close@{cmd\+Connection\+Close}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d}} 
@@ -147,6 +153,10 @@ cmd\+State\+Request&Запрос сервером или клиентом сос
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+State\+Confirm@{cmd\+State\+Confirm}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+State\+Confirm@{cmd\+State\+Confirm}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12b5301bb4cdfde5b03b189d639d3d88}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a12b5301bb4cdfde5b03b189d639d3d88}} 
 cmd\+State\+Confirm&Сервер или клиент возвращает свое состояние \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Error@{cmd\+Error}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Error@{cmd\+Error}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab35ef7d74f60f18637744b189778417e}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34ab35ef7d74f60f18637744b189778417e}} 
+cmd\+Error&Сообщение об ошибке (необходимо для ведения лога) \\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{cmd\+Count@{cmd\+Count}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!cmd\+Count@{cmd\+Count}}}\mbox{\Hypertarget{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811}\label{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811}} 
@@ -250,7 +260,7 @@ st\+App\+Close&Завершение работы приложения \\
 \mbox{\Hypertarget{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}\label{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}} 
 \index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!send\+Data@{send\+Data}}
 \index{send\+Data@{send\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
-\subsubsection{\texorpdfstring{send\+Data()}{sendData()}}
+\subsubsection{\texorpdfstring{send\+Data()}{sendData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily void T\+Connection\+::send\+Data (\begin{DoxyParamCaption}\item[{const \hyperlink{classconnection_1_1_t_connection_a3550181cb2fa72eccfa55d23f45cea34}{T\+Connection\+::exchange\+Protocol}}]{in\+Command,  }\item[{const quint64}]{in\+Send\+Data,  }\item[{std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$}]{in\+Socket = {\ttfamily nullptr} }\end{DoxyParamCaption})}
 
 
@@ -266,7 +276,24 @@ st\+App\+Close&Завершение работы приложения \\
 {\em in\+Socket} & Сокет через который выполняется передача. По умолчание передача выполняется через f\+Ptr\+Socket\\
 \hline
 \end{DoxyParams}
-Обработка ошибок должна выполняться в наследуемом классе \mbox{\Hypertarget{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}\label{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}} 
+Обработка ошибок должна выполняться в наследуемом классе \mbox{\Hypertarget{classconnection_1_1_t_connection_a33820a3f5bdd262104599df7174e229d}\label{classconnection_1_1_t_connection_a33820a3f5bdd262104599df7174e229d}} 
+\index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!send\+Data@{send\+Data}}
+\index{send\+Data@{send\+Data}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
+\subsubsection{\texorpdfstring{send\+Data()}{sendData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void T\+Connection\+::send\+Data (\begin{DoxyParamCaption}\item[{const \hyperlink{structconnection_1_1_t_data_transfer}{T\+Data\+Transfer} \&}]{in\+Data\+Transfer,  }\item[{std\+::shared\+\_\+ptr$<$ Q\+Tcp\+Socket $>$}]{in\+Socket = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classconnection_1_1_t_connection_acf6af6c583b67379f8aa1efb4ab9e79e}{T\+Connection\+::send\+Data} Метод передачи данных 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in\+Data\+Transfer} & Кадр для передачи данных \\
+\hline
+{\em in\+Socket} & Сокет через который выполняется передача. По умолчание передача выполняется через f\+Ptr\+Socket \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}\label{classconnection_1_1_t_connection_ad87c4791bb1a08d97e4d4ae0b85c5d44}} 
 \index{connection\+::\+T\+Connection@{connection\+::\+T\+Connection}!set\+State@{set\+State}}
 \index{set\+State@{set\+State}!connection\+::\+T\+Connection@{connection\+::\+T\+Connection}}
 \subsubsection{\texorpdfstring{set\+State()}{setState()}}

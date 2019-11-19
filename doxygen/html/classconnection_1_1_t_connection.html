@@ -98,16 +98,19 @@ Public Types</h2></td></tr>
 &#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a70f4e9439076a2b1cdc0f89b0f3e81cb">cmdUnknown</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a17295bd27841a9cb3ad942201087e366">cmdConnectionRequest</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c">cmdConnectionConfirm</a>, 
-<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d">cmdConnectionClose</a>, 
+<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34af445de10e7265ea0495b5472a7b86b54">cmdConnectionReject</a>, 
 <br />
-&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a5f20bb0c4e68d19fedbb8f9c8c91f255">cmdTransferData</a>, 
+&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d">cmdConnectionClose</a>, 
+<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a5f20bb0c4e68d19fedbb8f9c8c91f255">cmdTransferData</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a1b1480ee3f1a3727645610c6451c2d82">cmdAcceptData</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34afa78af46af0ba99a38de59dddf750b8f">cmdRefuseData</a>, 
-<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34acef0bc6c3064f9f5f9ff2c3f959c66a6">cmdTransferRequest</a>, 
 <br />
-&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34ad56de56b3d7d7b5fa429869bdadc001a">cmdStateRequest</a>, 
+&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34acef0bc6c3064f9f5f9ff2c3f959c66a6">cmdTransferRequest</a>, 
+<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34ad56de56b3d7d7b5fa429869bdadc001a">cmdStateRequest</a>, 
 <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a12b5301bb4cdfde5b03b189d639d3d88">cmdStateConfirm</a>, 
-<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811">cmdCount</a>
+<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34ab35ef7d74f60f18637744b189778417e">cmdError</a>, 
+<br />
+&#160;&#160;<a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811">cmdCount</a>
 <br />
  }<tr class="memdesc:a3550181cb2fa72eccfa55d23f45cea34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Протокол обмена между сервером и клиентами.  <a href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34">More...</a><br /></td></tr>
 </td></tr>
@@ -147,9 +150,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acf6af6c583b67379f8aa1efb4ab9e79e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_1_1_t_connection.html#acf6af6c583b67379f8aa1efb4ab9e79e">sendData</a> (const <a class="el" href="classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34">TConnection::exchangeProtocol</a>, const quint64, std::shared_ptr&lt; QTcpSocket &gt;=nullptr)</td></tr>
 <tr class="memdesc:acf6af6c583b67379f8aa1efb4ab9e79e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classconnection_1_1_t_connection.html#acf6af6c583b67379f8aa1efb4ab9e79e" title="TConnection::sendData Метод передачи данных ">TConnection::sendData</a> Метод передачи данных  <a href="#acf6af6c583b67379f8aa1efb4ab9e79e">More...</a><br /></td></tr>
 <tr class="separator:acf6af6c583b67379f8aa1efb4ab9e79e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd87152af430e1b8e73f301ab087b1b8"><td class="memItemLeft" align="right" valign="top"><a id="acd87152af430e1b8e73f301ab087b1b8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendData</b> (const <a class="el" href="structconnection_1_1_t_data_transfer.html">TDataTransfer</a> &amp;, std::shared_ptr&lt; QTcpSocket &gt;=nullptr)</td></tr>
-<tr class="separator:acd87152af430e1b8e73f301ab087b1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33820a3f5bdd262104599df7174e229d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_1_1_t_connection.html#a33820a3f5bdd262104599df7174e229d">sendData</a> (const <a class="el" href="structconnection_1_1_t_data_transfer.html">TDataTransfer</a> &amp;, std::shared_ptr&lt; QTcpSocket &gt;=nullptr)</td></tr>
+<tr class="memdesc:a33820a3f5bdd262104599df7174e229d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classconnection_1_1_t_connection.html#acf6af6c583b67379f8aa1efb4ab9e79e" title="TConnection::sendData Метод передачи данных ">TConnection::sendData</a> Метод передачи данных  <a href="#a33820a3f5bdd262104599df7174e229d">More...</a><br /></td></tr>
+<tr class="separator:a33820a3f5bdd262104599df7174e229d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa55500363892831d9764496cd63cec73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_1_1_t_connection.html#aa55500363892831d9764496cd63cec73">receiveData</a> (<a class="el" href="structconnection_1_1_t_data_transfer.html">TDataTransfer</a> &amp;, const std::shared_ptr&lt; QTcpSocket &gt;=nullptr)</td></tr>
 <tr class="memdesc:aa55500363892831d9764496cd63cec73"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classconnection_1_1_t_connection.html#aa55500363892831d9764496cd63cec73" title="TConnection::receiveData Метод получения данных ">TConnection::receiveData</a> Метод получения данных  <a href="#aa55500363892831d9764496cd63cec73">More...</a><br /></td></tr>
 <tr class="separator:aa55500363892831d9764496cd63cec73"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,7 +190,9 @@ std::shared_ptr&lt; QTcpSocket &gt;&#160;</td><td class="memItemRight" valign="b
 </td></tr>
 <tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a17295bd27841a9cb3ad942201087e366"></a>cmdConnectionRequest&#160;</td><td class="fielddoc"><p>Запрос клиента на подключение </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c"></a>cmdConnectionConfirm&#160;</td><td class="fielddoc"><p>Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности. </p>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ab0cb460aa502bc429f7b5827d53bc80c"></a>cmdConnectionConfirm&#160;</td><td class="fielddoc"><p>Подтверждение сервера о подключении и передача клиенту параметров работы. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34af445de10e7265ea0495b5472a7b86b54"></a>cmdConnectionReject&#160;</td><td class="fielddoc"><p>Сервер отказывется от подключения клиента ((условия такого отказа пока неопределены). </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a03a1c4d18739819cbf74e5540c5da54d"></a>cmdConnectionClose&#160;</td><td class="fielddoc"><p>Завершение подключения </p>
 </td></tr>
@@ -202,6 +207,8 @@ std::shared_ptr&lt; QTcpSocket &gt;&#160;</td><td class="memItemRight" valign="b
 <tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ad56de56b3d7d7b5fa429869bdadc001a"></a>cmdStateRequest&#160;</td><td class="fielddoc"><p>Запрос сервером или клиентом состояния опонента </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a12b5301bb4cdfde5b03b189d639d3d88"></a>cmdStateConfirm&#160;</td><td class="fielddoc"><p>Сервер или клиент возвращает свое состояние </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34ab35ef7d74f60f18637744b189778417e"></a>cmdError&#160;</td><td class="fielddoc"><p>Сообщение об ошибке (необходимо для ведения лога) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a3550181cb2fa72eccfa55d23f45cea34a3f22bedf0adda5299a699d9dfe17b811"></a>cmdCount&#160;</td><td class="fielddoc"><p>Количество команд в протоколе </p>
 </td></tr>
@@ -310,7 +317,7 @@ std::shared_ptr&lt; QTcpSocket &gt;&#160;</td><td class="memItemRight" valign="b
 </div>
 </div>
 <a id="acf6af6c583b67379f8aa1efb4ab9e79e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf6af6c583b67379f8aa1efb4ab9e79e">&#9670;&nbsp;</a></span>sendData()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acf6af6c583b67379f8aa1efb4ab9e79e">&#9670;&nbsp;</a></span>sendData() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -351,6 +358,43 @@ std::shared_ptr&lt; QTcpSocket &gt;&#160;</td><td class="memItemRight" valign="b
   </dd>
 </dl>
 <p>Обработка ошибок должна выполняться в наследуемом классе </p>
+
+</div>
+</div>
+<a id="a33820a3f5bdd262104599df7174e229d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33820a3f5bdd262104599df7174e229d">&#9670;&nbsp;</a></span>sendData() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TConnection::sendData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structconnection_1_1_t_data_transfer.html">TDataTransfer</a> &amp;&#160;</td>
+          <td class="paramname"><em>inDataTransfer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; QTcpSocket &gt;&#160;</td>
+          <td class="paramname"><em>inSocket</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classconnection_1_1_t_connection.html#acf6af6c583b67379f8aa1efb4ab9e79e" title="TConnection::sendData Метод передачи данных ">TConnection::sendData</a> Метод передачи данных </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inDataTransfer</td><td>Кадр для передачи данных </td></tr>
+    <tr><td class="paramname">inSocket</td><td>Сокет через который выполняется передача. По умолчание передача выполняется через fPtrSocket </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

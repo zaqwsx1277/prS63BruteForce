@@ -76,8 +76,11 @@ void prServerEmulator::clear ()
 {
     ui -> spClientAddress -> clear() ;
     ui -> spClientState -> clear() ;
-
-
+                                                // Передаём все существующим потокам флаг завершения
+    std::lock_guard<std::mutex> lock(commonDefineServer::mutexConnectionList);  // Блокирую доступ к списку соединений
+    for (auto threadItem : fConnectionList) {
+        threadItem -> clientState = TConnection::stAppClose ;
+    }
 }
 //-----------------------------------------------------------------------------
 /*!

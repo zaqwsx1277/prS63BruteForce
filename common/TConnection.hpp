@@ -26,7 +26,8 @@ public:
     enum exchangeProtocol  {
         cmdUnknown,             ///< Команда не определена.
         cmdConnectionRequest,   ///< Запрос клиента на подключение
-        cmdConnectionConfirm,   ///< Подтверждение сервера о подключении и передача клиенту параметров работы. Запрос клиента о подключенности.
+        cmdConnectionConfirm,   ///< Подтверждение сервера о подключении и передача клиенту параметров работы.
+        cmdConnectionReject,    ///< Сервер отказывется от подключения клиента ((условия такого отказа пока неопределены).
         cmdConnectionClose,     ///< Завершение подключения
         cmdTransferData,        ///< Со стороны сервере передается начальный ключ блока. Со стороны клиента передается подобранный ключ
         cmdAcceptData,          ///< Сервер и клиент подтверждают получение данных со стороны опонента
@@ -82,6 +83,6 @@ struct TDataTransfer
     friend TDataTransfer& operator >> (QDataStream&, TDataTransfer&) ;
     friend QDataStream& operator << (QDataStream&, const TDataTransfer&) ;
 };
-
+//----------------------------------------------------------------------------------------------------------
 }
 #endif // TCONNECTION_HPP

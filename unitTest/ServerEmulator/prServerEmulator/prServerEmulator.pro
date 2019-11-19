@@ -29,7 +29,7 @@ SOURCES += \
         prServerEmulator.cpp \
         ../../../common/TConnection.cpp \
         TSEConnection.cpp \
-    TSEmodel.cpp
+        TSEmodel.cpp
 
 HEADERS += \
         ../../../common/TException.hpp \
@@ -37,11 +37,13 @@ HEADERS += \
         prServerEmulator.hpp \
         ../../../common/TConnection.hpp \
         TSEConnection.hpp \
-    TSEmodel.hpp \
-    ../../../common/TCommonDefine.hpp
+        TSEmodel.hpp \
+        ../../../common/TCommonDefine.hpp \
+        ../../../server/prS63BruteForceServer/TCommonDefaneServer.hpp
 
 FORMS += \
         prServerEmulator.ui
 
 INCLUDEPATH += \
-            ../../../common
+            ../../../common \
+            ../../../server/prS63BruteForceServer

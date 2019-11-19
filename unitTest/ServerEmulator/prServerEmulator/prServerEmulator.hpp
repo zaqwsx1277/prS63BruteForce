@@ -5,13 +5,20 @@
 #include <QTcpServer>
 
 #include <memory>
+#include <thread>
+#include <set>
 
 #include "TSEConnection.hpp"
 #include "TSEmodel.hpp"
+#include "TCommonDefaneServer.hpp"
+
+using namespace connection ;
+using namespace server ;
 
 namespace Ui {
 class prServerEmulator;
 }
+//bool threadIdComp = [] (commonDefineServer::tdPtrClientDescr left, commonDefineServer::tdPtrClientDescr right) { return (left -> threadId < right -> threadId ) ; } ;
 //-----------------------------------------------------
 /*!
  * \brief Эмулятор работы сервера предназначеный для отладки Клиентской части. Порт по которому принимаются входящие соединения 9993
@@ -26,6 +33,10 @@ public:
 
 
 private:
+
+    bool threadIdComp = [] (commonDefineServer::tdPtrClientDescr left, commonDefineServer::tdPtrClientDescr right) { return (left -> threadId < right -> threadId ) ; } ;
+    std::set <commonDefineServer::tdPtrClientDescr, decltype (threadIdComp)> fConnectionList ; ///< список соединений которые обрабатывает сервер
+
     Ui::prServerEmulator *ui;
 
     QHostAddress fHostAddress ;     // Адрес подключившегося клиента

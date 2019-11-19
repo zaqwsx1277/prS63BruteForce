@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['localfileheader',['LocalFileHeader',['../structblowfish_lib_1_1_local_file_header.html',1,'blowfishLib']]]
+  ['clientdescr',['clientDescr',['../structserver_1_1common_define_server_1_1client_descr.html',1,'server::commonDefineServer']]]
 ];

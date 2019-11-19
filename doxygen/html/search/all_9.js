@@ -1,16 +1,19 @@
 var searchData=
 [
-  ['tblowfish',['TBlowfish',['../classblowfish_lib_1_1_t_blowfish.html',1,'blowfishLib::TBlowfish'],['../classblowfish_lib_1_1_t_blowfish.html#a349e59d7c45d5675376b89def7500c16',1,'blowfishLib::TBlowfish::TBlowfish(tdPtrBuf, quint32)'],['../classblowfish_lib_1_1_t_blowfish.html#ad9ca35f3391415f31a265c440d63bf7f',1,'blowfishLib::TBlowfish::TBlowfish()']]],
-  ['tblowfishexeption',['TBlowfishExeption',['../classblowfish_lib_1_1blowfish_exeption_1_1_t_blowfish_exeption.html',1,'blowfishLib::blowfishExeption']]],
-  ['tblowfishexeptioncategory',['TBlowfishExeptionCategory',['../structblowfish_lib_1_1blowfish_exeption_1_1_t_blowfish_exeption_category.html',1,'blowfishLib::blowfishExeption']]],
-  ['tbruteforcemanager',['TBruteForceManager',['../classserver_1_1_t_brute_force_manager.html',1,'server::TBruteForceManager'],['../classserver_1_1_t_brute_force_manager.html#ac7c9f1590534d38fe05c422e7fada979',1,'server::TBruteForceManager::TBruteForceManager()']]],
-  ['tclientmodel',['TClientModel',['../classclient_1_1_t_client_model.html',1,'client::TClientModel'],['../classclient_1_1_t_client_model.html#a56d1ca59a519931a703e024698c83a42',1,'client::TClientModel::TClientModel()']]],
-  ['tconnection',['TConnection',['../classconnection_1_1_t_connection.html',1,'connection::TConnection'],['../classconnection_1_1_t_connection.html#a3457e15061be61110b825fd1760e3834',1,'connection::TConnection::TConnection()']]],
-  ['tconnectionclient',['TConnectionClient',['../classconnection_1_1_t_connection_client.html',1,'connection']]],
-  ['tconnectionserver',['TConnectionServer',['../classconnection_1_1_t_connection_server.html',1,'connection::TConnectionServer'],['../classconnection_1_1_t_connection_server.html#a823a7c07aaea7a3ab3ea1a854a1cd3a0',1,'connection::TConnectionServer::TConnectionServer()']]],
-  ['tdatatransfer',['TDataTransfer',['../structconnection_1_1_t_data_transfer.html',1,'connection']]],
-  ['texception',['TException',['../classexception_1_1_t_exception.html',1,'exception']]],
-  ['texceptioncategory',['TExceptionCategory',['../classexception_1_1_t_exception_category.html',1,'exception']]],
-  ['title',['title',['../structconnection_1_1_t_data_transfer.html#a66bbc3ff7818cc73b425c85cebadbe7c',1,'connection::TDataTransfer']]],
-  ['tlogitemclient',['TLogItemClient',['../structcommon_define_client_1_1_t_log_item_client.html',1,'commonDefineClient']]]
+  ['senddata',['sendData',['../classconnection_1_1_t_connection.html#acf6af6c583b67379f8aa1efb4ab9e79e',1,'connection::TConnection::sendData(const TConnection::exchangeProtocol, const quint64, std::shared_ptr&lt; QTcpSocket &gt;=nullptr)'],['../classconnection_1_1_t_connection.html#a33820a3f5bdd262104599df7174e229d',1,'connection::TConnection::sendData(const TDataTransfer &amp;, std::shared_ptr&lt; QTcpSocket &gt;=nullptr)']]],
+  ['setdata',['setData',['../classblowfish_lib_1_1_t_blowfish.html#aac58cd909cef267ba409859c279dc521',1,'blowfishLib::TBlowfish']]],
+  ['setstate',['setState',['../classconnection_1_1_t_connection.html#ad87c4791bb1a08d97e4d4ae0b85c5d44',1,'connection::TConnection']]],
+  ['stappclose',['stAppClose',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca4e5cb1da08e0cca3013f7fdbdf430273',1,'connection::TConnection']]],
+  ['state',['state',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612c',1,'connection::TConnection']]],
+  ['stconnected',['stConnected',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca718b9080d3864c424cc4e162554b7cea',1,'connection::TConnection']]],
+  ['stdisconnected',['stDisconnected',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca01c9bac9850308a008d1acba4c1a68b7',1,'connection::TConnection']]],
+  ['sterror',['stError',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca67a6ae9e7f0931220dc51adc849cc41e',1,'connection::TConnection']]],
+  ['stnotreadytostart',['stNotReadyToStart',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612cae8cadea9b3262d6021dc2dd5a8983b07',1,'connection::TConnection']]],
+  ['stpause',['stPause',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca194b89ec7cadeb35331341be96c05f76',1,'connection::TConnection']]],
+  ['streadytostart',['stReadyToStart',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca22858c36fed3fc0fd61036ac4ae07c16',1,'connection::TConnection']]],
+  ['stserversearch',['stServerSearch',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca1429dfb087b4132ff51a6d083c452624',1,'connection::TConnection']]],
+  ['ststart',['stStart',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca242131a52a37a2916e7292733c05bfda',1,'connection::TConnection']]],
+  ['ststop',['stStop',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612caaef0b02f1701010c8b408087afbb1172',1,'connection::TConnection']]],
+  ['stunknown',['stUnknown',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612ca8ab66af10a4d089e45c493a28df001e4',1,'connection::TConnection']]],
+  ['stwait',['stWait',['../classconnection_1_1_t_connection.html#aee7dfb7510592bd2697ab6f906b9612caad14f181573f29386d8f394621abd498',1,'connection::TConnection']]]
 ];

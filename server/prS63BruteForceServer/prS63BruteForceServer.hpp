@@ -10,7 +10,7 @@
 #include <bitset>
 
 #include "TCommonDefaneServer.hpp"
-//#include "TConnectionServer.hpp"
+#include "TConnectionServer.hpp"
 #include "TBruteForceManager.hpp"
 
 namespace Ui {
@@ -18,6 +18,7 @@ class prS63BruteForceServer;
 }
 
 namespace server {
+
 class prS63BruteForceServer : public QMainWindow
 {
     Q_OBJECT
