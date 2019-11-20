@@ -18,9 +18,14 @@ namespace commonDefine {
     static std::mutex mutexRefresh ;            ///< mutex для ожидания записи в модель отображения лога
 
     const QString textAcceptData {"Подтверждение получения данных"} ;   // Текстовое описание команд
-    const QString textTransferRequest {"Запрос клиента нового блока"} ;
+    const QString textTransferRequest {"Запрос клиентом нового блока"} ;
     const QString textStateRequest {"Запрос состояния"} ;
     const QString textStateConfirm {"Возврат состояния"} ;
+    const QString textRejectData {"Запрос отвергнут"} ;
+    const QString textConnectionClose {"Соединение закрыто"} ;
+    const QString textTransferData {"Передача данных"} ;
+    const QString textRefuseData {"Данные отвергнуты"} ;
+    const QString texError {"Произошла ошибка"} ;
     const QString textUnknown {"Неизвестная команда"} ;
 }
 

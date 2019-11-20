@@ -17,5 +17,6 @@ var searchData=
   ['cmdtransferdata',['cmdTransferData',['../classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a5f20bb0c4e68d19fedbb8f9c8c91f255',1,'connection::TConnection']]],
   ['cmdtransferrequest',['cmdTransferRequest',['../classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34acef0bc6c3064f9f5f9ff2c3f959c66a6',1,'connection::TConnection']]],
   ['cmdunknown',['cmdUnknown',['../classconnection_1_1_t_connection.html#a3550181cb2fa72eccfa55d23f45cea34a70f4e9439076a2b1cdc0f89b0f3e81cb',1,'connection::TConnection']]],
-  ['command',['command',['../structconnection_1_1_t_data_transfer.html#a8036bfcd09e3c43bb429ce639eca5d5e',1,'connection::TDataTransfer']]]
+  ['command',['command',['../structconnection_1_1_t_data_transfer.html#a8036bfcd09e3c43bb429ce639eca5d5e',1,'connection::TDataTransfer::command()'],['../structserver_1_1common_define_server_1_1log_item.html#a0b30469f1b817d9ff74f3352ca12fcec',1,'server::commonDefineServer::logItem::command()']]],
+  ['comments',['comments',['../structserver_1_1common_define_server_1_1log_item.html#ad7b3a84a8b8852faf246683a96f26796',1,'server::commonDefineServer::logItem']]]
 ];

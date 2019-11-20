@@ -11,5 +11,6 @@ var searchData=
   ['tdatatransfer',['TDataTransfer',['../structconnection_1_1_t_data_transfer.html',1,'connection']]],
   ['texception',['TException',['../classexception_1_1_t_exception.html',1,'exception']]],
   ['texceptioncategory',['TExceptionCategory',['../classexception_1_1_t_exception_category.html',1,'exception']]],
-  ['tlogitemclient',['TLogItemClient',['../structcommon_define_client_1_1_t_log_item_client.html',1,'commonDefineClient']]]
+  ['tlogitemclient',['TLogItemClient',['../structcommon_define_client_1_1_t_log_item_client.html',1,'commonDefineClient']]],
+  ['tserverlogmodel',['TServerLogModel',['../class_t_server_log_model.html',1,'']]]
 ];
