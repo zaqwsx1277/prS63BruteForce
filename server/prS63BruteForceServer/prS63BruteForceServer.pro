@@ -30,7 +30,8 @@ SOURCES += \
     TConnectionServer.cpp \
     TBruteForceManager.cpp \
     ../../common/TException.cpp \
-    TServerLogModel.cpp
+    TServerLogModel.cpp \
+    TServerKeyModel.cpp
 
 HEADERS += \
         prS63BruteForceServer.hpp \
@@ -40,7 +41,8 @@ HEADERS += \
     TConnectionServer.hpp \
     TBruteForceManager.hpp \
     ../../common/TException.hpp \
-    TServerLogModel.h
+    TServerLogModel.h \
+    TServerKeyModel.h
 
 FORMS += \
         prS63BruteForceServer.ui

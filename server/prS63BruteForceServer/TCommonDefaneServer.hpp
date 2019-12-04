@@ -36,12 +36,24 @@ struct logItem {
     QTime itemTime {QTime::currentTime()} ; ///< Время события
     TConnection::exchangeProtocol command ; ///< Выполненная команда
     quint32 date ;                          ///< Данные передаваемые/получаемые
-    QString comments ;                      ///< Комментарии
+    QString comments {""} ;                 ///< Комментарии
 } ;
 
 typedef std::shared_ptr <logItem> tdLogItem ;   ///< typedef для указателя на запись в лог
 
+                    /// Описание структуры записи в лог по подбру ключей
+struct keyItem {
+QTime itemTime {QTime::currentTime()} ; ///< Время события
+QString host {""} ;                     ///< Выполненная команда
+QString key {""} ;                      ///< Данные передаваемые/получаемые
+QString result {""};                    ///< Результат
+} ;
+
+typedef std::shared_ptr <keyItem> tdKeyItem ;   ///< typedef для указателя на запись в лог по подбру ключей
+
 static std::mutex mutexConnectionList  ; // mutex для ожидания освобождения контейнера содержащего список соединений сервера
+static std::mutex mutexLog  ;            // mutex для синхронизации доступа к контейнеру содержащему лог (т.к. там vector)
+static std::mutex mutexKey  ;            // mutex для синхронизации доступа к контейнеру содержащему лог по подбру ключей (т.к. там vector)
 }
 }
 #endif // TCOMMONSERVER_H
