@@ -22,6 +22,10 @@ TConnectionClient::TConnectionClient()
     fPtrSocket.reset(new QTcpSocket ());            // После подключения к серверу соединение останется открытое
 }
 //-----------------------------------------------------------
+/*!
+ * \brief TConnectionClient::seachServer  Поиск сервера в локальной сети
+ * \param inPort    Порт по которому выполняется обмен с севером
+ */
 void TConnectionClient::seachServer (quint16 inPort)
 {
     setState(stServerSearch) ;           // Установка состояния поиска сервера
