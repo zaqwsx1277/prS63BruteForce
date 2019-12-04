@@ -8,6 +8,7 @@ namespace connection {
 //----------------------------------------------------------------
 /*!
  * \brief The TConnectionServer class   Класс для работы с распределённой системой подбора ключей
+ *
  */
 class TConnectionServer : public TConnection
 {
