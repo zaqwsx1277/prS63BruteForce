@@ -12,6 +12,8 @@
 #include "TCommonDefaneServer.hpp"
 #include "TConnectionServer.hpp"
 #include "TBruteForceManager.hpp"
+#include "TServerLogModel.h"
+#include "TServerKeyModel.h"
 
 namespace Ui {
 class prS63BruteForceServer;
@@ -44,8 +46,10 @@ private:
                  bitKeyStop = 3,     /// bit 3 = заполненность поля spKeyStop
                  bitCount} ;
     std::bitset <bitPos::bitCount> fReadyToStart ; // Битовое значение для контроля готовности всех данных для запуска подбора. Позиции битов определяются в bitPos
+    std::unique_ptr <TServerLogModel> fPrtLogModel {nullptr} ;  // Указатель на модель отображения лога
+    std::unique_ptr <TServerKeyModel> fPrtKeyModel {nullptr} ;  // Указатель на модель отображения лога
 
-    std::unique_ptr <TBruteForceManager> fPtrBruteForceManager { new TBruteForceManager ()} ; // Указатель на менеджер распределения блоков и обработки полученных данных
+//    std::unique_ptr <TBruteForceManager> fPtrBruteForceManager { new TBruteForceManager ()} ; // Указатель на менеджер распределения блоков и обработки полученных данных
 //    std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
 //    std::unique_ptr <connection::TConnectionServer> fPtrConnectionServer { new connection::TConnectionServer ()} ; // Указатель на класс обрабатывающий соединения в распеделенной системе
 

@@ -18,7 +18,7 @@ using namespace server ;
 namespace Ui {
 class prServerEmulator;
 }
-//bool threadIdComp = [] (commonDefineServer::tdPtrClientDescr left, commonDefineServer::tdPtrClientDescr right) { return (left -> threadId < right -> threadId ) ; } ;
+
 //-----------------------------------------------------
 /*!
  * \brief Эмулятор работы сервера предназначеный для отладки Клиентской части. Порт по которому принимаются входящие соединения 9993

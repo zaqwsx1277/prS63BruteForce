@@ -19,6 +19,16 @@ prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
 
     initForm () ;
     fReadyToStart.reset() ;         // Очистка всех битов для контроля заполненности всех полей
+
+    fPrtLogModel.reset( new TServerLogModel());     // Инициализируем модели отображения логов
+    ui -> spLog -> setModel(fPrtLogModel.get()) ;
+    for (quint8 i = 0; i < fPrtLogModel -> columnCount (); i++) {
+        ui-> spLog -> horizontalHeader() -> setSectionResizeMode(i, QHeaderView::Stretch) ;
+    }
+    connect(ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
+
+//    fPtrConnection.reset(new connection::TSEConnection) ;
+//    setConnect () ;
 }
 //------------------------------------------------------------------------------
 prS63BruteForceServer::~prS63BruteForceServer()
