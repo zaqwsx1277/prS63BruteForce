@@ -1,6 +1,11 @@
 #include "TServerKeyModel.h"
 
-TServerKeyModel::TServerKeyModel()
+#include "TCommonDefaneServer.hpp"
+using namespace server ;
+
+//----------------------------------------------------------------------
+TServerKeyModel::TServerKeyModel (QObject *parent)
 {
 
 }
+//----------------------------------------------------------------------

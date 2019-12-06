@@ -228,7 +228,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QTableView" name="spLogThreads"/>
+        <widget class="QTableView" name="spLog"/>
        </item>
       </layout>
      </widget>
