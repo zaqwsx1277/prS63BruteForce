@@ -3,7 +3,7 @@
 
 #include <QtGlobal>
 #include <QHostAddress>
-#include <QTime>
+#include <QDateTime>
 
 #include <thread>
 
@@ -25,12 +25,15 @@ struct brutForceItem {
     //        commonDefine::stateBruteForceItem bfState {commonDefine::bfUnknown};    ///< Состояние блока
     QString keyFound {""} ;                                                 ///< Найденный ключ
 } ;
+//-------------------------------------------------------------------------------------
+typedef std::shared_ptr <QTcpSocket> tdTcpSocket ; ///< typedef указателя на QTcpSocket
                     /// Описание подключения клиента
 struct clientDescr {
-    std::thread::id threadId ;                                ///< id потока. Является ключом в контейнере содержащим описание всех подключенных клиентов
+    QDateTime dateTime {QDateTime::currentDateTime()};        ///< Время выполнения последней операции
     TConnection::state clientState {TConnection::stUnknown} ; ///< Состояние клиента/сервера. Например, для завершения работы очереди threadClient устанавливается состояние stAppClose
-    //    QHostAddress clientAddress ;        ///< Хост с которым работает сервер. Возможно нужен будет для восстановления соединения при его потере
+    tdTcpSocket ptrTcpSocket ;                                ///< Указатель на сокет обрабатывающий работу с удаленным клиентом
 } ;
+typedef std::shared_ptr <clientDescr> tdClientDescr ; ///< typedef для указателя на описание клиента
 //--------------------------------------------------------------------------------------
                     /// Описание структуры записи в лог
 struct logItem {
@@ -62,7 +65,7 @@ static QString keytemHeaderHost {"Хост"} ;
 static QString keyItemHeaderKey {"Найденный ключ"} ;
 static QString keyItemHeaderResult {"Результат проверки"} ;
 //-----------------------------------------------------------------------------
-static std::mutex mutexConnectionList  ; // mutex для ожидания освобождения контейнера содержащего список соединений сервера
+static std::mutex mutexNewConnection  ;  // mutex для синхронизации доступа к контейнеру содержащий список всех новых подключений
 static std::mutex mutexLog  ;            // mutex для синхронизации доступа к контейнеру содержащему лог (т.к. там vector)
 static std::mutex mutexKey  ;            // mutex для синхронизации доступа к контейнеру содержащему лог по подбру ключей (т.к. там vector)
 

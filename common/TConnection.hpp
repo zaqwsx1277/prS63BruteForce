@@ -57,10 +57,11 @@ public:
 
 protected:
     state fState {stUnknown} ; // Текущее состояние
+
+public:
     std::shared_ptr <QTcpServer> fPtrServer {nullptr} ; // Указатель на сервер, который при работе будет постоянно прослушивать требуемый порт
     std::shared_ptr <QTcpSocket> fPtrSocket {nullptr} ; // Указатель на сокет, через который будет выполняться обмен данными с сервером
 
-public:
     state getState () ;            // Получение текущего состояния
     void setState (const state&) ; // Установка состояния
 

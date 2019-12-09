@@ -31,7 +31,6 @@ public:
     explicit prServerEmulator(QWidget *parent = 0);
     ~prServerEmulator();
 
-
 private:
 
     bool threadIdComp = [] (commonDefineServer::tdPtrClientDescr left, commonDefineServer::tdPtrClientDescr right) { return (left -> threadId < right -> threadId ) ; } ;
@@ -49,7 +48,7 @@ private:
     void closeEvent (QCloseEvent*) ; // Событие срабатывающее на закрытие формы
 
 private slots:
-    void slotHostConnected (quint32) ;  // Слот срабатывающий при подключении клиента
+    void slotHostConnected () ;  // Слот срабатывающий при подключении клиента
     void slotHostDisconnected (quint32) ; // Слот срабатывающий при отключении клиента
     void slotHostError (quint32, QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибки от клиента
 

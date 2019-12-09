@@ -6,6 +6,8 @@
 
 #include <time.h>
 #include <chrono>
+#include <thread>
+#include <functional>
 
 #include "TCommonDefine.hpp"
 
@@ -33,8 +35,8 @@ prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
     connect(ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
     connect(ui -> spLogKeys -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
 
-//    fPtrConnection.reset(new connection::TSEConnection) ;
-//    setConnect () ;
+//    fPtrConnectionServer.reset(new connection::TSEConnection) ;
+//    setConnect () ;                 // Инициализируем все слоты и сигналы
 }
 //------------------------------------------------------------------------------
 prS63BruteForceServer::~prS63BruteForceServer()
@@ -181,5 +183,48 @@ void prS63BruteForceServer::closeEvent(QCloseEvent *event)
 //        event -> ignore() ;
 //      break ;
 //    }
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::setConnect  Формирование всех конектов
+ */
+void prS63BruteForceServer::setServerConnect ()
+{
+//    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostConnected, this, &prServerEmulator::slotHostConnected) ;
+//    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostDisconnected, this, &prServerEmulator::slotHostDisconnected ) ;
+
+    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostConnected, this, &prS63BruteForceServer::slotHostConnected) ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::slotHostConnected Слот срабатывающий при подключении нового клиента. Сигнал кидается из TConnectionServer
+ * \param inTcpSocket Указатель на сокет с новым подключением клиента
+ */
+void prS63BruteForceServer::slotHostConnected (QTcpSocket *inTcpSocket)
+{
+    std::lock_guard <std::mutex> connectionWait (commonDefineServer::mutexNewConnection) ;    // Блокируем допуск к контейнеру новых подключений. Это необходимо что бы не запустилось два потока для обработки подключений
+    commonDefineServer::tdClientDescr ptrClientDescr ;
+    ptrClientDescr -> ptrTcpSocket.reset(inTcpSocket); ;
+    fConnectionQueue.push(ptrClientDescr);
+    if (fConnectionQueue.size() == 1) {           // Запускаем поток обрабатывающий новые входящие подключения. Поток будет работать до тех пор, пока не обработает все записи в контейнере
+//        std::thread manager (&prS63BruteForceServer::connectionManager) ;
+//        manager.detach();
+    }
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::connectionManager  Менеджер обработки входящих соединений. Менеджер обрабатывает все записи в fConnectionQueue в который в прцессе обработки могут добавляться новые записи
+ */
+void prS63BruteForceServer::connectionManager ()
+{
+    while (!fConnectionQueue.empty()) {
+        commonDefineServer::tdClientDescr ptrClientDescr = fConnectionQueue.front () ; // Вынимаем из контейнера запись о клиенте
+        fConnectionQueue.pop () ;
+//        connect(ptrClientDescr -> ptrTcpSocket.get(), &QTcpSocket::readyRead, this, &prS63BruteForceServer::readDataFromClient) ;   // Формируем все нужные коннекты для работы с клиентом
+        // Отправляем клиенту подтверждение о подключении
+        // Ждём ответ от клиента
+        // Если ответ от клиента поступил, то переносим запись о клиенте в контейнер содержащие записи о всех подключенных клиентах
+        // Если ответ не поступил, то запись о клиенте просто умирает
+    }
 }
 //-----------------------------------------------------------------------------
