@@ -21,7 +21,7 @@ prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
     fReadyToStart.reset() ;         // Очистка всех битов для контроля заполненности всех полей
 
     fPrtLogModel.reset( new TServerLogModel());     // Инициализируем модели отображения логов
-    fPrtKeyModel.reset( new TServerLogModel());
+    fPrtKeyModel.reset( new TServerKeyModel());
     ui -> spLog -> setModel(fPrtLogModel.get()) ;
     ui -> spLogKeys -> setModel(fPrtKeyModel.get()) ;
     for (quint8 i = 0; i < fPrtLogModel -> columnCount (); i++) {
@@ -119,8 +119,8 @@ void prS63BruteForceServer::on_spPathFrom_textChanged(const QString &inPathFrom)
 {
     if (inPathFrom.isEmpty()) fReadyToStart.reset(bitPathFrom) ;
       else fReadyToStart.set(bitPathFrom) ;
-    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
-      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
+//    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
+//      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -132,8 +132,8 @@ void prS63BruteForceServer::on_spThreadCount_textChanged(const QString &inThread
 {
     if (inThreadCount.isEmpty()) fReadyToStart.reset(bitThreadCount) ;
       else fReadyToStart.set(bitThreadCount) ;
-    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
-      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
+//    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
+//      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -145,8 +145,8 @@ void prS63BruteForceServer::on_spKeyStart_textChanged(const QString &inKeyStart)
 {
     if (inKeyStart.isEmpty()) fReadyToStart.reset(bitKeyStart) ;
       else fReadyToStart.set(bitKeyStart) ;
-    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
-      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
+//    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
+//      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -158,8 +158,8 @@ void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
 {
     if (inKeyStop.isEmpty()) fReadyToStart.reset(bitKeyStop) ;
       else fReadyToStart.set(bitKeyStop) ;
-    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
-      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
+//    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
+//      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -169,17 +169,17 @@ void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
  */
 void prS63BruteForceServer::closeEvent(QCloseEvent *event)
 {
-    switch (fPtrBruteForceManager -> getState()) {
-      case connection::TConnection::stStop :
-      case connection::TConnection::stNotReadyToStart :
-      case connection::TConnection::stReadyToStart :
-      case connection::TConnection::stWait :
-        event -> accept();
-      break ;
+//    switch (fPtrBruteForceManager -> getState()) {
+//      case connection::TConnection::stStop :
+//      case connection::TConnection::stNotReadyToStart :
+//      case connection::TConnection::stReadyToStart :
+//      case connection::TConnection::stWait :
+//        event -> accept();
+//      break ;
 
-      default :
-        event -> ignore() ;
-      break ;
-    }
+//      default :
+//        event -> ignore() ;
+//      break ;
+//    }
 }
 //-----------------------------------------------------------------------------

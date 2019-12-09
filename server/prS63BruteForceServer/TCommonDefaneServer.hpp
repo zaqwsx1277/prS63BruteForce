@@ -31,29 +31,43 @@ struct clientDescr {
     TConnection::state clientState {TConnection::stUnknown} ; ///< Состояние клиента/сервера. Например, для завершения работы очереди threadClient устанавливается состояние stAppClose
     //    QHostAddress clientAddress ;        ///< Хост с которым работает сервер. Возможно нужен будет для восстановления соединения при его потере
 } ;
+//--------------------------------------------------------------------------------------
                     /// Описание структуры записи в лог
 struct logItem {
     QTime itemTime {QTime::currentTime()} ; ///< Время события
+    QString host {""} ;                     ///< Хост с которым выполняется обмен данными
     TConnection::exchangeProtocol command ; ///< Выполненная команда
     quint32 date ;                          ///< Данные передаваемые/получаемые
     QString comments {""} ;                 ///< Комментарии
 } ;
-
 typedef std::shared_ptr <logItem> tdLogItem ;   ///< typedef для указателя на запись в лог
+                                            // Заголовки колонок лога
+static QString logItemHeaderTime {"Время"} ;
+static QString logItemHeaderHost {"Хост"} ;
+static QString logItemHeaderCommand {"Команда"} ;
+static QString logItemHeaderData {"Данные"} ;
+static QString logItemHeaderComment {"Комментарий"} ;
 
                     /// Описание структуры записи в лог по подбру ключей
 struct keyItem {
-QTime itemTime {QTime::currentTime()} ; ///< Время события
-QString host {""} ;                     ///< Выполненная команда
-QString key {""} ;                      ///< Данные передаваемые/получаемые
-QString result {""};                    ///< Результат
+    QTime itemTime {QTime::currentTime()} ; ///< Время события
+    QString host {""} ;                     ///< Хост с которым выполняется обмен данными
+    QString key {""} ;                      ///< Найденный ключ
+    QString result {""};                    ///< Результат проверки ключа
 } ;
-
 typedef std::shared_ptr <keyItem> tdKeyItem ;   ///< typedef для указателя на запись в лог по подбру ключей
-
+                                            // Заголовки колонок лога по обработке найденных ключей
+static QString keyItemHeaderTime {"Время"} ;
+static QString keytemHeaderHost {"Хост"} ;
+static QString keyItemHeaderKey {"Найденный ключ"} ;
+static QString keyItemHeaderResult {"Результат проверки"} ;
+//-----------------------------------------------------------------------------
 static std::mutex mutexConnectionList  ; // mutex для ожидания освобождения контейнера содержащего список соединений сервера
 static std::mutex mutexLog  ;            // mutex для синхронизации доступа к контейнеру содержащему лог (т.к. там vector)
 static std::mutex mutexKey  ;            // mutex для синхронизации доступа к контейнеру содержащему лог по подбру ключей (т.к. там vector)
+
+//-----------------------------------------------------------------------------
+
 }
 }
 #endif // TCOMMONSERVER_H

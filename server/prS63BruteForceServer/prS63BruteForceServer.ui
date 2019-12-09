@@ -242,7 +242,7 @@
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QTreeView" name="spLogKeys"/>
+          <widget class="QTableView" name="spLogKeys"/>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">

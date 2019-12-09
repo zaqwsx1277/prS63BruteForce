@@ -34,48 +34,16 @@ QVariant TServerLogModel::data(const QModelIndex &index, int role) const
                     retVal = logData -> itemTime.toString("hh:mm:ss") ;
                   break ;
 
+                  case cnHost :
+                    retVal = logData -> host ;
+                  break ;
+
                   case cnCommand :
-                    switch (logData -> command) {
-                      case connection::TConnection::cmdAcceptData :
-                        retVal = commonDefine::textAcceptData ;
-                      break;
+                    retVal = connection::exchangeProtocolText [logData -> command] ;
+                  break ;
 
-                      case connection::TConnection::cmdStateRequest :
-                        retVal = commonDefine::textStateRequest ;
-                      break ;
-
-                      case connection::TConnection::cmdStateConfirm :
-                        retVal = commonDefine::textStateConfirm ;
-                      break ;
-
-                      case connection::TConnection::cmdConnectionReject :
-                        retVal = commonDefine::textRejectData ;
-                      break;
-
-                      case connection::TConnection::cmdConnectionClose :
-                        retVal = commonDefine::textConnectionClose ;
-                      break;
-
-                      case connection::TConnection::cmdTransferData :
-                        retVal = commonDefine::textTransferData ;
-                      break;
-
-                      case connection::TConnection::cmdRefuseData :
-                        retVal = commonDefine::textRefuseData ;
-                      break;
-
-                      case connection::TConnection::cmdTransferRequest :
-                        retVal = commonDefine::textTransferRequest ;
-                      break;
-
-                      case connection::TConnection::cmdError :
-                        retVal = commonDefine::texError ;
-                      break;
-
-                      default:
-                        retVal = commonDefine::textUnknown ;
-                      break;
-                    }
+                  case cnData :
+                    retVal = QString::number(logData -> date) ;
                   break ;
 
                   case cnComment :
@@ -95,3 +63,49 @@ QVariant TServerLogModel::data(const QModelIndex &index, int role) const
     return retVal ;
 }
 //----------------------------------------------------------
+QVariant TServerLogModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+        QVariant retVal = QVariant () ;
+        if (role != Qt::DisplayRole) return QVariant();
+
+        if (orientation == Qt::Horizontal)
+                switch (section) {
+                  case cnTime :
+                    retVal = commonDefineServer::logItemHeaderTime ;
+                  break ;
+
+                  case cnHost :
+                    retVal = commonDefineServer::logItemHeaderHost ;
+                  break ;
+
+                  case cnCommand :
+                    retVal = commonDefineServer::logItemHeaderCommand ;
+                  break ;
+
+                  case cnData :
+                    retVal = commonDefineServer::logItemHeaderData ;
+                  break ;
+
+                  case cnComment :
+                    retVal = commonDefineServer::logItemHeaderComment ;
+                  break ;
+
+                  default :
+                  break ;
+                }
+        return retVal ;
+}
+//----------------------------------------------------------
+void TServerLogModel::push_back (commonDefineServer::tdLogItem inItem)
+{
+    std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexLog) ;    // блокируем допуск остальным потокам и на обновление
+    std::vector <commonDefineServer::tdLogItem>::push_back (inItem);
+}
+//----------------------------------------------------
+void TServerLogModel::refreshView ()
+{
+    std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexLog) ;
+    beginResetModel();
+    endResetModel();
+}
+//----------------------------------------------------

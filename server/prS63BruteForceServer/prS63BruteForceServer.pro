@@ -26,23 +26,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         prS63BruteForceServer.cpp \
-    ../../common/TConnection.cpp \
-    TConnectionServer.cpp \
-    TBruteForceManager.cpp \
-    ../../common/TException.cpp \
-    TServerLogModel.cpp \
-    TServerKeyModel.cpp
+        TConnectionServer.cpp \
+        TBruteForceManager.cpp \
+        TServerLogModel.cpp \
+        TServerKeyModel.cpp \
+        ../../common/TException.cpp \
+        ../../common/TConnection.cpp
 
 HEADERS += \
         prS63BruteForceServer.hpp \
+        TCommonDefaneServer.hpp \
+        TConnectionServer.hpp \
+        TBruteForceManager.hpp \
+        TServerLogModel.h \
+        TServerKeyModel.h \
         ../../common/TCommonDefine.hpp \
-    TCommonDefaneServer.hpp \
-    ../../common/TConnection.hpp \
-    TConnectionServer.hpp \
-    TBruteForceManager.hpp \
-    ../../common/TException.hpp \
-    TServerLogModel.h \
-    TServerKeyModel.h
+        ../../common/TConnection.hpp \
+        ../../common/TException.hpp
 
 FORMS += \
         prS63BruteForceServer.ui
