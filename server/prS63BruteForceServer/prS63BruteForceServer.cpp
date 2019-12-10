@@ -108,7 +108,7 @@ void prS63BruteForceServer::timerEvent(QTimerEvent* inEvent)
 void prS63BruteForceServer::on_btnRun_clicked()
 {
     fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
-    startTimer(commonDefine::mainWindowRefresh) ;       // Запускаем таймер обновления
+    startTimer(commonDefine::mainWindowRefresh) ;       // Запускаем таймер обновления отображения логов
 
 
 }
