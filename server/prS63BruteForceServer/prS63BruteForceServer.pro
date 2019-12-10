@@ -27,7 +27,6 @@ SOURCES += \
         main.cpp \
         prS63BruteForceServer.cpp \
         TConnectionServer.cpp \
-        TBruteForceManager.cpp \
         TServerLogModel.cpp \
         TServerKeyModel.cpp \
         ../../common/TException.cpp \
@@ -37,7 +36,6 @@ HEADERS += \
         prS63BruteForceServer.hpp \
         TCommonDefaneServer.hpp \
         TConnectionServer.hpp \
-        TBruteForceManager.hpp \
         TServerLogModel.h \
         TServerKeyModel.h \
         ../../common/TCommonDefine.hpp \

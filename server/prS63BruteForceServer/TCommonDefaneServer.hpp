@@ -6,8 +6,8 @@
 #include <QDateTime>
 
 #include <thread>
+#include <mutex>
 
-#include "TCommonDefine.hpp"
 #include "TConnectionServer.hpp"
 
 using namespace connection ;
@@ -16,6 +16,8 @@ namespace server {
 
 namespace commonDefineServer {
 
+const static qint32 timerLogRefresh {1000} ;                   ///< Период срабатывания таймера для обновления логов
+//-------------------------------------------------------------------------------------
 struct clientDescr ;
 typedef std::shared_ptr <clientDescr> tdPtrClientDescr ;   ///< typedef для указателя на описание подключения клиента
 

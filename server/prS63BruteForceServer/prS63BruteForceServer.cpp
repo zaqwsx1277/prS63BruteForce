@@ -9,6 +9,8 @@
 #include <thread>
 #include <functional>
 
+#include <assert.h>
+
 #include "TCommonDefine.hpp"
 
 using namespace server ;
@@ -18,6 +20,9 @@ prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
     ui(new Ui::prS63BruteForceServer)
 {
     ui-> setupUi(this);
+
+    assert (TConnection::cmdCount != commonDefine::exchangeProtocolText.size()) ;    // Защита от кривых рук если TConnection добавлена команда или состояние, но не добавлены их описания
+    assert (TConnection::stCount != commonDefine::stateText.size()) ;
 
     initForm () ;
     fReadyToStart.reset() ;         // Очистка всех битов для контроля заполненности всех полей
@@ -35,8 +40,17 @@ prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
     connect(ui -> spLog -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
     connect(ui -> spLogKeys -> model(), &QAbstractItemModel::rowsInserted, ui -> spLog, &QTableView::scrollToBottom) ;
 
-//    fPtrConnectionServer.reset(new connection::TSEConnection) ;
-//    setConnect () ;                 // Инициализируем все слоты и сигналы
+    startTimer(commonDefineServer::timerLogRefresh) ;
+
+    setConnect () ;                 // Инициализируем все слоты и сигналы
+}
+//------------------------------------------------------------------------------
+/*!
+ * \brief setConnect    Инициализация слотов и сигналов
+ */
+void prS63BruteForceServer::setConnect ()
+{
+
 }
 //------------------------------------------------------------------------------
 prS63BruteForceServer::~prS63BruteForceServer()
@@ -83,23 +97,27 @@ bool prS63BruteForceServer::checkReadyToStart ()
 }
 //-----------------------------------------------------------------------------
 /*!
- * \brief timerEvent    Таймер обновляющий форму
+ * \brief timerEvent    Таймер обновляющий форму и логи
  * \param inEvent       Обрабатываемое событие
  */
 void prS63BruteForceServer::timerEvent(QTimerEvent* inEvent)
 {
-    std::chrono::time_point<std::chrono::system_clock> nowTime = std::chrono::system_clock::now() ;
-                        // Вывод продолжительности вычислений в текстовом виде
-    uint32_t timeDurationSec = std::chrono::duration_cast<std::chrono::seconds> (nowTime - fTimeStart).count () % 60 ;
-    QString timeDurationSecText = "00" + QString::number(timeDurationSec) ;
-    uint32_t timeDurationMin = std::chrono::duration_cast<std::chrono::minutes> (nowTime - fTimeStart).count () % 60 ;
-    QString timeDurationMinText = "00" + QString::number(timeDurationMin) ;
-    uint32_t timeDurationHours = std::chrono::duration_cast<std::chrono::hours> (nowTime - fTimeStart).count () % 24 ;
-    QString timeDurationHoursText = "00" + QString::number(timeDurationHours) ;
-    uint32_t timeDurationDay = timeDurationHours / 24 ;
-    QString timeDurationDayText = "00" + QString::number(timeDurationDay) ;
-    QString timeDurationText = timeDurationDayText.right(2) + ":" + timeDurationHoursText.right (2) + ":" + timeDurationMinText.right(2) + ":" + timeDurationSecText.right(2) ;
-    ui -> spTimeDuration -> setText(timeDurationText);
+    if (getServerState () != TConnection::stWait) {     // Продолжительность подбора определяется только если сервер работает или его работа приостановлена
+        std::chrono::time_point<std::chrono::system_clock> nowTime = std::chrono::system_clock::now() ;
+                            // Вывод продолжительности подбора в текстовом виде
+        uint32_t timeDurationSec = std::chrono::duration_cast<std::chrono::seconds> (nowTime - fTimeStart).count () % 60 ;
+        QString timeDurationSecText = "00" + QString::number(timeDurationSec) ;
+        uint32_t timeDurationMin = std::chrono::duration_cast<std::chrono::minutes> (nowTime - fTimeStart).count () % 60 ;
+        QString timeDurationMinText = "00" + QString::number(timeDurationMin) ;
+        uint32_t timeDurationHours = std::chrono::duration_cast<std::chrono::hours> (nowTime - fTimeStart).count () % 24 ;
+        QString timeDurationHoursText = "00" + QString::number(timeDurationHours) ;
+        uint32_t timeDurationDay = timeDurationHours / 24 ;
+        QString timeDurationDayText = "00" + QString::number(timeDurationDay) ;
+        QString timeDurationText = timeDurationDayText.right(2) + ":" + timeDurationHoursText.right (2) + ":" + timeDurationMinText.right(2) + ":" + timeDurationSecText.right(2) ;
+        ui -> spTimeDuration -> setText(timeDurationText);
+    }
+
+    ui -> spState -> setText(commonDefine::stateText [getServerState ()]) ;
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -108,8 +126,6 @@ void prS63BruteForceServer::timerEvent(QTimerEvent* inEvent)
 void prS63BruteForceServer::on_btnRun_clicked()
 {
     fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
-    startTimer(commonDefine::mainWindowRefresh) ;       // Запускаем таймер обновления отображения логов
-
 
 }
 //-----------------------------------------------------------------------------
@@ -193,7 +209,7 @@ void prS63BruteForceServer::setServerConnect ()
 //    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostConnected, this, &prServerEmulator::slotHostConnected) ;
 //    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostDisconnected, this, &prServerEmulator::slotHostDisconnected ) ;
 
-    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostConnected, this, &prS63BruteForceServer::slotHostConnected) ;
+//    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostConnected, this, &prS63BruteForceServer::slotHostConnected) ;
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -226,5 +242,27 @@ void prS63BruteForceServer::connectionManager ()
         // Если ответ от клиента поступил, то переносим запись о клиенте в контейнер содержащие записи о всех подключенных клиентах
         // Если ответ не поступил, то запись о клиенте просто умирает
     }
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::getServerState Получение состояния сервера
+ * \return Состояние сервера
+ */
+TConnection::state prS63BruteForceServer::getServerState ()
+{
+    TConnection::state retVal {TConnection::stUnknown} ;
+    if (fPtrConnectionServer != nullptr) retVal = fPtrConnectionServer -> getState() ;
+      else retVal = TConnection::stWait ;
+
+    return retVal ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::setServerState Установка состояния сервера
+ * \param inState   Устанавливаемое состояние
+ */
+void prS63BruteForceServer::setServerState(TConnection::state inState)
+{
+    fPtrConnectionServer ->setState (inState) ;
 }
 //-----------------------------------------------------------------------------

@@ -12,7 +12,6 @@
 
 #include "TCommonDefaneServer.hpp"
 #include "TConnectionServer.hpp"
-#include "TBruteForceManager.hpp"
 #include "TServerLogModel.h"
 #include "TServerKeyModel.h"
 
@@ -57,7 +56,7 @@ private:
 
 //    std::unique_ptr <TBruteForceManager> fPtrBruteForceManager { new TBruteForceManager ()} ; // Указатель на менеджер распределения блоков и обработки полученных данных
 //    std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
-    std::unique_ptr <connection::TConnectionServer> fPtrConnectionServer { new connection::TConnectionServer ()} ; // Указатель на класс обрабатывающий входящие соединения в распеделенной системе
+    std::unique_ptr <connection::TConnectionServer> fPtrConnectionServer { nullptr } ; // Указатель на класс обрабатывающий входящие соединения в распеделенной системе
     std::queue <commonDefineServer::tdClientDescr> fConnectionQueue ;      // контейнер для обработки входящих соединений менеджером обработки подключений
 
     void initForm () ;                      // инициализация формы
@@ -67,6 +66,7 @@ private:
     void setServerConnect () ;              // Инициализация всех connect'ов при запуске сервера
     void setServerState (TConnection::state) ; // Установка состояния сервера
     TConnection::state getServerState () ;  // Получение состояния сервера
+    void setConnect () ;                    // Инициализируем все слоты и сигналы
 
     void connectionManager () ;             // Менеджер обработки входящих соединений
 

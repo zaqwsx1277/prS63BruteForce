@@ -2,6 +2,7 @@
 
 
 #include "TCommonDefaneServer.hpp"
+
 using namespace server ;
 
 //--------------------------------------------------------
@@ -39,7 +40,7 @@ QVariant TServerLogModel::data(const QModelIndex &index, int role) const
                   break ;
 
                   case cnCommand :
-                    retVal = connection::exchangeProtocolText [logData -> command] ;
+                    retVal = commonDefine::exchangeProtocolText [logData -> command] ;
                   break ;
 
                   case cnData :
