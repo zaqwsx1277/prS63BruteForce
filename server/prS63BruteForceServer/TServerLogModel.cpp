@@ -2,6 +2,7 @@
 
 
 #include "TCommonDefaneServer.hpp"
+#include "TCommonDefine.hpp"
 
 using namespace server ;
 

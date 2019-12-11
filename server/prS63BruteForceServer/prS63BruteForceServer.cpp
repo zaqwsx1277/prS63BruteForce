@@ -21,8 +21,8 @@ prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
 {
     ui-> setupUi(this);
 
-    assert (TConnection::cmdCount != commonDefine::exchangeProtocolText.size()) ;    // Защита от кривых рук если TConnection добавлена команда или состояние, но не добавлены их описания
-    assert (TConnection::stCount != commonDefine::stateText.size()) ;
+    assert (TConnection::cmdCount == commonDefine::exchangeProtocolText.size()) ;    // Защита от кривых рук если TConnection добавлена команда или состояние, но не добавлены их описания
+    assert (TConnection::stCount == commonDefine::stateText.size()) ;
 
     initForm () ;
     fReadyToStart.reset() ;         // Очистка всех битов для контроля заполненности всех полей

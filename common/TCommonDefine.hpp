@@ -19,7 +19,7 @@ namespace commonDefine {
     static std::mutex mutexRefresh ;            ///< mutex для ожидания записи в модель отображения лога
 
     //----------------------------------------------------------------------------------------------------------
-    std::array <QString, connection::TConnection::cmdCount> exchangeProtocolText {     ///< Текстовое описание команд протокола обмена
+    static std::vector <QString> exchangeProtocolText {     ///< Текстовое описание команд протокола обмена
         "Команда не определена",
         "Запрос клиента на подключение",
         "Подтверждение о подключении",
@@ -34,7 +34,7 @@ namespace commonDefine {
         "Сообщение об ошибке"
     } ;
 
-    std::array <QString, connection::TConnection::stCount> stateText {                ///< Текстовое описание возможный состояний
+    static std::vector <QString> stateText {                ///< Текстовое описание возможный состояний
         "Неопределено",
         "Соединение установлено",
         "Соединение разорванно",
