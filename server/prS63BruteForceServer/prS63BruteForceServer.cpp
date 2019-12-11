@@ -3,6 +3,7 @@
 
 #include <QRegExpValidator>
 #include <QRegExp>
+#include <QMessageBox>
 
 #include <time.h>
 #include <chrono>
@@ -187,18 +188,22 @@ void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
  */
 void prS63BruteForceServer::closeEvent(QCloseEvent *event)
 {
-//    switch (fPtrBruteForceManager -> getState()) {
-//      case connection::TConnection::stStop :
-//      case connection::TConnection::stNotReadyToStart :
-//      case connection::TConnection::stReadyToStart :
-//      case connection::TConnection::stWait :
-//        event -> accept();
-//      break ;
+    switch (getServerState ()) {
+      case connection::TConnection::stStop :
+      case connection::TConnection::stNotReadyToStart :
+      case connection::TConnection::stReadyToStart :
+      case connection::TConnection::stWait :
+      case connection::TConnection::stUnknown :
+        event -> accept();
+      break ;
 
-//      default :
-//        event -> ignore() ;
-//      break ;
-//    }
+      default : {
+        int isExit = QMessageBox::warning (this, "Предупреждение", "Выполняется подбор паролей.\nЗавершить приложение?", QMessageBox::Ok | QMessageBox::No, QMessageBox::No) ;
+        if (isExit == QMessageBox::Ok) event -> accept();
+          else event -> ignore() ;
+      }
+      break ;
+    }
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -223,8 +228,8 @@ void prS63BruteForceServer::slotHostConnected (QTcpSocket *inTcpSocket)
     ptrClientDescr -> ptrTcpSocket.reset(inTcpSocket); ;
     fConnectionQueue.push(ptrClientDescr);
     if (fConnectionQueue.size() == 1) {           // Запускаем поток обрабатывающий новые входящие подключения. Поток будет работать до тех пор, пока не обработает все записи в контейнере
-//        std::thread manager (&prS63BruteForceServer::connectionManager) ;
-//        manager.detach();
+        std::thread manager (std::bind (&prS63BruteForceServer::connectionManager, this)) ;
+        manager.detach();
     }
 }
 //-----------------------------------------------------------------------------
@@ -234,8 +239,10 @@ void prS63BruteForceServer::slotHostConnected (QTcpSocket *inTcpSocket)
 void prS63BruteForceServer::connectionManager ()
 {
     while (!fConnectionQueue.empty()) {
+        std::lock (commonDefineServer::mutexNewConnection) ;        // Блокируем доступ к контейнеру новых подключений
         commonDefineServer::tdClientDescr ptrClientDescr = fConnectionQueue.front () ; // Вынимаем из контейнера запись о клиенте
         fConnectionQueue.pop () ;
+        std::lock (commonDefineServer::mutexNewConnection) ;
 //        connect(ptrClientDescr -> ptrTcpSocket.get(), &QTcpSocket::readyRead, this, &prS63BruteForceServer::readDataFromClient) ;   // Формируем все нужные коннекты для работы с клиентом
         // Отправляем клиенту подтверждение о подключении
         // Ждём ответ от клиента
