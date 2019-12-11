@@ -194,6 +194,7 @@ void prS63BruteForceServer::closeEvent(QCloseEvent *event)
       case connection::TConnection::stReadyToStart :
       case connection::TConnection::stWait :
       case connection::TConnection::stUnknown :
+        waitAllThread () ;          //
         event -> accept();
       break ;
 
