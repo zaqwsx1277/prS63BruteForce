@@ -62,11 +62,11 @@ private:
     void initForm () ;                      // инициализация формы
     void setElementFormVisible () ;         // Установка видимости элементов в зависимсоти от состояния
     void makeConnect () ;                   // Формирует все нужные конекты
-    bool checkReadyToStart () ;             // Проверка заполненности всех полей
     void setServerConnect () ;              // Инициализация всех connect'ов при запуске сервера
     void setServerState (TConnection::state) ; // Установка состояния сервера
     TConnection::state getServerState () ;  // Получение состояния сервера
     void setConnect () ;                    // Инициализируем все слоты и сигналы
+    void waitAllThread () ;                 // Ожидаем завершение всех очередей
 
     void connectionManager () ;             // Менеджер обработки входящих соединений
 

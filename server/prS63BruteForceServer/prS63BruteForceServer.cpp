@@ -9,6 +9,7 @@
 #include <chrono>
 #include <thread>
 #include <functional>
+#include <mutex>
 
 #include <assert.h>
 
@@ -76,6 +77,8 @@ void prS63BruteForceServer::initForm ()
     ui -> spTimeStop -> clear() ;
     ui -> spTimeDuration -> clear() ;
     ui -> spState -> clear();
+
+    setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -83,18 +86,33 @@ void prS63BruteForceServer::initForm ()
  */
 void prS63BruteForceServer::setElementFormVisible ()
 {
+    switch (getServerState ()) {
+      case connection::TConnection::stReadyToStart :
+      case connection::TConnection::stWait :
+        if (fReadyToStart.all()) ui -> btnRun -> setEnabled(true) ;     // Проверяем заполненность всех полей
+          else ui -> btnRun -> setEnabled(false) ;
 
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::checkReadyToStart  Проверка заполненности всех полей
- * \return При заполненности всех полей возвращается true
- */
-bool prS63BruteForceServer::checkReadyToStart ()
-{
-    bool retVal = false ;
-    if (fReadyToStart.all()) retVal = true ;
-    return retVal ;
+        ui -> spPathFrom -> setEnabled (true) ;
+        ui -> spThreadCount -> setEnabled (true) ;
+        ui -> spKeyStart -> setEnabled (true) ;
+        ui -> spKeyStop -> setEnabled (true) ;
+
+        ui -> btnSave -> setEnabled (true) ;
+
+        ui -> btnRun -> setIcon(QIcon (":/icones/icones/run.png")) ;
+      break ;
+
+      default :
+        ui -> spPathFrom -> setEnabled (false) ;
+        ui -> spThreadCount -> setEnabled (false) ;
+        ui -> spKeyStart -> setEnabled (false) ;
+        ui -> spKeyStop -> setEnabled (false) ;
+
+        ui -> btnSave -> setEnabled (false) ;
+
+        ui -> btnRun -> setIcon(QIcon (":/icones/icones/pause.png")) ;
+      break ;
+    }
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -138,8 +156,6 @@ void prS63BruteForceServer::on_spPathFrom_textChanged(const QString &inPathFrom)
 {
     if (inPathFrom.isEmpty()) fReadyToStart.reset(bitPathFrom) ;
       else fReadyToStart.set(bitPathFrom) ;
-//    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
-//      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -151,8 +167,6 @@ void prS63BruteForceServer::on_spThreadCount_textChanged(const QString &inThread
 {
     if (inThreadCount.isEmpty()) fReadyToStart.reset(bitThreadCount) ;
       else fReadyToStart.set(bitThreadCount) ;
-//    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
-//      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -164,8 +178,6 @@ void prS63BruteForceServer::on_spKeyStart_textChanged(const QString &inKeyStart)
 {
     if (inKeyStart.isEmpty()) fReadyToStart.reset(bitKeyStart) ;
       else fReadyToStart.set(bitKeyStart) ;
-//    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
-//      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -177,8 +189,6 @@ void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
 {
     if (inKeyStop.isEmpty()) fReadyToStart.reset(bitKeyStop) ;
       else fReadyToStart.set(bitKeyStop) ;
-//    if (checkReadyToStart ()) fPtrBruteForceManager -> setState(connection::TConnection::stReadyToStart);
-//      else fPtrBruteForceManager -> setState(connection::TConnection::stNotReadyToStart);
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
@@ -194,7 +204,7 @@ void prS63BruteForceServer::closeEvent(QCloseEvent *event)
       case connection::TConnection::stReadyToStart :
       case connection::TConnection::stWait :
       case connection::TConnection::stUnknown :
-        waitAllThread () ;          //
+        waitAllThread () ;          // Ожидаем завершение всех очередей
         event -> accept();
       break ;
 
@@ -239,11 +249,12 @@ void prS63BruteForceServer::slotHostConnected (QTcpSocket *inTcpSocket)
  */
 void prS63BruteForceServer::connectionManager ()
 {
-    while (!fConnectionQueue.empty()) {
-        std::lock (commonDefineServer::mutexNewConnection) ;        // Блокируем доступ к контейнеру новых подключений
-        commonDefineServer::tdClientDescr ptrClientDescr = fConnectionQueue.front () ; // Вынимаем из контейнера запись о клиенте
+    while (!fConnectionQueue.empty()) {       
+        commonDefineServer::mutexNewConnection.lock();                                  // Блокируем доступ к контейнеру новых подключений
+        commonDefineServer::tdClientDescr ptrClientDescr = fConnectionQueue.front () ;  // Вынимаем из контейнера запись о клиенте
         fConnectionQueue.pop () ;
-        std::lock (commonDefineServer::mutexNewConnection) ;
+        commonDefineServer::mutexNewConnection.unlock();
+
 //        connect(ptrClientDescr -> ptrTcpSocket.get(), &QTcpSocket::readyRead, this, &prS63BruteForceServer::readDataFromClient) ;   // Формируем все нужные коннекты для работы с клиентом
         // Отправляем клиенту подтверждение о подключении
         // Ждём ответ от клиента
@@ -272,5 +283,13 @@ TConnection::state prS63BruteForceServer::getServerState ()
 void prS63BruteForceServer::setServerState(TConnection::state inState)
 {
     fPtrConnectionServer ->setState (inState) ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::waitAllThread  Ожидание завершение всех очередей
+ */
+void prS63BruteForceServer::waitAllThread ()
+{
+
 }
 //-----------------------------------------------------------------------------
