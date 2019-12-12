@@ -293,3 +293,11 @@ void prS63BruteForceServer::waitAllThread ()
 
 }
 //-----------------------------------------------------------------------------
+/*!
+ * \brief server::prS63BruteForceServer::on_btnPathFrom_clicked Слот выбора обрабатываемого файла
+ */
+void server::prS63BruteForceServer::on_btnPathFrom_clicked()
+{
+
+}
+//-----------------------------------------------------------------------------

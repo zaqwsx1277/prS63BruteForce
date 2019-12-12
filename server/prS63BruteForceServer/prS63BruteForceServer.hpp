@@ -40,6 +40,8 @@ private slots:
 //    void slotHostDisconnected (quint32) ; // Слот срабатывающий при отключении клиента
 //    void slotHostError (quint32, QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибки от клиента
 
+    void on_btnPathFrom_clicked();
+
 private:
     Ui::prS63BruteForceServer *ui;
                                      /// Номера позиций битов для проверки заполненности всех полей
