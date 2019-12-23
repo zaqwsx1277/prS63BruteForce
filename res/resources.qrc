@@ -244,5 +244,6 @@
         <file>icones/zoom_mais.png</file>
         <file>icones/zoom_menos.png</file>
         <file>icones/zoom_normal.png</file>
+        <file>icones/btnStop.png</file>
     </qresource>
 </RCC>

@@ -14,6 +14,7 @@
 #include <assert.h>
 
 #include "TCommonDefine.hpp"
+#include "TException.hpp"
 
 using namespace server ;
 //------------------------------------------------------------------------------
@@ -87,21 +88,47 @@ void prS63BruteForceServer::initForm ()
 void prS63BruteForceServer::setElementFormVisible ()
 {
     switch (getServerState ()) {
-      case connection::TConnection::stReadyToStart :
       case connection::TConnection::stWait :
         if (fReadyToStart.all()) ui -> btnRun -> setEnabled(true) ;     // Проверяем заполненность всех полей
           else ui -> btnRun -> setEnabled(false) ;
+        ui -> btnSave -> setEnabled (true) ;
+        ui -> btnStop -> setEnabled(false);
+
+        ui -> btnRun -> setIcon(QIcon (":/icones/icones/run.png")) ;
 
         ui -> spPathFrom -> setEnabled (true) ;
         ui -> spThreadCount -> setEnabled (true) ;
         ui -> spKeyStart -> setEnabled (true) ;
         ui -> spKeyStop -> setEnabled (true) ;
+      break ;
+
+      case connection::TConnection::stStart :
+        ui -> spPathFrom -> setEnabled (false) ;
+        ui -> spThreadCount -> setEnabled (false) ;
+        ui -> spKeyStart -> setEnabled (false) ;
+        ui -> spKeyStop -> setEnabled (false) ;
+
+        ui -> btnSave -> setEnabled (false) ;
+        ui -> btnStop -> setEnabled(true);
+
+        ui -> btnRun -> setIcon(QIcon (":/icones/icones/pause.png")) ;
+      break ;
+
+      case connection::TConnection::stPause :
+        ui -> spPathFrom -> setEnabled (false) ;
+        ui -> spThreadCount -> setEnabled (false) ;
+        ui -> spKeyStart -> setEnabled (false) ;
+        ui -> spKeyStop -> setEnabled (false) ;
 
         ui -> btnSave -> setEnabled (true) ;
+        ui -> btnStop -> setEnabled(true);
 
         ui -> btnRun -> setIcon(QIcon (":/icones/icones/run.png")) ;
       break ;
 
+      case connection::TConnection::stAppClose :                        // Ожидаем окончания всех очередей и поэтому выключаем все элементы
+      case connection::TConnection::stStop :
+      case connection::TConnection::stUnknown :                         // Абсолютно непонятное состояние и поэтому тоже выключаем все кнопки
       default :
         ui -> spPathFrom -> setEnabled (false) ;
         ui -> spThreadCount -> setEnabled (false) ;
@@ -109,8 +136,7 @@ void prS63BruteForceServer::setElementFormVisible ()
         ui -> spKeyStop -> setEnabled (false) ;
 
         ui -> btnSave -> setEnabled (false) ;
-
-        ui -> btnRun -> setIcon(QIcon (":/icones/icones/pause.png")) ;
+        ui -> btnStop -> setEnabled(false);
       break ;
     }
 }
@@ -140,12 +166,43 @@ void prS63BruteForceServer::timerEvent(QTimerEvent* inEvent)
 }
 //-----------------------------------------------------------------------------
 /*!
- * \brief prS63BruteForceServer::on_btnRun_clicked    Слот обрабатывающий выполнение подбора
+ * \brief prS63BruteForceServer::on_btnRun_clicked    Слот обрабатывающий запуск сервера
  */
 void prS63BruteForceServer::on_btnRun_clicked()
 {
-    fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
+    try {
+        switch (getServerState ()) {    // Выполняем действия в зависимости от состояния
+            case TConnection::stWait :
+                fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
+                if (fPtrConnectionServer == nullptr) {
+                    fPtrConnectionServer.reset(TConnectionServer (commonDefine::portNumber));   // Пока порт на потором висит сервер поменять нельзя
 
+
+
+                    setServerState(TConnection::stStart) ;
+
+                }
+                  else throw exception::errServerSecondInstance ;   // Летим по ошибке, т.к. подбор уже запущен. Как такое может произойти не совсем понятно.
+            break ;
+
+            case TConnection::stPause :
+                setServerState(TConnection::stPause) ;
+                setElementFormVisible () ;
+            break ;
+
+            default :
+                setServerState(TConnection::stUnknown) ; ;        // Если мы сюда попали, то кнопка btnRun активна в каком-то не понятном состоянии. Тупо прекратить выполнение assert'ом мы не можем, т.к. могут быть активны соединения
+                throw exception::errServerUnknownState ;
+            break ;
+        }
+    }
+      catch (exception::TException& ex) {
+        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), QString::fromStdString(ex.what()), QMessageBox::Ok) ;
+      }
+
+      catch (...) {
+        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), "Ошибка при запуске подбора", QMessageBox::Ok) ;
+      }
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -200,10 +257,9 @@ void prS63BruteForceServer::closeEvent(QCloseEvent *event)
 {
     switch (getServerState ()) {
       case connection::TConnection::stStop :
-      case connection::TConnection::stNotReadyToStart :
-      case connection::TConnection::stReadyToStart :
       case connection::TConnection::stWait :
       case connection::TConnection::stUnknown :
+        setServerState(TConnection::stAppClose);
         waitAllThread () ;          // Ожидаем завершение всех очередей
         event -> accept();
       break ;
@@ -282,15 +338,22 @@ TConnection::state prS63BruteForceServer::getServerState ()
  */
 void prS63BruteForceServer::setServerState(TConnection::state inState)
 {
-    fPtrConnectionServer ->setState (inState) ;
+    fPtrConnectionServer -> setState (inState) ;
+    setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------
 /*!
  * \brief prS63BruteForceServer::waitAllThread  Ожидание завершение всех очередей
+ *      Т.к. мы ожидаем завершения приложения, то в данном методе ЗАПРЕЩЕНО обрабатывать какие-либо сообщения и
+ *          поэтому QApplication::processEvents() вызывать нельзя.
  */
 void prS63BruteForceServer::waitAllThread ()
 {
+    if (fPtrConnectionServer == nullptr)
+        assert (false) ;                   // Если мы сюда попали, то это значит что-то однозначно пошло не так
+    if (fPtrConnectionServer -> getState() == TConnection::stAppClose) {    // Запуск ожидания возможен только при состоянии TConnection::stAppClose
 
+    }
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -299,5 +362,23 @@ void prS63BruteForceServer::waitAllThread ()
 void server::prS63BruteForceServer::on_btnPathFrom_clicked()
 {
 
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief server::prS63BruteForceServer::on_btnStop_clicked Слот обрабатывающий нажатие кнопки останова
+ */
+void server::prS63BruteForceServer::on_btnStop_clicked()
+{
+    switch (getServerState ()) {
+      case connection::TConnection::stStart :
+        setServerState(TConnection::stStop);
+        waitAllThread () ;                      // Ожидаем завершение всех очередей
+        fPtrConnectionServer.reset(nullptr);    // Т.к. в теории все очереди завершены, то тупо очищаем все соединения
+        setServerState(TConnection::stWait);
+      break ;
+
+      default :
+      break ;
+    }
 }
 //-----------------------------------------------------------------------------

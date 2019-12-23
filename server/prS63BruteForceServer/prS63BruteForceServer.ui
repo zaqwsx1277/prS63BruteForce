@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1210</width>
+    <width>1213</width>
     <height>627</height>
    </rect>
   </property>
@@ -52,6 +52,17 @@
         <property name="icon">
          <iconset resource="../../res/resources.qrc">
           <normaloff>:/icones/icones/run.png</normaloff>:/icones/icones/run.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="btnStop">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../res/resources.qrc">
+          <normaloff>:/icones/icones/msgbox_erro.png</normaloff>:/icones/icones/msgbox_erro.png</iconset>
         </property>
        </widget>
       </item>

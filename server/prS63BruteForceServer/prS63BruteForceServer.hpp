@@ -42,6 +42,8 @@ private slots:
 
     void on_btnPathFrom_clicked();
 
+    void on_btnStop_clicked();
+
 private:
     Ui::prS63BruteForceServer *ui;
                                      /// Номера позиций битов для проверки заполненности всех полей
