@@ -4,6 +4,7 @@
 #include <QRegExpValidator>
 #include <QRegExp>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include <time.h>
 #include <chrono>
@@ -67,15 +68,19 @@ prS63BruteForceServer::~prS63BruteForceServer()
 void prS63BruteForceServer::initForm ()
 {
     ui -> spThreadCount -> setValidator( new QRegExpValidator( QRegExp( "\\d{2}")));   // задаём все необходимые регулярные выражения
-    ui -> spKeyStart -> setValidator( new QRegExpValidator( QRegExp( "[0-9A-F]")));
-    ui -> spKeyStop -> setValidator( new QRegExpValidator( QRegExp( "[0-9A-F]")));
+    ui -> spKeyStart -> setValidator( new QRegExpValidator( QRegExp( "[0-9A-F]{8}")));
+    ui -> spKeyStop -> setValidator( new QRegExpValidator( QRegExp( "[0-9A-F]{8}")));
+                                // читаем файл настроек и заполняем нужные поля
+    ui -> spPathFrom -> setText(fPtrSettings -> value(commonDefine::setSrvFileName).toString()) ;
+    ui -> spKeyStart -> setText(fPtrSettings -> value(commonDefine::setSrvKeyStart).toString()) ;
+    ui -> spKeyStop -> setText(fPtrSettings -> value(commonDefine::setSrvKeyStop).toString()) ;
+    if (ui -> spKeyStart -> text().isEmpty()) ui -> spKeyStart -> setText ("00000000") ;
+    if (ui -> spKeyStop -> text().isEmpty()) ui -> spKeyStop -> setText ("FFFFFFFF") ;
 
-    ui -> spPathFrom -> clear() ;
     ui -> spThreadCount -> clear() ;
-    ui -> spKeyStart -> clear() ;
-    ui -> spKeyStop -> clear() ;
-    ui -> spTimeStart -> clear() ;
+
     ui -> spTimeStop -> clear() ;
+    ui -> spTimeStart -> clear();
     ui -> spTimeDuration -> clear() ;
     ui -> spState -> clear();
 
@@ -92,9 +97,12 @@ void prS63BruteForceServer::setElementFormVisible ()
         if (fReadyToStart.all()) ui -> btnRun -> setEnabled(true) ;     // Проверяем заполненность всех полей
           else ui -> btnRun -> setEnabled(false) ;
         ui -> btnSave -> setEnabled (true) ;
-        ui -> btnStop -> setEnabled(false);
+        ui -> btnStop -> setEnabled(true) ;
 
         ui -> btnRun -> setIcon(QIcon (":/icones/icones/run.png")) ;
+
+        ui -> btnRun -> setToolTip(commonDefineServer::toolTipRun);
+        ui -> btnStop -> setToolTip(commonDefineServer::toolTipExit);
 
         ui -> spPathFrom -> setEnabled (true) ;
         ui -> spThreadCount -> setEnabled (true) ;
@@ -112,6 +120,9 @@ void prS63BruteForceServer::setElementFormVisible ()
         ui -> btnStop -> setEnabled(true);
 
         ui -> btnRun -> setIcon(QIcon (":/icones/icones/pause.png")) ;
+
+        ui -> btnRun -> setToolTip(commonDefineServer::toolTipPause);
+        ui -> btnStop -> setToolTip(commonDefineServer::toolTipStop);
       break ;
 
       case connection::TConnection::stPause :
@@ -124,6 +135,8 @@ void prS63BruteForceServer::setElementFormVisible ()
         ui -> btnStop -> setEnabled(true);
 
         ui -> btnRun -> setIcon(QIcon (":/icones/icones/run.png")) ;
+        ui -> btnRun -> setToolTip(commonDefineServer::toolTipRun);
+        ui -> btnStop -> setToolTip(commonDefineServer::toolTipStop);
       break ;
 
       case connection::TConnection::stAppClose :                        // Ожидаем окончания всех очередей и поэтому выключаем все элементы
@@ -175,7 +188,7 @@ void prS63BruteForceServer::on_btnRun_clicked()
             case TConnection::stWait :
                 fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
                 if (fPtrConnectionServer == nullptr) {
-                    fPtrConnectionServer.reset(TConnectionServer (commonDefine::portNumber));   // Пока порт на потором висит сервер поменять нельзя
+                    fPtrConnectionServer.reset(new TConnectionServer (commonDefine::portNumber));   // Пока порт на потором висит сервер поменять нельзя
 
 
 
@@ -255,6 +268,10 @@ void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
  */
 void prS63BruteForceServer::closeEvent(QCloseEvent *event)
 {
+            // Т.к. при использовании регулярных выражений не срабарывают сигналы на окончание редактирования, то сохранение настроек приделал сюда
+    fPtrSettings -> setValue(commonDefine::setSrvKeyStart, ui-> spKeyStart -> text()) ;
+    fPtrSettings -> setValue(commonDefine::setSrvKeyStop, ui-> spKeyStop -> text()) ;
+
     switch (getServerState ()) {
       case connection::TConnection::stStop :
       case connection::TConnection::stWait :
@@ -338,8 +355,10 @@ TConnection::state prS63BruteForceServer::getServerState ()
  */
 void prS63BruteForceServer::setServerState(TConnection::state inState)
 {
-    fPtrConnectionServer -> setState (inState) ;
-    setElementFormVisible () ;
+    if (fPtrConnectionServer != nullptr) {
+        fPtrConnectionServer -> setState (inState) ;
+        setElementFormVisible () ;
+    }
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -349,11 +368,10 @@ void prS63BruteForceServer::setServerState(TConnection::state inState)
  */
 void prS63BruteForceServer::waitAllThread ()
 {
-    if (fPtrConnectionServer == nullptr)
-        assert (false) ;                   // Если мы сюда попали, то это значит что-то однозначно пошло не так
-    if (fPtrConnectionServer -> getState() == TConnection::stAppClose) {    // Запуск ожидания возможен только при состоянии TConnection::stAppClose
+    if (fPtrConnectionServer != nullptr)
+        if (fPtrConnectionServer -> getState() == TConnection::stAppClose) {    // Запуск ожидания возможен только при состоянии TConnection::stAppClose
 
-    }
+        }
 }
 //-----------------------------------------------------------------------------
 /*!
@@ -361,7 +379,11 @@ void prS63BruteForceServer::waitAllThread ()
  */
 void server::prS63BruteForceServer::on_btnPathFrom_clicked()
 {
-
+    QString fileName = QFileDialog::getOpenFileName(this, "Выбор файла для подбора пароля", "", "S63 (*.0*)");
+    if (!fileName.isEmpty()) {
+        ui -> spPathFrom -> setText(fileName) ;
+        fPtrSettings -> setValue(commonDefine::setSrvFileName, fileName);
+    }
 }
 //-----------------------------------------------------------------------------
 /*!

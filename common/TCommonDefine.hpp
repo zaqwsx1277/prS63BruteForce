@@ -18,6 +18,12 @@ namespace commonDefine {
 
     static std::mutex mutexRefresh ;            ///< mutex для ожидания записи в модель отображения лога
 
+    static const QString fileSettingsName {"prBruteForce.ini"} ; ///< Имя файла с настройками проекта
+                                                // Наименования секций в файле настроек
+    static const QString setSrvFileName {"server/fileName"} ;
+    static const QString setSrvKeyStart {"server/keyStart"} ;
+    static const QString setSrvKeyStop {"server/keyStop"} ;
+
     //----------------------------------------------------------------------------------------------------------
     static std::vector <QString> exchangeProtocolText {     ///< Текстовое описание команд протокола обмена
         "Команда не определена",

@@ -9,6 +9,7 @@
 #include <mutex>
 
 #include "TConnectionServer.hpp"
+#include "TCommonDefine.hpp"
 
 using namespace connection ;
 
@@ -16,7 +17,12 @@ namespace server {
 
 namespace commonDefineServer {
 
-const static qint32 timerLogRefresh {1000} ;                   ///< Период срабатывания таймера для обновления логов
+const static qint32 timerLogRefresh {1000} ;                ///< Период срабатывания таймера для обновления логов
+
+const static QString toolTipRun {"Запуск подбора ключей"} ; // Подсказки выводимые на кнопках
+const static QString toolTipPause {"Временная приостановка подбора ключей"} ;
+const static QString toolTipExit {"Завершение приложения"} ;
+const static QString toolTipStop {"Завершение подбора ключей"} ;
 //-------------------------------------------------------------------------------------
 struct clientDescr ;
 typedef std::shared_ptr <clientDescr> tdPtrClientDescr ;   ///< typedef для указателя на описание подключения клиента

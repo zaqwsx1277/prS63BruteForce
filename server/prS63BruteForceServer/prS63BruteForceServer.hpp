@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QSettings>
 
 #include <memory>
 #include <chrono>
@@ -57,6 +58,7 @@ private:
     std::unique_ptr <TServerLogModel> fPrtLogModel {nullptr} ;  // Указатель на модель отображения лога
     std::unique_ptr <TServerKeyModel> fPrtKeyModel {nullptr} ;  // Указатель на модель отображения лога
     std::chrono::time_point<std::chrono::system_clock> fTimeStart ; // Время начала выполнения задания
+    std::unique_ptr <QSettings> fPtrSettings {new QSettings (commonDefine::fileSettingsName, QSettings::IniFormat)} ; // Указатель на настроеки проекта
 
 //    std::unique_ptr <TBruteForceManager> fPtrBruteForceManager { new TBruteForceManager ()} ; // Указатель на менеджер распределения блоков и обработки полученных данных
 //    std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
