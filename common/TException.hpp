@@ -59,5 +59,7 @@ static const TException errTransferLostSequence ("Потеряна послед�
                 // Прерывания генерируемые сервером
 static const TException errServerSecondInstance ("Повторный запуск подбора!", {blowfushError + 6, blowfishCategory});
 static const TException errServerUnknownState ("Неизвестное состояние!", {blowfushError + 7, blowfishCategory});
+static const TException errServerFileLog ("Ошибка при записи файла лога!", {blowfushError + 8, blowfishCategory});
+static const TException errServerFileLogEmpty ("Нет данных для записи в файл", {blowfushError + 9, blowfishCategory});
 }
 #endif // TEXCEPTION_HPP

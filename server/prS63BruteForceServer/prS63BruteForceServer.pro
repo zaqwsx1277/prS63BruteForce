@@ -34,13 +34,13 @@ SOURCES += \
 
 HEADERS += \
         prS63BruteForceServer.hpp \
-        TCommonDefaneServer.hpp \
         TConnectionServer.hpp \
         TServerLogModel.h \
         TServerKeyModel.h \
         ../../common/TCommonDefine.hpp \
         ../../common/TConnection.hpp \
-        ../../common/TException.hpp
+        ../../common/TException.hpp \
+    TCommonDefaniServer.hpp
 
 FORMS += \
         prS63BruteForceServer.ui

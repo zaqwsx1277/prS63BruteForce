@@ -5,6 +5,7 @@
 #include <QRegExp>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QFile>
 
 #include <time.h>
 #include <chrono>
@@ -179,90 +180,6 @@ void prS63BruteForceServer::timerEvent(QTimerEvent* inEvent)
 }
 //-----------------------------------------------------------------------------
 /*!
- * \brief prS63BruteForceServer::on_btnRun_clicked    Слот обрабатывающий запуск сервера
- */
-void prS63BruteForceServer::on_btnRun_clicked()
-{
-    try {
-        switch (getServerState ()) {    // Выполняем действия в зависимости от состояния
-            case TConnection::stWait :
-                fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
-                if (fPtrConnectionServer == nullptr) {
-                    fPtrConnectionServer.reset(new TConnectionServer (commonDefine::portNumber));   // Пока порт на потором висит сервер поменять нельзя
-
-
-
-                    setServerState(TConnection::stStart) ;
-
-                }
-                  else throw exception::errServerSecondInstance ;   // Летим по ошибке, т.к. подбор уже запущен. Как такое может произойти не совсем понятно.
-            break ;
-
-            case TConnection::stPause :
-                setServerState(TConnection::stPause) ;
-                setElementFormVisible () ;
-            break ;
-
-            default :
-                setServerState(TConnection::stUnknown) ; ;        // Если мы сюда попали, то кнопка btnRun активна в каком-то не понятном состоянии. Тупо прекратить выполнение assert'ом мы не можем, т.к. могут быть активны соединения
-                throw exception::errServerUnknownState ;
-            break ;
-        }
-    }
-      catch (exception::TException& ex) {
-        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), QString::fromStdString(ex.what()), QMessageBox::Ok) ;
-      }
-
-      catch (...) {
-        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), "Ошибка при запуске подбора", QMessageBox::Ok) ;
-      }
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::on_spPathFrom_textChanged  Слот для проверки заполненности поля spPathFrom
- * \param inPathFrom  Проверяемое значение
- */
-void prS63BruteForceServer::on_spPathFrom_textChanged(const QString &inPathFrom)
-{
-    if (inPathFrom.isEmpty()) fReadyToStart.reset(bitPathFrom) ;
-      else fReadyToStart.set(bitPathFrom) ;
-    setElementFormVisible () ;
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::on_spThreadCount_textChanged Слот для проверки заполненности поля spThreadCount
- * \param inThreadCount Проверяемое значение
- */
-void prS63BruteForceServer::on_spThreadCount_textChanged(const QString &inThreadCount)
-{
-    if (inThreadCount.isEmpty()) fReadyToStart.reset(bitThreadCount) ;
-      else fReadyToStart.set(bitThreadCount) ;
-    setElementFormVisible () ;
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::on_spKeyStart_textChanged Слот для проверки заполненности поля spKeyStart
- * \param inKeyStart Проверяемое значение
- */
-void prS63BruteForceServer::on_spKeyStart_textChanged(const QString &inKeyStart)
-{
-    if (inKeyStart.isEmpty()) fReadyToStart.reset(bitKeyStart) ;
-      else fReadyToStart.set(bitKeyStart) ;
-    setElementFormVisible () ;
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief prS63BruteForceServer::on_spKeyStop_textChanged Слот для проверки заполненности поля
- * \param inKeyStop Проверяемое значение
- */
-void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
-{
-    if (inKeyStop.isEmpty()) fReadyToStart.reset(bitKeyStop) ;
-      else fReadyToStart.set(bitKeyStop) ;
-    setElementFormVisible () ;
-}
-//-----------------------------------------------------------------------------
-/*!
  * \brief prS63BruteForceServer::closeEvent Событие для проверки возможности закрытия приложения
  * \param event Произошедшее событие
  */
@@ -273,19 +190,31 @@ void prS63BruteForceServer::closeEvent(QCloseEvent *event)
     fPtrSettings -> setValue(commonDefine::setSrvKeyStop, ui-> spKeyStop -> text()) ;
 
     switch (getServerState ()) {
-      case connection::TConnection::stStop :
       case connection::TConnection::stWait :
       case connection::TConnection::stUnknown :
+        event -> accept();          // Т.к. ожидается, что в этом режиме все потоки завершены, то просто закрываем приложение
+      break ;
+
+      case connection::TConnection::stStop :
+      case connection::TConnection::stPause :
         setServerState(TConnection::stAppClose);
-        waitAllThread () ;          // Ожидаем завершение всех очередей
+        waitAllThread () ;          // Ожидаем завершение всех потоков
         event -> accept();
       break ;
 
-      default : {
+      case connection::TConnection::stStart : {
         int isExit = QMessageBox::warning (this, "Предупреждение", "Выполняется подбор паролей.\nЗавершить приложение?", QMessageBox::Ok | QMessageBox::No, QMessageBox::No) ;
-        if (isExit == QMessageBox::Ok) event -> accept();
+        if (isExit == QMessageBox::Ok) {
+            setServerState(TConnection::stAppClose);
+            waitAllThread () ;          // Ожидаем завершение всех потоков
+            event -> accept();
+        }
           else event -> ignore() ;
       }
+      break ;
+
+      default :
+        event -> ignore() ;
       break ;
     }
 }
@@ -392,7 +321,11 @@ void server::prS63BruteForceServer::on_btnPathFrom_clicked()
 void server::prS63BruteForceServer::on_btnStop_clicked()
 {
     switch (getServerState ()) {
-      case connection::TConnection::stStart :
+      case TConnection::stWait :
+        this -> close() ;
+      break ;
+
+      case TConnection::stStart :
         setServerState(TConnection::stStop);
         waitAllThread () ;                      // Ожидаем завершение всех очередей
         fPtrConnectionServer.reset(nullptr);    // Т.к. в теории все очереди завершены, то тупо очищаем все соединения
@@ -402,5 +335,133 @@ void server::prS63BruteForceServer::on_btnStop_clicked()
       default :
       break ;
     }
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_btnRun_clicked    Слот обрабатывающий запуск сервера
+ */
+void prS63BruteForceServer::on_btnRun_clicked()
+{
+    try {
+        switch (getServerState ()) {    // Выполняем действия в зависимости от состояния
+            case TConnection::stWait :
+                fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
+                if (fPtrConnectionServer == nullptr) {
+                    fPtrConnectionServer.reset(new TConnectionServer (commonDefine::portNumber));   // Пока порт на потором висит сервер поменять нельзя
+
+
+
+                    setServerState(TConnection::stStart) ;
+
+                }
+                  else throw exception::errServerSecondInstance ;   // Летим по ошибке, т.к. подбор уже запущен. Как такое может произойти не совсем понятно.
+            break ;
+
+
+            case TConnection::stStart :
+                setServerState(TConnection::stPause) ;
+                setElementFormVisible () ;
+            break ;
+
+            case TConnection::stPause :
+                setServerState(TConnection::stStart) ;
+                setElementFormVisible () ;
+            break ;
+
+            default :
+                setServerState(TConnection::stUnknown) ; ;        // Если мы сюда попали, то кнопка btnRun активна в каком-то не понятном состоянии. Тупо прекратить выполнение assert'ом мы не можем, т.к. могут быть активны соединения
+                throw exception::errServerUnknownState ;
+            break ;
+        }
+    }
+      catch (exception::TException& ex) {
+        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), QString::fromStdString(ex.what()), QMessageBox::Ok) ;
+      }
+
+      catch (...) {
+        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), "Ошибка при запуске подбора", QMessageBox::Ok) ;
+      }
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_spPathFrom_textChanged  Слот для проверки заполненности поля spPathFrom
+ * \param inPathFrom  Проверяемое значение
+ */
+void prS63BruteForceServer::on_spPathFrom_textChanged(const QString &inPathFrom)
+{
+    if (inPathFrom.isEmpty()) fReadyToStart.reset(bitPathFrom) ;
+      else fReadyToStart.set(bitPathFrom) ;
+    setElementFormVisible () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_spThreadCount_textChanged Слот для проверки заполненности поля spThreadCount
+ * \param inThreadCount Проверяемое значение
+ */
+void prS63BruteForceServer::on_spThreadCount_textChanged(const QString &inThreadCount)
+{
+    if (inThreadCount.isEmpty()) fReadyToStart.reset(bitThreadCount) ;
+      else fReadyToStart.set(bitThreadCount) ;
+    setElementFormVisible () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_spKeyStart_textChanged Слот для проверки заполненности поля spKeyStart
+ * \param inKeyStart Проверяемое значение
+ */
+void prS63BruteForceServer::on_spKeyStart_textChanged(const QString &inKeyStart)
+{
+    if (inKeyStart.isEmpty()) fReadyToStart.reset(bitKeyStart) ;
+      else fReadyToStart.set(bitKeyStart) ;
+    setElementFormVisible () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief prS63BruteForceServer::on_spKeyStop_textChanged Слот для проверки заполненности поля
+ * \param inKeyStop Проверяемое значение
+ */
+void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
+{
+    if (inKeyStop.isEmpty()) fReadyToStart.reset(bitKeyStop) ;
+      else fReadyToStart.set(bitKeyStop) ;
+    setElementFormVisible () ;
+}
+//-----------------------------------------------------------------------------
+/*!
+ * \brief server::prS63BruteForceServer::on_btnSave_clicked Слот обрабатывающий сохранение лога в файл
+ *      При записи в файл контейнер модели отображения лога будет заблокирован, т.к. клиенты могут продолжать работать (состояние stPause).
+ */
+void server::prS63BruteForceServer::on_btnSave_clicked()
+{
+    try {
+        if (fPrtLogModel -> size () == 0) throw exception::errServerFileLogEmpty ;
+        QString fileName = QFileDialog::getSaveFileName(nullptr, "Выбор файла для сохранения лога подбора пароля", fPtrSettings -> value(commonDefine::setSrvFileNameLog).toString()) ;
+        if (!fileName.isEmpty()) {
+            fPtrSettings -> setValue(commonDefine::setSrvFileNameLog, fileName);
+            QFile fileLog (fileName) ;
+            if (!fileLog.open(QIODevice::WriteOnly | QIODevice::Append)) throw exception::errServerFileLog ;
+            QTextStream fileLogStream (&fileLog) ;
+            commonDefineServer::mutexLog.lock();            // Блокируем контейнер модели лога
+            for (auto item:*fPrtLogModel.get ()) {          // Выполняем построчную запись данных из контейнера в файл
+                fileLogStream << item -> itemTime.toString () << ";" ;
+                fileLogStream << item -> host << ";" ;
+                fileLogStream << commonDefine::exchangeProtocolText[item -> command] << ";" ;
+                QString dataTextHex = ("0000000000000000" + QString::number(item -> date, 16).toUpper()).right (16);
+                fileLogStream << "0x" + dataTextHex << ";" << endl ;
+                fileLogStream << item -> comments << ";" << endl ;
+            }
+            fPrtLogModel -> empty() ;                       // Очищаем контейнер и снимаем блокировку
+            commonDefineServer::mutexLog.unlock();
+            fileLog.close();
+        }
+
+    }
+      catch (exception::TException& ex) {
+        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), QString::fromStdString(ex.what()), QMessageBox::Ok) ;
+      }
+
+      catch (...) {
+        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), "Ошибка при сохранении лога в файл", QMessageBox::Ok) ;
+      }
 }
 //-----------------------------------------------------------------------------

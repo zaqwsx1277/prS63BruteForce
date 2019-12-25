@@ -20,9 +20,10 @@ namespace commonDefine {
 
     static const QString fileSettingsName {"prBruteForce.ini"} ; ///< Имя файла с настройками проекта
                                                 // Наименования секций в файле настроек
-    static const QString setSrvFileName {"server/fileName"} ;
+    static const QString setSrvFileName {"server/fileNameS63"} ;
     static const QString setSrvKeyStart {"server/keyStart"} ;
     static const QString setSrvKeyStop {"server/keyStop"} ;
+    static const QString setSrvFileNameLog {"server/fileNameLog"} ;
 
     //----------------------------------------------------------------------------------------------------------
     static std::vector <QString> exchangeProtocolText {     ///< Текстовое описание команд протокола обмена

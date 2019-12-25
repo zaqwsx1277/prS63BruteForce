@@ -11,7 +11,7 @@
 #include <queue>
 #include <bitset>
 
-#include "TCommonDefaneServer.hpp"
+#include "TCommonDefaniServer.hpp"
 #include "TConnectionServer.hpp"
 #include "TServerLogModel.h"
 #include "TServerKeyModel.h"
@@ -44,6 +44,8 @@ private slots:
     void on_btnPathFrom_clicked();
 
     void on_btnStop_clicked();
+
+    void on_btnSave_clicked();
 
 private:
     Ui::prS63BruteForceServer *ui;

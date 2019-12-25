@@ -48,7 +48,7 @@ struct logItem {
     QTime itemTime {QTime::currentTime()} ; ///< Время события
     QString host {""} ;                     ///< Хост с которым выполняется обмен данными
     TConnection::exchangeProtocol command ; ///< Выполненная команда
-    quint32 date ;                          ///< Данные передаваемые/получаемые
+    qint64 date ;                          ///< Данные передаваемые/получаемые
     QString comments {""} ;                 ///< Комментарии
 } ;
 typedef std::shared_ptr <logItem> tdLogItem ;   ///< typedef для указателя на запись в лог
