@@ -61,5 +61,6 @@ static const TException errServerSecondInstance ("Повторный запус�
 static const TException errServerUnknownState ("Неизвестное состояние!", {blowfushError + 7, blowfishCategory});
 static const TException errServerFileLog ("Ошибка при записи файла лога!", {blowfushError + 8, blowfishCategory});
 static const TException errServerFileLogEmpty ("Нет данных для записи в файл", {blowfushError + 9, blowfishCategory});
+static const TException errServerStart ("Ошибка при запуске сервера", {blowfushError + 10, blowfishCategory});
 }
 #endif // TEXCEPTION_HPP
