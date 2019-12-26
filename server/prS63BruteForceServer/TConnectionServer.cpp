@@ -11,8 +11,8 @@ TConnectionServer::TConnectionServer(const qint32& inPortNumber) : TConnection (
 {
     fPtrServer = std::make_unique <QTcpServer> () ;
     if (!fPtrServer -> listen(QHostAddress::Any, inPortNumber)) throw exception::errServerStart ;
-                                        // Прописываем все конекты необходимые для работы сервера
-    connect(fPtrServer.get(), &QTcpServer::newConnection, this, &TConnectionServer::slotHostNewConnected) ;
+                                        // Прописываем все конекты необходимые для работы сервера. Он нужен только для обработки новых подключений и передачи QTcpSocket менеджеру новых подключений
+    connect(fPtrServer.get(), &QTcpServer::newConnection, this, &TConnectionServer::slotNewHostConnected) ;
 }
 //---------------------------------------------------
 /*!
@@ -26,11 +26,11 @@ TConnectionServer::~TConnectionServer()
 /*!
  * \brief TConnectionServer::slotHostConnected Слот срабатывающий при нового подключении клиента
  */
-void TConnectionServer::slotHostNewConnected ()
+void TConnectionServer::slotNewHostConnected ()
 {
-//    QTcpSocket* tcpSocked = fPtrServer -> nextPendingConnection() ;
-//    if (tcpSocked!= nullptr) {     // При подключении нового клиента формируем все необходимые коннекты и кидаем сигнал серверу
-//        emit signalHostConnected (tcpSocked) ;
-//    }
+    QTcpSocket* tcpSocked = fPtrServer -> nextPendingConnection() ;
+    if (tcpSocked!= nullptr) {     // При подключении нового клиента кидаем сигнал серверу с его сокетом
+        emit signalNewHostConnected (tcpSocked) ;
+    }
 }
 //---------------------------------------------------

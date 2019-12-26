@@ -16,21 +16,14 @@ public:
     TConnectionServer(const qint32&);
     ~TConnectionServer();
 
-//    void connectionClose () ;               // Закрываем соединение с клиентом
-
 private:
 
 
 private slots:
-    void slotHostNewConnected () ;               // Слот срабатывающий при нового подключении клиента
-//    void slotHostDisconnected () ;          // Слот срабатывающий при отключении клиента
-//    void slotHostError(QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибке при работе с клиентом
-//    void slotHostReadyRead () ;             // Слот срабатывающий на сигнал готовности чтения данных
+    void slotNewHostConnected () ;          // Слот срабатывающий при нового подключении клиента
 
 signals:
-    void signalHostNewConnected (QTcpSocket *) ; // Сигнал передающий сокет подключенного клиента
-//    void signalHostDisconnected (quint32) ; // Сигнал передающий адрес отключившегося клиента
-//    void signalHostError(quint32, QAbstractSocket::SocketError); // Сигнал передающий код ошибки при работе с клиентом
+    void signalNewHostConnected (QTcpSocket *) ; // Сигнал передающий сокет подключенного клиента
 };
 
 }
