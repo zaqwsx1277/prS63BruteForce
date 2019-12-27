@@ -222,9 +222,9 @@ void prS63BruteForceServer::closeEvent(QCloseEvent *event)
 /*!
  * \brief prS63BruteForceServer::setConnect  Формирование всех конектов
  */
-void prS63BruteForceServer::setServerConnect ()
+void prS63BruteForceServer::makeConnectServer ()
 {
-//    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostConnected, this, &prServerEmulator::slotHostConnected) ;
+    connect (fPtrNewConnection.get(), &connection::TConnectionServer::signalNewHostConnected , this, &prS63BruteForceServer::slotNewHostConnected ) ;
 //    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostDisconnected, this, &prServerEmulator::slotHostDisconnected ) ;
 
 //    connect (fPtrConnectionServer.get(), &connection::TConnectionServer::signalHostConnected, this, &prS63BruteForceServer::slotHostConnected) ;
@@ -234,14 +234,14 @@ void prS63BruteForceServer::setServerConnect ()
  * \brief prS63BruteForceServer::slotHostConnected Слот срабатывающий при подключении нового клиента. Сигнал кидается из TConnectionServer
  * \param inTcpSocket Указатель на сокет с новым подключением клиента
  */
-void prS63BruteForceServer::slotHostConnected (QTcpSocket *inTcpSocket)
+void prS63BruteForceServer::slotNewHostConnected (QTcpSocket *inTcpSocket)
 {
-    std::lock_guard <std::mutex> connectionWait (commonDefineServer::mutexNewConnection) ;    // Блокируем допуск к контейнеру новых подключений. Это необходимо что бы не запустилось два потока для обработки подключений
+    std::lock_guard <std::mutex> newConnection (commonDefineServer::mutexNewConnection) ;    // Блокируем допуск к контейнеру новых подключений. Это необходимо что бы не запустилось два потока для обработки подключений
     commonDefineServer::tdClientDescr ptrClientDescr ;
-    ptrClientDescr -> ptrTcpSocket.reset(inTcpSocket); ;
-    fConnectionQueue.push(ptrClientDescr);
-    if (fConnectionQueue.size() == 1) {           // Запускаем поток обрабатывающий новые входящие подключения. Поток будет работать до тех пор, пока не обработает все записи в контейнере
-        std::thread manager (std::bind (&prS63BruteForceServer::connectionManager, this)) ;
+    ptrClientDescr -> ptrTcpSocket.reset(inTcpSocket);
+    fNewConnectionQueue.push(ptrClientDescr);
+    if (fNewConnectionQueue.size() == 1) {           // Запускаем поток обрабатывающий новые входящие подключения. Поток будет работать до тех пор, пока не обработает все записи в контейнере
+        std::thread manager (std::bind (&prS63BruteForceServer::newConnectionManager, this)) ;
         manager.detach();
     }
 }
@@ -249,12 +249,12 @@ void prS63BruteForceServer::slotHostConnected (QTcpSocket *inTcpSocket)
 /*!
  * \brief prS63BruteForceServer::connectionManager  Менеджер обработки входящих соединений. Менеджер обрабатывает все записи в fConnectionQueue в который в прцессе обработки могут добавляться новые записи
  */
-void prS63BruteForceServer::connectionManager ()
+void prS63BruteForceServer::newConnectionManager ()
 {
-    while (!fConnectionQueue.empty()) {       
+    while (!fNewConnectionQueue.empty()) {
         commonDefineServer::mutexNewConnection.lock();                                  // Блокируем доступ к контейнеру новых подключений
-        commonDefineServer::tdClientDescr ptrClientDescr = fConnectionQueue.front () ;  // Вынимаем из контейнера запись о клиенте
-        fConnectionQueue.pop () ;
+        commonDefineServer::tdClientDescr ptrClientDescr = fNewConnectionQueue.front () ;  // Вынимаем из контейнера запись о клиенте
+        fNewConnectionQueue.pop () ;
         commonDefineServer::mutexNewConnection.unlock();
 
 //        connect(ptrClientDescr -> ptrTcpSocket.get(), &QTcpSocket::readyRead, this, &prS63BruteForceServer::readDataFromClient) ;   // Формируем все нужные коннекты для работы с клиентом
@@ -272,7 +272,7 @@ void prS63BruteForceServer::connectionManager ()
 TConnection::state prS63BruteForceServer::getServerState ()
 {
     TConnection::state retVal {TConnection::stUnknown} ;
-    if (fPtrConnectionServer != nullptr) retVal = fPtrConnectionServer -> getState() ;
+    if (fPtrNewConnection!= nullptr) retVal = fPtrNewConnection -> getState() ;
       else retVal = TConnection::stWait ;
 
     return retVal ;
@@ -284,8 +284,8 @@ TConnection::state prS63BruteForceServer::getServerState ()
  */
 void prS63BruteForceServer::setServerState(TConnection::state inState)
 {
-    if (fPtrConnectionServer != nullptr) {
-        fPtrConnectionServer -> setState (inState) ;
+    if (fPtrNewConnection != nullptr) {
+        fPtrNewConnection -> setState (inState) ;
         setElementFormVisible () ;
     }
 }
@@ -297,8 +297,8 @@ void prS63BruteForceServer::setServerState(TConnection::state inState)
  */
 void prS63BruteForceServer::waitAllThread ()
 {
-    if (fPtrConnectionServer != nullptr)
-        if (fPtrConnectionServer -> getState() == TConnection::stAppClose) {    // Запуск ожидания возможен только при состоянии TConnection::stAppClose
+    if (fPtrNewConnection != nullptr)
+        if (fPtrNewConnection -> getState() == TConnection::stAppClose) {    // Запуск ожидания возможен только при состоянии TConnection::stAppClose
 
         }
 }
@@ -328,7 +328,7 @@ void server::prS63BruteForceServer::on_btnStop_clicked()
       case TConnection::stStart :
         setServerState(TConnection::stStop);
         waitAllThread () ;                      // Ожидаем завершение всех очередей
-        fPtrConnectionServer.reset(nullptr);    // Т.к. в теории все очереди завершены, то тупо очищаем все соединения
+        fPtrNewConnection.reset(nullptr);    // Т.к. в теории все очереди завершены, то тупо очищаем все соединения
         setServerState(TConnection::stWait);
       break ;
 
@@ -346,9 +346,9 @@ void prS63BruteForceServer::on_btnRun_clicked()
         switch (getServerState ()) {    // Выполняем действия в зависимости от состояния
             case TConnection::stWait :
                 fTimeStart = std::chrono::system_clock::now();      // Фиксируем время начала подбора
-                if (fPtrConnectionServer == nullptr) {
-                    fPtrConnectionServer.reset(new TConnectionServer (commonDefine::portNumber));   // Пока порт на потором висит сервер поменять нельзя
-
+                if (fPtrNewConnection == nullptr) {
+                    fPtrNewConnection.reset(new TConnectionServer (commonDefine::portNumber));   // Пока порт на потором висит сервер поменять нельзя
+                    makeConnectServer () ;
 
 
                     setServerState(TConnection::stStart) ;
@@ -465,3 +465,4 @@ void server::prS63BruteForceServer::on_btnSave_clicked()
       }
 }
 //-----------------------------------------------------------------------------
+

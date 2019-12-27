@@ -100,7 +100,7 @@ QVariant TServerLogModel::headerData(int section, Qt::Orientation orientation, i
 //----------------------------------------------------------
 void TServerLogModel::push_back (commonDefineServer::tdLogItem inItem)
 {
-    std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexLog) ;    // блокируем допуск остальным потокам и на обновление
+    std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexLog) ;    // блокируем допуск остальным потокам к контейнеру
     std::vector <commonDefineServer::tdLogItem>::push_back (inItem);
 }
 //----------------------------------------------------

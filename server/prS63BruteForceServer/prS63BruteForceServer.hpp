@@ -39,7 +39,7 @@ private slots:
     void on_spKeyStart_textChanged(const QString &arg1);
     void on_spKeyStop_textChanged(const QString &arg1);
 
-    void slotHostConnected (QTcpSocket *) ;   // Слот срабатывающий при подключении клиента
+    void slotNewHostConnected (QTcpSocket *) ;   // Слот срабатывающий при подключении клиента
 //    void slotHostDisconnected (quint32) ; // Слот срабатывающий при отключении клиента
 //    void slotHostError (quint32, QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибки от клиента
 
@@ -68,19 +68,19 @@ private:
 
 //    std::unique_ptr <TBruteForceManager> fPtrBruteForceManager { new TBruteForceManager ()} ; // Указатель на менеджер распределения блоков и обработки полученных данных
 //    std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
-    std::unique_ptr <connection::TConnectionServer> fPtrConnectionServer { nullptr } ; // Указатель на класс обрабатывающий входящие соединения в распеделенной системе
-    std::queue <commonDefineServer::tdClientDescr> fConnectionQueue ;      // контейнер для обработки входящих соединений менеджером обработки подключений
+    std::unique_ptr <connection::TConnectionServer> fPtrNewConnection { nullptr } ; // Указатель на класс обрабатывающий входящие соединения в распеделенной системе
+    std::queue <commonDefineServer::tdClientDescr> fNewConnectionQueue ;      // контейнер для обработки входящих соединений менеджером обработки подключений
 
     void initForm () ;                      // инициализация формы
     void setElementFormVisible () ;         // Установка видимости элементов в зависимсоти от состояния
     void makeConnect () ;                   // Формирует все нужные конекты
-    void setServerConnect () ;              // Инициализация всех connect'ов при запуске сервера
+    void makeConnectServer () ;              // Инициализация всех connect'ов при запуске сервера
     void setServerState (TConnection::state) ; // Установка состояния сервера
     TConnection::state getServerState () ;  // Получение состояния сервера
     void setConnect () ;                    // Инициализируем все слоты и сигналы
     void waitAllThread () ;                 // Ожидаем завершение всех очередей
 
-    void connectionManager () ;             // Менеджер обработки входящих соединений
+    void newConnectionManager () ;          // Менеджер обработки входящих соединений
 
     void timerEvent(QTimerEvent*) ;         // таймер обновляющий модель
     void closeEvent(QCloseEvent *event) ;   // Событие для проверки возможности закрытия приложения
