@@ -257,7 +257,7 @@ void prS63BruteForceServer::newConnectionManager ()
         fNewConnectionQueue.pop () ;
         commonDefineServer::mutexNewConnection.unlock();
 
-//        std::unique_ptr <TConnection>
+        std::unique_ptr <TConnection> newConnection {new TConnection (ptrClientDescr -> ptrTcpSocket.get())} ;
 //        connect(ptrClientDescr -> ptrTcpSocket.get(), &QTcpSocket::readyRead, this, &prS63BruteForceServer::readDataFromClient) ;   // Формируем все нужные коннекты для работы с клиентом
         // Отправляем клиенту подтверждение о подключении
         // Ждём ответ от клиента

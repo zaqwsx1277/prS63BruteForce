@@ -22,8 +22,6 @@ class prS63BruteForceServer;
 
 namespace server {
 
-
-
 class prS63BruteForceServer : public QMainWindow
 {
     Q_OBJECT
@@ -70,6 +68,7 @@ private:
 //    std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
     std::unique_ptr <connection::TConnectionServer> fPtrNewConnection { nullptr } ; // Указатель на класс обрабатывающий входящие соединения в распеделенной системе
     std::queue <commonDefineServer::tdClientDescr> fNewConnectionQueue ;      // контейнер для обработки входящих соединений менеджером обработки подключений
+    std::set <commonDefineServer::clientDescr, commonDefineServer::cmpClientDescr> fClientSet ; // Контейнер содержащий список клиентов выполняющих подбор
 
     void initForm () ;                      // инициализация формы
     void setElementFormVisible () ;         // Установка видимости элементов в зависимсоти от состояния

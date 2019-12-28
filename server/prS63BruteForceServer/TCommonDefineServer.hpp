@@ -41,7 +41,9 @@ struct clientDescr {
     TConnection::state clientState {TConnection::stUnknown} ; ///< Состояние клиента/сервера. Например, для завершения работы очереди threadClient устанавливается состояние stAppClose
     tdTcpSocket ptrTcpSocket ;                                ///< Указатель на сокет обрабатывающий работу с удаленным клиентом
 } ;
-typedef std::shared_ptr <clientDescr> tdClientDescr ; ///< typedef для указателя на описание клиента
+typedef std::shared_ptr <clientDescr> tdClientDescr ;   ///< typedef для указателя на описание клиента
+                                                        /// функция сравнения двух описаний клиентов
+bool cmpClientDescr (const clientDescr& inFirst, const clientDescr& inSecond) { return inFirst.ptrTcpSocket ->peerAddress() < inSecond.ptrTcpSocket ->peerAddress() ; }
 //--------------------------------------------------------------------------------------
                     /// Описание структуры записи в лог
 struct logItem {
