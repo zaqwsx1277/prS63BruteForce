@@ -1,6 +1,6 @@
 #include "TServerKeyModel.h"
 
-#include "TCommonDefaniServer.hpp"
+#include "TCommonDefineServer.hpp"
 using namespace server ;
 
 //----------------------------------------------------------------------

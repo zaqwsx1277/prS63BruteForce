@@ -11,7 +11,7 @@
 #include <queue>
 #include <bitset>
 
-#include "TCommonDefaniServer.hpp"
+#include "TCommonDefineServer.hpp"
 #include "TConnectionServer.hpp"
 #include "TServerLogModel.h"
 #include "TServerKeyModel.h"

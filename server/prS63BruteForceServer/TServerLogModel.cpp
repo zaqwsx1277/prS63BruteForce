@@ -1,7 +1,7 @@
 #include "TServerLogModel.h"
 
 
-#include "TCommonDefaniServer.hpp"
+#include "TCommonDefineServer.hpp"
 #include "TCommonDefine.hpp"
 
 using namespace server ;

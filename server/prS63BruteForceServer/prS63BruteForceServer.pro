@@ -40,7 +40,7 @@ HEADERS += \
         ../../common/TCommonDefine.hpp \
         ../../common/TConnection.hpp \
         ../../common/TException.hpp \
-    TCommonDefaniServer.hpp
+    TCommonDefineServer.hpp
 
 FORMS += \
         prS63BruteForceServer.ui
