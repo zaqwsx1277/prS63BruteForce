@@ -12,6 +12,11 @@ TConnection::TConnection()
 
 }
 //-------------------------------------------------------------------
+TConnection::TConnection(QTcpSocket *inClientSocket)
+{
+    fPtrSocket.reset(inClientSocket) ;
+}
+//-------------------------------------------------------------------
 TConnection::~TConnection()
 {
 

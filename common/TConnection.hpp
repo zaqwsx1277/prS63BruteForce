@@ -20,7 +20,9 @@ class TConnection : public QObject
 {
     Q_OBJECT
 public:
-    TConnection();
+    TConnection() ;             ///< Пустой конструктор
+    TConnection(QTcpSocket *) ; ///< Пустой инициализирующий сокет для работы с клиентом
+
     ~TConnection();
                                 /// Протокол обмена между сервером и клиентами.
     enum exchangeProtocol  {

@@ -68,7 +68,7 @@ prS63BruteForceServer::~prS63BruteForceServer()
  */
 void prS63BruteForceServer::initForm ()
 {
-    ui -> spThreadCount -> setValidator( new QRegExpValidator( QRegExp( "\\d{2}")));   // задаём все необходимые регулярные выражения
+    ui -> spBlockSize -> setValidator( new QRegExpValidator( QRegExp( "\\d{6}")));   // задаём все необходимые регулярные выражения
     ui -> spKeyStart -> setValidator( new QRegExpValidator( QRegExp( "[0-9A-F]{8}")));
     ui -> spKeyStop -> setValidator( new QRegExpValidator( QRegExp( "[0-9A-F]{8}")));
                                 // читаем файл настроек и заполняем нужные поля
@@ -78,7 +78,7 @@ void prS63BruteForceServer::initForm ()
     if (ui -> spKeyStart -> text().isEmpty()) ui -> spKeyStart -> setText ("00000000") ;
     if (ui -> spKeyStop -> text().isEmpty()) ui -> spKeyStop -> setText ("FFFFFFFF") ;
 
-    ui -> spThreadCount -> clear() ;
+    ui -> spBlockSize-> clear() ;
 
     ui -> spTimeStop -> clear() ;
     ui -> spTimeStart -> clear();
@@ -106,14 +106,14 @@ void prS63BruteForceServer::setElementFormVisible ()
         ui -> btnStop -> setToolTip(commonDefineServer::toolTipExit);
 
         ui -> spPathFrom -> setEnabled (true) ;
-        ui -> spThreadCount -> setEnabled (true) ;
+        ui -> spBlockSize -> setEnabled (true) ;
         ui -> spKeyStart -> setEnabled (true) ;
         ui -> spKeyStop -> setEnabled (true) ;
       break ;
 
       case connection::TConnection::stStart :
         ui -> spPathFrom -> setEnabled (false) ;
-        ui -> spThreadCount -> setEnabled (false) ;
+        ui -> spBlockSize-> setEnabled (false) ;
         ui -> spKeyStart -> setEnabled (false) ;
         ui -> spKeyStop -> setEnabled (false) ;
 
@@ -128,7 +128,7 @@ void prS63BruteForceServer::setElementFormVisible ()
 
       case connection::TConnection::stPause :
         ui -> spPathFrom -> setEnabled (false) ;
-        ui -> spThreadCount -> setEnabled (false) ;
+        ui -> spBlockSize -> setEnabled (false) ;
         ui -> spKeyStart -> setEnabled (false) ;
         ui -> spKeyStop -> setEnabled (false) ;
 
@@ -145,7 +145,7 @@ void prS63BruteForceServer::setElementFormVisible ()
       case connection::TConnection::stUnknown :                         // Абсолютно непонятное состояние и поэтому тоже выключаем все кнопки
       default :
         ui -> spPathFrom -> setEnabled (false) ;
-        ui -> spThreadCount -> setEnabled (false) ;
+        ui -> spBlockSize -> setEnabled (false) ;
         ui -> spKeyStart -> setEnabled (false) ;
         ui -> spKeyStop -> setEnabled (false) ;
 
@@ -257,6 +257,7 @@ void prS63BruteForceServer::newConnectionManager ()
         fNewConnectionQueue.pop () ;
         commonDefineServer::mutexNewConnection.unlock();
 
+        std::unique_ptr <TConnection>
 //        connect(ptrClientDescr -> ptrTcpSocket.get(), &QTcpSocket::readyRead, this, &prS63BruteForceServer::readDataFromClient) ;   // Формируем все нужные коннекты для работы с клиентом
         // Отправляем клиенту подтверждение о подключении
         // Ждём ответ от клиента
@@ -369,7 +370,7 @@ void prS63BruteForceServer::on_btnRun_clicked()
             break ;
 
             default :
-                setServerState(TConnection::stUnknown) ; ;        // Если мы сюда попали, то кнопка btnRun активна в каком-то не понятном состоянии. Тупо прекратить выполнение assert'ом мы не можем, т.к. могут быть активны соединения
+                setServerState(TConnection::stUnknown) ;         // Если мы сюда попали, то кнопка btnRun активна в каком-то не понятном состоянии. Тупо прекратить выполнение assert'ом мы не можем, т.к. могут быть активны соединения
                 throw exception::errServerUnknownState ;
             break ;
         }
@@ -400,8 +401,8 @@ void prS63BruteForceServer::on_spPathFrom_textChanged(const QString &inPathFrom)
  */
 void prS63BruteForceServer::on_spThreadCount_textChanged(const QString &inThreadCount)
 {
-    if (inThreadCount.isEmpty()) fReadyToStart.reset(bitThreadCount) ;
-      else fReadyToStart.set(bitThreadCount) ;
+    if (inThreadCount.isEmpty()) fReadyToStart.reset(bitBlockSize) ;
+      else fReadyToStart.set(bitBlockSize) ;
     setElementFormVisible () ;
 }
 //-----------------------------------------------------------------------------

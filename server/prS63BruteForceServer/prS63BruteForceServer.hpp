@@ -53,7 +53,7 @@ private:
     Ui::prS63BruteForceServer *ui;
                                      /// Номера позиций битов для проверки заполненности всех полей
     enum bitPos {bitPathFrom = 0,    ///< bit 0 - заполненность поля spPathFrom
-                 bitThreadCount = 1, ///< bit 1 - заполненность поля spThreadCount
+                 bitBlockSize = 1,   ///< bit 1 - заполненность поля spBlockSize
                  bitKeyStart = 2,    ///< bit 2 - заполненность поля spKeyStart
                  bitKeyStop = 3,     ///> bit 3 = заполненность поля spKeyStop
                  bitCount} ;

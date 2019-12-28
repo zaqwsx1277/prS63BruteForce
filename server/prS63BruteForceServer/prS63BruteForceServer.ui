@@ -85,17 +85,17 @@
       <item>
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>Количество потоков :</string>
+         <string>Размер блока ключей :</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="spThreadCount">
+       <widget class="QLineEdit" name="spBlockSize">
         <property name="toolTip">
-         <string>Количество очередей которые может занять приложение</string>
+         <string>Размер блока подбираемых ключей передаваемый клиентам</string>
         </property>
         <property name="text">
-         <string>spThreadCount</string>
+         <string>spBlockSize</string>
         </property>
         <property name="readOnly">
          <bool>false</bool>
@@ -108,7 +108,7 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Ключи c :</string>
+         <string>Диапазон ключей c :</string>
         </property>
        </widget>
       </item>
