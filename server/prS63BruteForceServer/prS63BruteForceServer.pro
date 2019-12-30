@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui  network
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,7 +31,7 @@ SOURCES += \
         TServerKeyModel.cpp \
         ../../common/TException.cpp \
         ../../common/TConnection.cpp \
-    TClientDescr.cpp
+        TClientDescr.cpp
 
 HEADERS += \
         prS63BruteForceServer.hpp \
@@ -41,8 +41,8 @@ HEADERS += \
         ../../common/TCommonDefine.hpp \
         ../../common/TConnection.hpp \
         ../../common/TException.hpp \
-    TCommonDefineServer.hpp \
-    TClientDescr.h
+        TCommonDefineServer.hpp \
+        TClientDescr.h
 
 FORMS += \
         prS63BruteForceServer.ui

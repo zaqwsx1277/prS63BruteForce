@@ -42,10 +42,8 @@ private slots:
 //    void slotHostError (quint32, QAbstractSocket::SocketError) ; // Слот срабатывающий при ошибки от клиента
 
     void on_btnPathFrom_clicked();
-
     void on_btnStop_clicked();
-
-    void on_btnSave_clicked();
+//    void on_btnSave_clicked();
 
 private:
     Ui::prS63BruteForceServer *ui;

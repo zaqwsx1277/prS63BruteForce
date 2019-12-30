@@ -43,7 +43,7 @@ struct clientDescr {
 } ;
 typedef std::shared_ptr <clientDescr> tdClientDescr ;   ///< typedef для указателя на описание клиента
                                                         /// функция сравнения двух описаний клиентов
-bool cmpClientDescr (const clientDescr& inFirst, const clientDescr& inSecond) { return inFirst.ptrTcpSocket ->peerAddress() < inSecond.ptrTcpSocket ->peerAddress() ; }
+bool cmpClientDescr (const clientDescr& inFirst, const clientDescr& inSecond) { return inFirst.ptrTcpSocket -> peerAddress().toIPv4Address() < inSecond.ptrTcpSocket ->peerAddress().toIPv4Address() ; }
 //--------------------------------------------------------------------------------------
                     /// Описание структуры записи в лог
 struct logItem {
