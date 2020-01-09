@@ -40,10 +40,15 @@ struct clientDescr {
     QDateTime dateTime {QDateTime::currentDateTime()};        ///< Время выполнения последней операции
     TConnection::state clientState {TConnection::stUnknown} ; ///< Состояние клиента/сервера. Например, для завершения работы очереди threadClient устанавливается состояние stAppClose
     tdTcpSocket ptrTcpSocket ;                                ///< Указатель на сокет обрабатывающий работу с удаленным клиентом
+
+    bool operator () (const clientDescr& inFirst, const clientDescr& inSecond)  const { return (inFirst.ptrTcpSocket -> peerAddress().toIPv4Address() < inSecond.ptrTcpSocket ->peerAddress().toIPv4Address()) ; }
 } ;
 typedef std::shared_ptr <clientDescr> tdClientDescr ;   ///< typedef для указателя на описание клиента
                                                         /// функция сравнения двух описаний клиентов
-bool cmpClientDescr (const clientDescr& inFirst, const clientDescr& inSecond) { return inFirst.ptrTcpSocket -> peerAddress().toIPv4Address() < inSecond.ptrTcpSocket ->peerAddress().toIPv4Address() ; }
+//bool cmpClientDescr (const clientDescr& inFirst, const clientDescr& inSecond) { return inFirst.ptrTcpSocket -> peerAddress().toIPv4Address() < inSecond.ptrTcpSocket ->peerAddress().toIPv4Address() ; }
+//struct cmpClientDescr {
+//    bool operator () (const clientDescr& inFirst, const clientDescr& inSecond)  const { return (inFirst.ptrTcpSocket -> peerAddress().toIPv4Address() < inSecond.ptrTcpSocket ->peerAddress().toIPv4Address()) ; }
+//} ;
 //--------------------------------------------------------------------------------------
                     /// Описание структуры записи в лог
 struct logItem {

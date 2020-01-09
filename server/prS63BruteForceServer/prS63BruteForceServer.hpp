@@ -10,6 +10,7 @@
 #include <map>
 #include <queue>
 #include <bitset>
+#include <set>
 
 #include "TCommonDefineServer.hpp"
 #include "TConnectionServer.hpp"
@@ -66,7 +67,9 @@ private:
 //    std::map <quint64, commonDefineServer::brutForceItem> fListItems ;   // Контейнер содержащий все блоки для обработки
     std::unique_ptr <connection::TConnectionServer> fPtrNewConnection { nullptr } ; // Указатель на класс обрабатывающий входящие соединения в распеделенной системе
     std::queue <commonDefineServer::tdClientDescr> fNewConnectionQueue ;      // контейнер для обработки входящих соединений менеджером обработки подключений
-    std::set <commonDefineServer::clientDescr, commonDefineServer::cmpClientDescr> fClientSet ; // Контейнер содержащий список клиентов выполняющих подбор
+
+    std::set <commonDefineServer::clientDescr, std::greater <commonDefineServer::clientDescr> > fClientSet ; // Контейнер содержащий список клиентов выполняющих подбор
+
 
     void initForm () ;                      // инициализация формы
     void setElementFormVisible () ;         // Установка видимости элементов в зависимсоти от состояния

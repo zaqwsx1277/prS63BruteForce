@@ -1,6 +1,8 @@
 #include "TServerLogModel.h"
 
 #include <QProgressDialog>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include "TCommonDefineServer.hpp"
 #include "TCommonDefine.hpp"
@@ -143,10 +145,12 @@ void TServerLogModel::slotSaveToFile ()
 
     }
     catch (exception::TException& ex) {
+        commonDefineServer::mutexLog.unlock();
         QMessageBox::critical(this, QString::fromStdString(exception::criticalError), QString::fromStdString(ex.what()), QMessageBox::Ok) ;
     }
 
     catch (...) {
+        commonDefineServer::mutexLog.unlock();
         QMessageBox::critical(this, QString::fromStdString(exception::criticalError), "Ошибка при сохранении лога в файл", QMessageBox::Ok) ;
     }
 }
