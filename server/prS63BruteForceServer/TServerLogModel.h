@@ -26,6 +26,9 @@ public:
 private:
     enum columnNumber {cnTime = 0, cnHost, cnCommand, cnData, cnComment, cnCount} ;  // Перечень колонок в таблице
 
+public slots:
+    void slotSaveToFile () ;
+
 };
 }
 

@@ -1,8 +1,12 @@
 #include "TServerLogModel.h"
 
+#include <QProgressDialog>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include "TCommonDefineServer.hpp"
 #include "TCommonDefine.hpp"
+#include "TException.hpp"
 
 using namespace server ;
 
@@ -109,5 +113,45 @@ void TServerLogModel::refreshView ()
     std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexLog) ;
     beginResetModel();
     endResetModel();
+}
+//----------------------------------------------------
+/*!
+ * \brief server::prS63BruteForceServer::on_btnSave_clicked Слот обрабатывающий сохранение лога в файл
+ *      При записи в файл контейнер модели отображения лога будет заблокирован, т.к. клиенты могут продолжать работать (состояние stPause).
+ */
+void TServerLogModel::slotSaveToFile ()
+{
+    try {
+        if (size () == 0) throw exception::errServerFileLogEmpty ;
+        QString fileName = QFileDialog::getSaveFileName(nullptr, "Выбор файла для сохранения лога подбора пароля", fPtrSettings -> value(commonDefine::setSrvFileNameLog).toString()) ;
+        if (!fileName.isEmpty()) {
+            fPtrSettings -> setValue(commonDefine::setSrvFileNameLog, fileName);
+            QFile fileLog (fileName) ;
+            if (!fileLog.open(QIODevice::WriteOnly | QIODevice::Append)) throw exception::errServerFileLog ;
+            QTextStream fileLogStream (&fileLog) ;
+            commonDefineServer::mutexLog.lock();            // Блокируем контейнер модели лога
+            for (auto item:*fPrtLogModel.get ()) {          // Выполняем построчную запись данных из контейнера в файл
+                fileLogStream << item -> itemTime.toString () << ";" ;
+                fileLogStream << item -> host << ";" ;
+                fileLogStream << commonDefine::exchangeProtocolText[item -> command] << ";" ;
+                QString dataTextHex = ("0000000000000000" + QString::number(item -> date, 16).toUpper()).right (16);
+                fileLogStream << "0x" + dataTextHex << ";" << endl ;
+                fileLogStream << item -> comments << ";" << endl ;
+            }
+            fPrtLogModel -> empty() ;                       // Очищаем контейнер и снимаем блокировку
+            commonDefineServer::mutexLog.unlock();
+            fileLog.close();
+        }
+
+    }
+    catch (exception::TException& ex) {
+        commonDefineServer::mutexLog.unlock();
+        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), QString::fromStdString(ex.what()), QMessageBox::Ok) ;
+    }
+
+    catch (...) {
+        commonDefineServer::mutexLog.unlock();
+        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), "Ошибка при сохранении лога в файл", QMessageBox::Ok) ;
+    }
 }
 //----------------------------------------------------

@@ -55,7 +55,7 @@ prS63BruteForceServer::prS63BruteForceServer(QWidget *parent) :
  */
 void prS63BruteForceServer::setConnect ()
 {
-
+    connect(ui -> btnSave, &QPushButton::clicked, fPrtLogModel.get(), &TServerLogModel::slotSaveToFile) ;   // Сохранение лога в файл
 }
 //------------------------------------------------------------------------------
 prS63BruteForceServer::~prS63BruteForceServer()
@@ -426,44 +426,6 @@ void prS63BruteForceServer::on_spKeyStop_textChanged(const QString &inKeyStop)
     if (inKeyStop.isEmpty()) fReadyToStart.reset(bitKeyStop) ;
       else fReadyToStart.set(bitKeyStop) ;
     setElementFormVisible () ;
-}
-//-----------------------------------------------------------------------------
-/*!
- * \brief server::prS63BruteForceServer::on_btnSave_clicked Слот обрабатывающий сохранение лога в файл
- *      При записи в файл контейнер модели отображения лога будет заблокирован, т.к. клиенты могут продолжать работать (состояние stPause).
- */
-void server::prS63BruteForceServer::on_btnSave_clicked()
-{
-    try {
-        if (fPrtLogModel -> size () == 0) throw exception::errServerFileLogEmpty ;
-        QString fileName = QFileDialog::getSaveFileName(nullptr, "Выбор файла для сохранения лога подбора пароля", fPtrSettings -> value(commonDefine::setSrvFileNameLog).toString()) ;
-        if (!fileName.isEmpty()) {
-            fPtrSettings -> setValue(commonDefine::setSrvFileNameLog, fileName);
-            QFile fileLog (fileName) ;
-            if (!fileLog.open(QIODevice::WriteOnly | QIODevice::Append)) throw exception::errServerFileLog ;
-            QTextStream fileLogStream (&fileLog) ;
-            commonDefineServer::mutexLog.lock();            // Блокируем контейнер модели лога
-            for (auto item:*fPrtLogModel.get ()) {          // Выполняем построчную запись данных из контейнера в файл
-                fileLogStream << item -> itemTime.toString () << ";" ;
-                fileLogStream << item -> host << ";" ;
-                fileLogStream << commonDefine::exchangeProtocolText[item -> command] << ";" ;
-                QString dataTextHex = ("0000000000000000" + QString::number(item -> date, 16).toUpper()).right (16);
-                fileLogStream << "0x" + dataTextHex << ";" << endl ;
-                fileLogStream << item -> comments << ";" << endl ;
-            }
-            fPrtLogModel -> empty() ;                       // Очищаем контейнер и снимаем блокировку
-            commonDefineServer::mutexLog.unlock();
-            fileLog.close();
-        }
-
-    }
-      catch (exception::TException& ex) {
-        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), QString::fromStdString(ex.what()), QMessageBox::Ok) ;
-      }
-
-      catch (...) {
-        QMessageBox::critical(this, QString::fromStdString(exception::criticalError), "Ошибка при сохранении лога в файл", QMessageBox::Ok) ;
-      }
 }
 //-----------------------------------------------------------------------------
 
