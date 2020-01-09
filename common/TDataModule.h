@@ -5,6 +5,8 @@
 
 #include <QSettings>
 
+#include "TCommonDefine.hpp"
+
 /*
  * КЛАС СИНГЛТОН(ОДИНОЧКА).
  * Может существовать только в единственном экземпляре.
@@ -47,8 +49,8 @@
 class TDataModule
 {
 public:
-    std::unique_ptr <QSettings> fSettings = std::make_unique <QSettings> ("prS63.ini", QSettings::IniFormat ) ; // настройки проекта
-    static TDataModule& Instance(); // Метод, возвращающий ссылку на синглтон
+    std::unique_ptr <QSettings> fSettings = std::make_unique <QSettings> (commonDefine::fileSettingsName, QSettings::IniFormat ) ; // настройки проекта
+    static TDataModule& instance(); // Метод, возвращающий ссылку на синглтон
 
 private:
     TDataModule(); // Скрытый конструктор по умолчанию

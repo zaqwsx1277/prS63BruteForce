@@ -1,9 +1,9 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-#include "ClassDataModule.h"
+#include "TDataModule.h"
 
 //-----------------------------------------------------------------------------
-TDataModule& TDataModule::Instance() // Метод, возвращающий ссылку на синглтон
+TDataModule& TDataModule::instance() // Метод, возвращающий ссылку на синглтон
 {
     static TDataModule DM;
     // Будет создан статический объект.
