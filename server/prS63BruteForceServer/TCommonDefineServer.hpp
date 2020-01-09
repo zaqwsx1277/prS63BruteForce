@@ -10,6 +10,7 @@
 
 #include "TConnectionServer.hpp"
 #include "TCommonDefine.hpp"
+#include "TClientDescr.h"
 
 using namespace connection ;
 
@@ -24,7 +25,6 @@ const static QString toolTipPause {"Временная приостановка 
 const static QString toolTipExit {"Завершение приложения"} ;
 const static QString toolTipStop {"Завершение подбора ключей"} ;
 //-------------------------------------------------------------------------------------
-struct clientDescr ;
 typedef std::shared_ptr <clientDescr> tdPtrClientDescr ;   ///< typedef для указателя на описание подключения клиента
 
                     /// Структура данных для одной итерации подбора
@@ -44,18 +44,13 @@ struct clientDescr {
     bool operator () (const clientDescr& inFirst, const clientDescr& inSecond)  const { return (inFirst.ptrTcpSocket -> peerAddress().toIPv4Address() < inSecond.ptrTcpSocket ->peerAddress().toIPv4Address()) ; }
 } ;
 typedef std::shared_ptr <clientDescr> tdClientDescr ;   ///< typedef для указателя на описание клиента
-                                                        /// функция сравнения двух описаний клиентов
-//bool cmpClientDescr (const clientDescr& inFirst, const clientDescr& inSecond) { return inFirst.ptrTcpSocket -> peerAddress().toIPv4Address() < inSecond.ptrTcpSocket ->peerAddress().toIPv4Address() ; }
-//struct cmpClientDescr {
-//    bool operator () (const clientDescr& inFirst, const clientDescr& inSecond)  const { return (inFirst.ptrTcpSocket -> peerAddress().toIPv4Address() < inSecond.ptrTcpSocket ->peerAddress().toIPv4Address()) ; }
-//} ;
 //--------------------------------------------------------------------------------------
                     /// Описание структуры записи в лог
 struct logItem {
     QTime itemTime {QTime::currentTime()} ; ///< Время события
     QString host {""} ;                     ///< Хост с которым выполняется обмен данными
     TConnection::exchangeProtocol command ; ///< Выполненная команда
-    qint64 date ;                          ///< Данные передаваемые/получаемые
+    qint64 date ;                           ///< Данные передаваемые/получаемые
     QString comments {""} ;                 ///< Комментарии
 } ;
 typedef std::shared_ptr <logItem> tdLogItem ;   ///< typedef для указателя на запись в лог
