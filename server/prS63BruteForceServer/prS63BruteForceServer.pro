@@ -29,22 +29,22 @@ SOURCES += \
         TConnectionServer.cpp \
         TServerLogModel.cpp \
         TServerKeyModel.cpp \
+        TClientDescr.cpp \
         ../../common/TException.cpp \
         ../../common/TConnection.cpp \
-        TClientDescr.cpp \
-    ../../common/TDataModule.cpp
+        ../../common/TDataModule.cpp
 
 HEADERS += \
         prS63BruteForceServer.hpp \
         TConnectionServer.hpp \
         TServerLogModel.h \
         TServerKeyModel.h \
+        TCommonDefineServer.hpp \
+        TClientDescr.h \
         ../../common/TCommonDefine.hpp \
         ../../common/TConnection.hpp \
         ../../common/TException.hpp \
-        TCommonDefineServer.hpp \
-        TClientDescr.h \
-    ../../common/TDataModule.h
+        ../../common/TDataModule.h
 
 FORMS += \
         prS63BruteForceServer.ui
@@ -53,4 +53,4 @@ INCLUDEPATH += \
             ../../common
 
 RESOURCES += \
-    ../../res/resources.qrc
+        ../../res/resources.qrc
