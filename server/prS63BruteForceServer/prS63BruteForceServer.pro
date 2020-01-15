@@ -40,11 +40,11 @@ HEADERS += \
         TServerLogModel.h \
         TServerKeyModel.h \
         TCommonDefineServer.hpp \
-        TClientDescr.h \
         ../../common/TCommonDefine.hpp \
         ../../common/TConnection.hpp \
         ../../common/TException.hpp \
-        ../../common/TDataModule.h
+        ../../common/TDataModule.h \
+    TClientDescr.hpp
 
 FORMS += \
         prS63BruteForceServer.ui

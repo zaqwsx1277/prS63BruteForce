@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
-#include <QSettings>
 
 #include <memory>
 #include <chrono>
@@ -57,9 +56,9 @@ private:
 
     std::bitset <bitPos::bitCount> fReadyToStart ; // Битовое значение для контроля готовности всех данных для запуска подбора. Позиции битов определяются в bitPos
     std::unique_ptr <TServerLogModel> fPrtLogModel {nullptr} ;  // Указатель на модель отображения лога
-    std::unique_ptr <TServerKeyModel> fPrtKeyModel {nullptr} ;  // Указатель на модель отображения лога
+    std::unique_ptr <TServerKeyModel> fPrtKeyModel {nullptr} ;  // Указатель на модель отображения лога подбора ключей
     std::chrono::time_point<std::chrono::system_clock> fTimeStart ; // Время начала выполнения задания
-    std::unique_ptr <QSettings> fPtrSettings {new QSettings (commonDefine::fileSettingsName, QSettings::IniFormat)} ; // Указатель на настроеки проекта
+//    std::unique_ptr <QSettings> fPtrSettings {new QSettings (commonDefine::fileSettingsName, QSettings::IniFormat)} ; // Указатель на настроеки проекта
 
     std::atomic<bool> fBruteForceExit {false}; // Флаг окончания подбора
 

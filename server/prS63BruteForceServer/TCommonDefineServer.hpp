@@ -10,7 +10,7 @@
 
 #include "TConnectionServer.hpp"
 #include "TCommonDefine.hpp"
-#include "TClientDescr.h"
+#include "TClientDescr.hpp"
 
 using namespace connection ;
 
@@ -25,13 +25,12 @@ const static QString toolTipPause {"Временная приостановка 
 const static QString toolTipExit {"Завершение приложения"} ;
 const static QString toolTipStop {"Завершение подбора ключей"} ;
 //-------------------------------------------------------------------------------------
-typedef std::shared_ptr <clientDescr> tdPtrClientDescr ;   ///< typedef для указателя на описание подключения клиента
+typedef std::shared_ptr <TClientDescr> tdPtrClientDescr ;   ///< typedef для указателя на описание подключения клиента
 
                     /// Структура данных для одной итерации подбора
 struct brutForceItem {
     tdPtrClientDescr ptrClientDesvt {nullptr} ;                     ///< Указатель на хост которому передан блок
-    //        commonDefine::stateBruteForceItem bfState {commonDefine::bfUnknown};    ///< Состояние блока
-    QString keyFound {""} ;                                                 ///< Найденный ключ
+    QString keyFound {""} ;                                         ///< Найденный ключ
 } ;
 //-------------------------------------------------------------------------------------
 typedef std::shared_ptr <QTcpSocket> tdTcpSocket ; ///< typedef указателя на QTcpSocket

@@ -2,8 +2,10 @@
 #define TCLIENTDESCR_H
 
 #include <QTcpSocket>
+#include <QDateTime>
 
 #include "TConnection.hpp"
+#include "TClientDescr.hpp"
 
 namespace server {
 //-------------------------------------------------------------------

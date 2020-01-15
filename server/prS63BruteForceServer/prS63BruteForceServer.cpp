@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFile>
+#include <QSettings>
 
 #include <time.h>
 #include <chrono>
@@ -17,6 +18,7 @@
 
 #include "TCommonDefine.hpp"
 #include "TException.hpp"
+#include "TDataModule.h"
 
 using namespace server ;
 //------------------------------------------------------------------------------
@@ -72,9 +74,9 @@ void prS63BruteForceServer::initForm ()
     ui -> spKeyStart -> setValidator( new QRegExpValidator( QRegExp( "[0-9A-F]{8}")));
     ui -> spKeyStop -> setValidator( new QRegExpValidator( QRegExp( "[0-9A-F]{8}")));
                                 // читаем файл настроек и заполняем нужные поля
-    ui -> spPathFrom -> setText(fPtrSettings -> value(commonDefine::setSrvFileName).toString()) ;
-    ui -> spKeyStart -> setText(fPtrSettings -> value(commonDefine::setSrvKeyStart).toString()) ;
-    ui -> spKeyStop -> setText(fPtrSettings -> value(commonDefine::setSrvKeyStop).toString()) ;
+    ui -> spPathFrom -> setText(TDataModule::instance().fSettings -> value(commonDefine::setSrvFileName).toString()) ;
+    ui -> spKeyStart -> setText(TDataModule::instance().fSettings -> value(commonDefine::setSrvKeyStart).toString()) ;
+    ui -> spKeyStop -> setText(TDataModule::instance().fSettings-> value(commonDefine::setSrvKeyStop).toString()) ;
     if (ui -> spKeyStart -> text().isEmpty()) ui -> spKeyStart -> setText ("00000000") ;
     if (ui -> spKeyStop -> text().isEmpty()) ui -> spKeyStop -> setText ("FFFFFFFF") ;
 
@@ -186,8 +188,8 @@ void prS63BruteForceServer::timerEvent(QTimerEvent* inEvent)
 void prS63BruteForceServer::closeEvent(QCloseEvent *event)
 {
             // Т.к. при использовании регулярных выражений не срабарывают сигналы на окончание редактирования, то сохранение настроек приделал сюда
-    fPtrSettings -> setValue(commonDefine::setSrvKeyStart, ui-> spKeyStart -> text()) ;
-    fPtrSettings -> setValue(commonDefine::setSrvKeyStop, ui-> spKeyStop -> text()) ;
+    TDataModule::instance().fSettings -> setValue(commonDefine::setSrvKeyStart, ui-> spKeyStart -> text()) ;
+    TDataModule::instance().fSettings -> setValue(commonDefine::setSrvKeyStop, ui-> spKeyStop -> text()) ;
 
     switch (getServerState ()) {
       case connection::TConnection::stWait :
@@ -312,7 +314,7 @@ void server::prS63BruteForceServer::on_btnPathFrom_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, "Выбор файла для подбора пароля", "", "S63 (*.0*)");
     if (!fileName.isEmpty()) {
         ui -> spPathFrom -> setText(fileName) ;
-        fPtrSettings -> setValue(commonDefine::setSrvFileName, fileName);
+        TDataModule::instance().fSettings -> setValue(commonDefine::setSrvFileName, fileName);
     }
 }
 //-----------------------------------------------------------------------------
