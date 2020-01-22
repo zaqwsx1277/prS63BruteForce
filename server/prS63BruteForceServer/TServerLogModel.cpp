@@ -105,15 +105,25 @@ QVariant TServerLogModel::headerData(int section, Qt::Orientation orientation, i
 //----------------------------------------------------------
 void TServerLogModel::push_back (commonDefineServer::tdLogItem inItem)
 {
-    std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexLog) ;    // блокируем допуск остальным потокам к контейнеру
+    std::unique_lock <std::mutex> refreshWait (commonDefineServer::mutexLog) ;// блокируем допуск остальным потокaм на работу с контейнером
+    commonDefineServer::cvLog.wait(refreshWait , [] { return !commonDefineServer::isLogBlock ; });
+    commonDefineServer::isLogBlock = true ;
+
     std::vector <commonDefineServer::tdLogItem>::push_back (inItem);
+    commonDefineServer::isLogBlock = true ;
+    commonDefineServer::cvLog.notify_one();
 }
 //----------------------------------------------------
+/*!
+ * \brief TServerLogModel::refreshView Обновление лога работы
+ *      Блокировка commonDefineServer::mutexKey, снятие блокировки и уведомления заблокированных потоков должны выполняться до вызова обновления
+ */
 void TServerLogModel::refreshView ()
 {
     std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexLog) ;
     beginResetModel();
     endResetModel();
+    commonDefineServer::cvLog.notify_one();
 }
 //----------------------------------------------------
 /*!
@@ -131,7 +141,7 @@ void TServerLogModel::slotSaveToFile ()
             if (!fileLog.open(QIODevice::WriteOnly | QIODevice::Append)) throw exception::errServerFileLog ;
             QTextStream fileLogStream (&fileLog) ;
             commonDefineServer::mutexLog.lock();            // Блокируем контейнер модели лога
-            for (auto item:*this) {          // Выполняем построчную запись данных из контейнера в файл
+            for (auto item:*this) {                         // Выполняем построчную запись данных из контейнера в файл
                 fileLogStream << item -> itemTime.toString () << ";" ;
                 fileLogStream << item -> host << ";" ;
                 fileLogStream << commonDefine::exchangeProtocolText[item -> command] << ";" ;
@@ -139,7 +149,7 @@ void TServerLogModel::slotSaveToFile ()
                 fileLogStream << "0x" + dataTextHex << ";" << endl ;
                 fileLogStream << item -> comments << ";" << endl ;
             }
-            this -> empty() ;                       // Очищаем контейнер и снимаем блокировку
+            this -> empty() ;                               // Очищаем контейнер и снимаем блокировку
             commonDefineServer::mutexLog.unlock();
             fileLog.close();
         }

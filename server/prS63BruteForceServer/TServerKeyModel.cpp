@@ -90,13 +90,21 @@ QVariant TServerKeyModel::headerData(int section, Qt::Orientation orientation, i
 //----------------------------------------------------
 void TServerKeyModel::push_back (commonDefineServer::tdKeyItem inItem)
 {
-    std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexKey) ;    // блокируем допуск остальным потокам и на обновление
+    std::unique_lock <std::mutex> refreshWait (commonDefineServer::mutexKey) ;// блокируем допуск остальным потокaм на работу с контейнером
+    commonDefineServer::cvKey.wait(refreshWait , [] { return !commonDefineServer::isKeyBlock ; });
+    commonDefineServer::isKeyBlock = true ;
+
     std::vector <commonDefineServer::tdKeyItem>::push_back (inItem);
+    commonDefineServer::isKeyBlock = true ;
+    commonDefineServer::cvKey.notify_one();
 }
 //----------------------------------------------------
+/*!
+ * \brief TServerKeyModel::refreshView  Обновление лога подбора ключей
+ *      Блокировка commonDefineServer::mutexKey, снятие блокировки и уведомления заблокированных потоков должны выполняться до вызова обновления
+ */
 void TServerKeyModel::refreshView ()
 {
-    std::lock_guard <std::mutex> refreshWait (commonDefineServer::mutexKey) ;
     beginResetModel();
     endResetModel();
 }

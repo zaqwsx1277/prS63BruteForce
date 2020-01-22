@@ -7,6 +7,7 @@
 
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 
 #include "TConnectionServer.hpp"
 #include "TCommonDefine.hpp"
@@ -17,6 +18,16 @@ using namespace connection ;
 namespace server {
 
 namespace commonDefineServer {
+
+static std::condition_variable cvLog ;                      ///< Условная переменная для синхронизации доступа к модели отображения лога работы
+static std::condition_variable cvKey ;                      ///< Условная переменная для синхронизации доступа к модели отображения лога подбора ключей
+static std::atomic <bool> isLogBlock (false) ;              ///< Флаг добавления записи в контейнер модели лога работы
+static std::atomic <bool> isKeyBlock (false) ;              ///< Флаг добавления записи в контейнер модели лога подбора ключей
+
+static std::mutex mutexNewConnection  ;                     ///< mutex для синхронизации доступа к контейнеру содержащий список всех новых подключений
+static std::mutex mutexLog  ;                               ///< mutex для синхронизации доступа к контейнеру содержащему лог (т.к. там vector)
+static std::mutex mutexKey  ;                               ///< mutex для синхронизации доступа к контейнеру содержащему лог по подбру ключей (т.к. там vector)
+//-----------------------------------------------------------------------------
 
 const static qint32 timerLogRefresh {1000} ;                ///< Период срабатывания таймера для обновления логов
 
@@ -73,10 +84,7 @@ static QString keyItemHeaderTime {"Время"} ;
 static QString keytemHeaderHost {"Хост"} ;
 static QString keyItemHeaderKey {"Найденный ключ"} ;
 static QString keyItemHeaderResult {"Результат проверки"} ;
-//-----------------------------------------------------------------------------
-static std::mutex mutexNewConnection  ;  // mutex для синхронизации доступа к контейнеру содержащий список всех новых подключений
-static std::mutex mutexLog  ;            // mutex для синхронизации доступа к контейнеру содержащему лог (т.к. там vector)
-static std::mutex mutexKey  ;            // mutex для синхронизации доступа к контейнеру содержащему лог по подбру ключей (т.к. там vector)
+
 
 
 
